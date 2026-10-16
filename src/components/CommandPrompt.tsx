@@ -58,7 +58,7 @@ export const CommandPrompt: React.FC = () => {
       document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
     } else if (trimmed === 'theme' || trimmed === 'toggle theme' || trimmed === 'switch') {
       responseNode = 'Switching active visual identity...';
-      setTimeout(() => toggleTheme(), 150);
+      toggleTheme();
     } else if (trimmed === 'whoami') {
       responseNode = 'Raj Golder · B.Tech CSE (AI/ML) · 1st Year · Systems & Foundational ML';
     } else if (trimmed === 'clear') {
