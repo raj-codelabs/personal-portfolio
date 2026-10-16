@@ -1,6 +1,6 @@
 {
   "name": "Raj Golder - Portfolio",
-  "description": "Personal engineering portfolio of Raj Golder, B.Tech CSE (AI/ML) student, featuring dual-theme stdout dark terminal and margin-notes light editorial notebook experiences.",
+  "description": "First-principles engineering portfolio of Raj Golder, B.Tech CSE (AI/ML) student, featuring live invariant workbenches, C memory allocators, and autograd DAGs.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"

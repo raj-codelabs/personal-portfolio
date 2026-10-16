@@ -3,56 +3,57 @@
 @layer base {
   :root {
     --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    --font-display: 'Playfair Display', Georgia, Cambria, 'Times New Roman', serif;
-    --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     
     --font-h1: clamp(2.25rem, 4.5vw, 3.75rem);
     --font-h2: clamp(1.75rem, 3vw, 2.5rem);
     --space-section: clamp(4rem, 7vw, 7rem);
   }
 
-  /* stdout - Dark Terminal Mode */
+  /* stdout - Silicon Lithography Mode (Deep Slate Substrate + Phosphor Cyan & Annealed Copper) */
   [data-theme="stdout"] {
-    --bg-page: #0d1117;
-    --bg-surface: #161b22;
-    --bg-surface-hover: #1f242c;
-    --bg-surface-elevated: #21262d;
-    --border-subtle: #30363d;
-    --border-strong: #484f58;
-    --text-primary: #e6edf3;
-    --text-secondary: #8b949e;
-    --text-muted: #6e7681;
-    --accent-primary: #58a6ff;
-    --accent-primary-hover: #79b8ff;
-    --accent-success: #3fb950;
-    --accent-subtle: rgba(88, 166, 255, 0.12);
-    --focus-ring: #58a6ff;
-    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.5);
+    --bg-page: #0b0e14;
+    --bg-surface: #121722;
+    --bg-surface-hover: #19202e;
+    --bg-surface-elevated: #1e2636;
+    --border-subtle: #242e40;
+    --border-strong: #384660;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --accent-primary: #00e5c0;
+    --accent-primary-hover: #33ebd0;
+    --accent-copper: #e27d60;
+    --accent-success: #10b981;
+    --accent-subtle: rgba(0, 229, 192, 0.12);
+    --focus-ring: #00e5c0;
+    --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.6);
 
     color-scheme: dark;
     background-color: var(--bg-page);
     color: var(--text-primary);
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
   }
 
-  /* margin-notes - Light Editorial Notebook Mode */
+  /* margin-notes - Titanium Blueprint Mode (Cold Blueprint Paper + Drafting Ink & Copper) */
   [data-theme="margin-notes"] {
-    --bg-page: #fbf7ee;
+    --bg-page: #f1f4f9;
     --bg-surface: #ffffff;
-    --bg-surface-hover: #f7f3e8;
-    --bg-surface-elevated: #f4efe2;
-    --border-subtle: #e3ded2;
-    --border-strong: #c8c0af;
-    --text-primary: #302d29;
-    --text-secondary: #686158;
-    --text-muted: #8d857a;
-    --accent-primary: #0d5c6e;
-    --accent-primary-hover: #094755;
-    --accent-success: #1f6b45;
-    --accent-secondary: #8a5a00;
-    --accent-subtle: rgba(13, 92, 110, 0.08);
-    --focus-ring: #0d5c6e;
-    --shadow-soft: 0 4px 20px rgba(48, 45, 41, 0.06);
+    --bg-surface-hover: #e8edf5;
+    --bg-surface-elevated: #dfe6f0;
+    --border-subtle: #cbd5e1;
+    --border-strong: #94a3b8;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --accent-primary: #0284c7;
+    --accent-primary-hover: #0369a1;
+    --accent-copper: #c25e38;
+    --accent-success: #059669;
+    --accent-subtle: rgba(2, 132, 199, 0.1);
+    --focus-ring: #0284c7;
+    --shadow-soft: 0 4px 20px rgba(15, 23, 42, 0.08);
 
     color-scheme: light;
     background-color: var(--bg-page);
