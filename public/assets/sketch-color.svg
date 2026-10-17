@@ -1,0 +1,182 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800">
+  <defs>
+    <radialGradient id="skin-gradient" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#fae8dc" />
+      <stop offset="60%" stop-color="#f5d3bf" />
+      <stop offset="100%" stop-color="#e8bca6" />
+    </radialGradient>
+    <linearGradient id="jacket-wash" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a" />
+      <stop offset="50%" stop-color="#1d4ed8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="hair-wash" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="60%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#334155" />
+    </linearGradient>
+    <pattern id="graph-grid-color" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#bfdbfe" stroke-width="0.5" />
+    </pattern>
+    <pattern id="hatch-color" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M 0 0 L 0 8" stroke="#0284c7" stroke-width="0.8" opacity="0.6" />
+    </pattern>
+  </defs>
+
+  <!-- Warm Paper & Blue Drafting Wash -->
+  <rect width="600" height="800" fill="#f8fafc" />
+  <rect width="600" height="800" fill="url(#graph-grid-color)" opacity="0.4" />
+
+  <!-- Watercolor wash atmosphere -->
+  <circle cx="300" cy="340" r="280" fill="#eff6ff" opacity="0.8" />
+  <ellipse cx="200" cy="220" rx="160" ry="120" fill="#e0f2fe" opacity="0.5" />
+  <ellipse cx="420" cy="480" rx="140" ry="160" fill="#fed7aa" opacity="0.25" />
+
+  <!-- Drafting border and margin marks in vibrant cobalt blueprint ink -->
+  <rect x="25" y="25" width="550" height="750" fill="none" stroke="#0284c7" stroke-width="1.8" stroke-dasharray="4 4" />
+  <text x="35" y="45" font-family="'JetBrains Mono', monospace" font-size="10" fill="#0284c7" font-weight="bold" letter-spacing="1.5">FIG. 01 — SYSTEMS RESEARCHER PORTRAIT STUDY</text>
+  <text x="470" y="45" font-family="'JetBrains Mono', monospace" font-size="10" fill="#0369a1" font-weight="bold">SCALE 1:1</text>
+  <text x="35" y="765" font-family="'JetBrains Mono', monospace" font-size="9" fill="#0284c7">COORD: [37.7749° N, 122.4194° W] // INVARIANTS LAB</text>
+  <text x="440" y="765" font-family="'JetBrains Mono', monospace" font-size="9" fill="#0284c7" font-weight="bold">STUDY #042-B</text>
+
+  <!-- Technical Axis and Guides -->
+  <line x1="300" y1="60" x2="300" y2="740" stroke="#bae6fd" stroke-width="0.8" stroke-dasharray="2 4" />
+  <line x1="40" y1="360" x2="560" y2="360" stroke="#bae6fd" stroke-width="0.8" stroke-dasharray="2 4" />
+
+  <!-- Background drafting diagrams & DAG sketch with cobalt highlights -->
+  <g opacity="0.8" stroke="#0284c7" stroke-width="1.2" fill="none">
+    <!-- Scalar autograd node diagram -->
+    <circle cx="100" cy="180" r="16" fill="#e0f2fe" stroke="#0284c7" />
+    <circle cx="160" cy="140" r="14" fill="#e0f2fe" stroke="#0284c7" />
+    <circle cx="170" cy="220" r="14" fill="#e0f2fe" stroke="#0284c7" />
+    <circle cx="230" cy="180" r="18" fill="#dbeafe" stroke="#2563eb" />
+    <line x1="116" y1="172" x2="146" y2="146" />
+    <line x1="116" y1="188" x2="156" y2="214" />
+    <line x1="174" y1="144" x2="214" y2="172" />
+    <line x1="184" y1="216" x2="214" y2="188" />
+    <text x="96" y="184" font-family="monospace" font-size="9" fill="#0369a1" font-weight="bold">w₁</text>
+    <text x="156" y="144" font-family="monospace" font-size="9" fill="#0369a1" font-weight="bold">x₁</text>
+    <text x="166" y="224" font-family="monospace" font-size="9" fill="#0369a1" font-weight="bold">x₂</text>
+    <text x="224" y="184" font-family="monospace" font-size="10" fill="#1d4ed8" font-weight="bold">∑</text>
+
+    <!-- Memory block partition sketch in Annealed Copper & Cobalt -->
+    <rect x="420" y="140" width="130" height="30" fill="#fff7ed" stroke="#c25e38" />
+    <line x1="450" y1="140" x2="450" y2="170" stroke="#c25e38" />
+    <line x1="490" y1="140" x2="490" y2="170" stroke="#c25e38" />
+    <line x1="530" y1="140" x2="530" y2="170" stroke="#c25e38" />
+    <text x="425" y="132" font-family="monospace" font-size="8" fill="#c25e38" font-weight="bold">HEADER: 16B</text>
+    <text x="428" y="158" font-family="monospace" font-size="8" fill="#c25e38" font-weight="bold">TAG</text>
+    <text x="460" y="158" font-family="monospace" font-size="8" fill="#0284c7" font-weight="bold">PAYLOAD</text>
+    <text x="500" y="158" font-family="monospace" font-size="8" fill="#94a3b8">PAD</text>
+  </g>
+
+  <!-- COLOR PORTRAIT -->
+  <!-- Shoulders & Coat / Work Shirt in Rich Cobalt & Navy Wash -->
+  <g id="portrait-torso" stroke="#0f172a" stroke-width="1.8" fill="none">
+    <!-- Neck with natural skin tone -->
+    <path d="M 265 420 L 265 480 C 265 500, 275 510, 300 512 C 325 510, 335 500, 335 480 L 335 420" fill="#f5d3bf" stroke="#c99d82" />
+    <!-- Collar & Collarbone with crisp white oxford inner -->
+    <path d="M 255 490 L 290 525 L 300 515 L 310 525 L 345 490" fill="#ffffff" stroke="#0f172a" stroke-width="1.8" />
+    <path d="M 290 525 L 290 680" stroke="#0f172a" stroke-width="1.8" stroke-dasharray="8 3" />
+    <!-- Jacket / Work shirt in rich navy & royal blue wash -->
+    <path d="M 255 490 C 220 500, 150 535, 110 650 L 100 750 L 500 750 L 490 650 C 450 535, 380 500, 345 490 Z" fill="url(#jacket-wash)" stroke="#0f172a" stroke-width="2" />
+    <!-- Color hatching & shading on jacket shoulder -->
+    <path d="M 140 580 C 180 540, 230 525, 260 520 L 255 580 Z" fill="url(#hatch-color)" stroke="none" />
+    <path d="M 460 580 C 420 540, 370 525, 340 520 L 345 580 Z" fill="url(#hatch-color)" stroke="none" />
+    <!-- Coat lapels & folds in crisp drafting blue -->
+    <path d="M 240 515 L 210 680" stroke="#0f172a" stroke-width="1.6" />
+    <path d="M 360 515 L 390 680" stroke="#0f172a" stroke-width="1.6" />
+    <path d="M 170 630 C 195 620, 220 635, 235 660" stroke="#60a5fa" stroke-width="1.5" />
+    <path d="M 430 630 C 405 620, 380 635, 365 660" stroke="#60a5fa" stroke-width="1.5" />
+  </g>
+
+  <!-- Head & Hair Silhouette -->
+  <g id="portrait-head">
+    <!-- Ear Left -->
+    <path d="M 222 330 C 210 335, 208 375, 220 395 C 226 405, 234 402, 236 395" stroke="#0f172a" stroke-width="1.6" fill="#f5d3bf" />
+    <path d="M 218 350 C 215 365, 222 375, 226 380" stroke="#e0a899" stroke-width="1.2" fill="none" />
+
+    <!-- Ear Right -->
+    <path d="M 378 330 C 390 335, 392 375, 380 395 C 374 405, 366 402, 364 395" stroke="#0f172a" stroke-width="1.6" fill="#f5d3bf" />
+    <path d="M 382 350 C 385 365, 378 375, 374 380" stroke="#e0a899" stroke-width="1.2" fill="none" />
+
+    <!-- Face Oval Outline with Warm Dimensional Gradient -->
+    <path d="M 226 310 C 225 240, 245 200, 300 200 C 355 200, 375 240, 374 310 C 374 370, 365 425, 325 450 C 310 460, 290 460, 275 450 C 235 425, 226 370, 226 310 Z" fill="url(#skin-gradient)" stroke="#0f172a" stroke-width="2" />
+
+    <!-- Soft Cheek Blush & Jaw Shadow -->
+    <ellipse cx="255" cy="365" rx="18" ry="12" fill="#f43f5e" opacity="0.12" />
+    <ellipse cx="345" cy="365" rx="18" ry="12" fill="#f43f5e" opacity="0.12" />
+    <path d="M 245 400 C 265 435, 285 450, 300 452 C 315 450, 335 435, 355 400 C 340 430, 310 445, 300 445 C 290 445, 260 430, 245 400 Z" fill="#e2a792" opacity="0.4" />
+
+    <!-- Hair (Lustrous Jet Black & Deep Slate with Sapphire Highlights) -->
+    <path d="M 215 295 C 208 260, 225 185, 285 175 C 330 168, 385 185, 390 250 C 394 285, 380 310, 375 315 C 368 280, 362 250, 345 240 C 320 225, 270 230, 250 250 C 235 265, 228 290, 222 315 Z" fill="url(#hair-wash)" stroke="#0f172a" stroke-width="2" />
+    <!-- Hair lustrous highlight strokes -->
+    <path d="M 240 215 C 265 195, 320 190, 355 210" stroke="#38bdf8" stroke-width="1.8" fill="none" opacity="0.7" />
+    <path d="M 260 225 C 285 205, 340 205, 365 230" stroke="#60a5fa" stroke-width="1.4" fill="none" opacity="0.6" />
+    <path d="M 230 255 C 245 235, 280 220, 310 225" stroke="#93c5fd" stroke-width="1.2" fill="none" opacity="0.5" />
+
+    <!-- Eyebrows in defined deep charcoal -->
+    <path d="M 250 305 C 260 298, 278 298, 288 304" stroke="#0f172a" stroke-width="2.8" stroke-linecap="round" fill="none" />
+    <path d="M 312 304 C 322 298, 340 298, 350 305" stroke="#0f172a" stroke-width="2.8" stroke-linecap="round" fill="none" />
+
+    <!-- Eyes (Warm Amber / Dark Hazel Iris with bright specular catchlight) -->
+    <!-- Left Eye -->
+    <path d="M 252 322 C 260 315, 275 315, 285 322 C 275 328, 260 328, 252 322 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.6" />
+    <circle cx="269" cy="321" r="5" fill="#3b2416" />
+    <circle cx="269" cy="321" r="4" fill="#603813" />
+    <circle cx="269" cy="321" r="2.2" fill="#0f172a" />
+    <circle cx="271" cy="319" r="1.5" fill="#ffffff" />
+    <path d="M 248 318 C 258 312, 278 312, 288 318" stroke="#b45309" stroke-width="1.2" fill="none" />
+
+    <!-- Right Eye -->
+    <path d="M 315 322 C 325 315, 340 315, 348 322 C 340 328, 325 328, 315 322 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.6" />
+    <circle cx="331" cy="321" r="5" fill="#3b2416" />
+    <circle cx="331" cy="321" r="4" fill="#603813" />
+    <circle cx="331" cy="321" r="2.2" fill="#0f172a" />
+    <circle cx="333" cy="319" r="1.5" fill="#ffffff" />
+    <path d="M 312 318 C 322 312, 342 312, 352 318" stroke="#b45309" stroke-width="1.2" fill="none" />
+
+    <!-- Nose Bridge & Contour in Warm Terracotta -->
+    <path d="M 297 308 L 295 358 C 292 368, 285 372, 283 375 L 305 375 C 310 372, 307 368, 303 358 L 301 308" stroke="#c25e38" stroke-width="1.4" fill="none" />
+    <ellipse cx="290" cy="374" rx="3.5" ry="2" fill="#881337" opacity="0.6" />
+    <ellipse cx="310" cy="374" rx="3.5" ry="2" fill="#881337" opacity="0.6" />
+    <path d="M 285 372 C 295 380, 305 380, 315 372" stroke="#c25e38" stroke-width="1.6" fill="none" />
+
+    <!-- Lips / Expression in Natural Coral Rose -->
+    <path d="M 276 405 C 288 400, 312 400, 324 405" stroke="#be123c" stroke-width="1.8" stroke-linecap="round" fill="none" />
+    <path d="M 280 405 C 290 411, 310 411, 320 405" stroke="#f43f5e" stroke-width="1.4" fill="none" opacity="0.7" />
+    <path d="M 292 416 C 297 418, 303 418, 308 416" stroke="#fb7185" stroke-width="1.2" fill="none" />
+
+    <!-- Glasses in Distinctive Brushed Copper / Amber Gold -->
+    <g stroke="#c25e38" stroke-width="2.2" fill="none">
+      <!-- Left Rim -->
+      <rect x="245" y="310" width="46" height="26" rx="5" stroke="#d97706" stroke-width="2.4" />
+      <!-- Right Rim -->
+      <rect x="309" y="310" width="46" height="26" rx="5" stroke="#d97706" stroke-width="2.4" />
+      <!-- Bridge -->
+      <path d="M 291 318 C 297 315, 303 315, 309 318" stroke="#d97706" stroke-width="2.8" />
+      <!-- Temples -->
+      <line x1="245" y1="316" x2="224" y2="330" stroke="#b45309" stroke-width="1.8" />
+      <line x1="355" y1="316" x2="376" y2="330" stroke="#b45309" stroke-width="1.8" />
+      <!-- Luminous Cyan Glass Reflection -->
+      <line x1="250" y1="330" x2="265" y2="315" stroke="#38bdf8" stroke-width="1.8" opacity="0.8" />
+      <line x1="314" y1="330" x2="329" y2="315" stroke="#38bdf8" stroke-width="1.8" opacity="0.8" />
+    </g>
+  </g>
+
+  <!-- Blue Drafting Ink Annotations -->
+  <g font-family="'JetBrains Mono', monospace" font-size="9" fill="#0284c7" font-weight="bold">
+    <path d="M 355 315 L 430 280 L 480 280" stroke="#0284c7" stroke-width="1" fill="none" />
+    <text x="435" y="275">OPTICAL AXIS</text>
+
+    <path d="M 226 390 L 150 420 L 90 420" stroke="#0284c7" stroke-width="1" fill="none" />
+    <text x="95" y="415">INVARIANT MATRIX</text>
+
+    <path d="M 330 520 L 420 540 L 480 540" stroke="#0284c7" stroke-width="1" fill="none" />
+    <text x="425" y="535">WORK SHIRT // FABRIC</text>
+  </g>
+
+  <!-- Signature mark at bottom corner in Cobalt ink -->
+  <path d="M 430 710 C 445 700, 470 705, 485 695 C 495 715, 510 700, 530 705" stroke="#0284c7" stroke-width="2" fill="none" />
+  <text x="430" y="725" font-family="'Outfit', sans-serif" font-weight="bold" font-size="11" fill="#0284c7">Raj Golder, 2026</text>
+</svg>

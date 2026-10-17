@@ -19,14 +19,23 @@ import {
   Sliders,
 } from 'lucide-react';
 
-export const ProfileEditor: React.FC = () => {
+export interface ProfileEditorProps {
+  initialSection?: 'all' | 'profile' | 'about' | 'contact';
+}
+
+export const ProfileEditor: React.FC<ProfileEditorProps> = ({ initialSection = 'all' }) => {
   const { profile: cmsProfile, refreshCms } = useCms();
+  const [activeSection, setActiveSection] = useState<'all' | 'profile' | 'about' | 'contact'>(initialSection);
   const [formData, setFormData] = useState<CmsProfile>(cmsProfile);
   const [interestInput, setInterestInput] = useState('');
   const [customLinkLabel, setCustomLinkLabel] = useState('');
   const [customLinkUrl, setCustomLinkUrl] = useState('');
   const [saving, setSaving] = useState(false);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  useEffect(() => {
+    setActiveSection(initialSection);
+  }, [initialSection]);
 
   useEffect(() => {
     if (cmsProfile) {
@@ -161,8 +170,57 @@ export const ProfileEditor: React.FC = () => {
         </div>
       )}
 
+      {/* Section Filter Pills */}
+      <div className="flex flex-wrap gap-2 border-b border-[var(--border-subtle)] pb-3 font-mono text-xs">
+        <button
+          type="button"
+          onClick={() => setActiveSection('all')}
+          className={`px-3 py-1.5 rounded cursor-pointer transition-colors ${
+            activeSection === 'all'
+              ? 'bg-[var(--accent-primary)] text-[#0b0e14] font-bold'
+              : 'border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)]'
+          }`}
+        >
+          All Sections
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveSection('profile')}
+          className={`px-3 py-1.5 rounded cursor-pointer transition-colors ${
+            activeSection === 'profile'
+              ? 'bg-[var(--accent-primary)] text-[#0b0e14] font-bold'
+              : 'border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)]'
+          }`}
+        >
+          1. Hero & Identity
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveSection('about')}
+          className={`px-3 py-1.5 rounded cursor-pointer transition-colors ${
+            activeSection === 'about'
+              ? 'bg-[var(--accent-primary)] text-[#0b0e14] font-bold'
+              : 'border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)]'
+          }`}
+        >
+          2. About & Monograph
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveSection('contact')}
+          className={`px-3 py-1.5 rounded cursor-pointer transition-colors ${
+            activeSection === 'contact'
+              ? 'bg-[var(--accent-primary)] text-[#0b0e14] font-bold'
+              : 'border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)]'
+          }`}
+        >
+          3. Contact & Social Channels
+        </button>
+      </div>
+
       <form onSubmit={handleSave} className="space-y-8">
         {/* Core Identity */}
+        {(activeSection === 'all' || activeSection === 'profile') && (
         <div className="p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] space-y-5">
           <h2 className="text-sm font-mono font-bold text-[var(--text-primary)] uppercase tracking-wider border-b border-[var(--border-subtle)] pb-2 flex items-center gap-2">
             <User className="w-4 h-4 text-[var(--accent-primary)]" />
@@ -243,10 +301,97 @@ export const ProfileEditor: React.FC = () => {
                 className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)]"
               />
             </div>
+
+            {/* Signature Interaction 1: Dark Theme Developer ID Card */}
+            <div className="sm:col-span-2 pt-3 border-t border-[var(--border-subtle)] space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-[var(--accent-primary)] uppercase tracking-wider text-[11px]">
+                  Dark Theme: Developer ID Card Settings
+                </span>
+                <span className="text-[10px] text-[var(--text-muted)]">stdout theme hero</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-[var(--text-secondary)]">Badge Clearance / Serial ID</label>
+                  <input
+                    type="text"
+                    value={formData.idBadgeNumber || ''}
+                    onChange={(e) => handleTextChange('idBadgeNumber', e.target.value)}
+                    placeholder="RG-8192-SYS"
+                    className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)]"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[var(--text-secondary)]">
+                    ID Card QR Real Destination URL (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.idBadgeQrUrl || ''}
+                    onChange={(e) => handleTextChange('idBadgeQrUrl', e.target.value)}
+                    placeholder="https://github.com/raj-golder or https://linkedin.com/..."
+                    className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)]"
+                  />
+                  <p className="text-[10px] text-[var(--text-muted)]">
+                    Only real destinations generate a QR code. If blank, a cryptographic security chip & barcode are rendered.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Signature Interaction 2: White Theme Color-Reveal Notebook Sketch */}
+            <div className="sm:col-span-2 pt-3 border-t border-[var(--border-subtle)] space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-[var(--accent-copper)] uppercase tracking-wider text-[11px]">
+                  White Theme: Notebook Color-Reveal Sketch Settings
+                </span>
+                <span className="text-[10px] text-[var(--text-muted)]">margin-notes theme hero</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-[var(--text-secondary)]">Pencil Sketch Source URL (Grayscale)</label>
+                  <input
+                    type="text"
+                    value={formData.sketchGrayscaleUrl || ''}
+                    onChange={(e) => handleTextChange('sketchGrayscaleUrl', e.target.value)}
+                    placeholder="/assets/sketch-grayscale.svg or /uploads/my-sketch.png"
+                    className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)]"
+                  />
+                  <p className="text-[10px] text-[var(--text-muted)]">
+                    Default: Built-in high-detail systems researcher study.
+                  </p>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[var(--text-secondary)]">Color Edition Portrait URL (Underlying)</label>
+                  <input
+                    type="text"
+                    value={formData.sketchColorUrl || ''}
+                    onChange={(e) => handleTextChange('sketchColorUrl', e.target.value)}
+                    placeholder="/assets/sketch-color.svg or /uploads/my-portrait-color.png"
+                    className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)]"
+                  />
+                  <p className="text-[10px] text-[var(--text-muted)]">
+                    Matching color version revealed along cursor/touch drag paths.
+                  </p>
+                </div>
+                <div className="space-y-1.5 sm:col-span-2">
+                  <label className="text-[var(--text-secondary)]">Editorial Notebook Caption / Figure Note</label>
+                  <input
+                    type="text"
+                    value={formData.sketchCaption || ''}
+                    onChange={(e) => handleTextChange('sketchCaption', e.target.value)}
+                    placeholder="FIG. 01 — Architectural pencil study with scalar autograd DAGs & drafting ink annotations."
+                    className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)]"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+        )}
 
         {/* Narrative & Philosophy */}
+        {(activeSection === 'all' || activeSection === 'about') && (
         <div className="p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] space-y-5">
           <h2 className="text-sm font-mono font-bold text-[var(--text-primary)] uppercase tracking-wider border-b border-[var(--border-subtle)] pb-2 flex items-center gap-2">
             <FileText className="w-4 h-4 text-[var(--accent-copper)]" />
@@ -321,8 +466,10 @@ export const ProfileEditor: React.FC = () => {
             </div>
           </div>
         </div>
+        )}
 
         {/* Call-to-Action Buttons */}
+        {(activeSection === 'all' || activeSection === 'profile') && (
         <div className="p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] space-y-5">
           <h2 className="text-sm font-mono font-bold text-[var(--text-primary)] uppercase tracking-wider border-b border-[var(--border-subtle)] pb-2 flex items-center gap-2">
             <Sliders className="w-4 h-4 text-[var(--accent-primary)]" />
@@ -375,8 +522,10 @@ export const ProfileEditor: React.FC = () => {
             </div>
           </div>
         </div>
+        )}
 
         {/* Contact & Social Links */}
+        {(activeSection === 'all' || activeSection === 'contact') && (
         <div className="p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] space-y-5">
           <h2 className="text-sm font-mono font-bold text-[var(--text-primary)] uppercase tracking-wider border-b border-[var(--border-subtle)] pb-2 flex items-center gap-2">
             <Mail className="w-4 h-4 text-[var(--accent-primary)]" />
@@ -513,6 +662,7 @@ export const ProfileEditor: React.FC = () => {
             </div>
           </div>
         </div>
+        )}
 
         {/* Bottom Save Action */}
         <div className="flex items-center justify-end gap-3 pt-4">

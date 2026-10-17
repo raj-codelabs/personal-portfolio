@@ -7,12 +7,21 @@ export interface Project {
   problem: string;
   built: string;
   stack: string[];
-  status: 'Completed' | 'Active Exploration' | 'Prototype Experiment';
+  status: 'Completed' | 'Active Exploration' | 'Prototype Experiment' | 'completed' | 'active' | 'archived' | string;
   repoUrl: string;
   liveDemoUrl?: string;
+  demoUrl?: string;
+  coverImage?: string;
+  screenshots?: string[];
+  imageAlt?: string;
+  isFeatured?: boolean;
+  isPublished?: boolean;
+  displayOrder?: number;
+  startDate?: string;
+  completionDate?: string;
   architecture: string;
   lessonsLearned: string[];
-  keyTakeaway: string;
+  keyTakeaway?: string;
 }
 
 export interface Milestone {

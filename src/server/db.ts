@@ -248,7 +248,7 @@ function seedInitialDataIfEmpty() {
         JSON.stringify(p.stack),
         p.status,
         p.repoUrl,
-        p.demoUrl || null,
+        (p as any).demoUrl || (p as any).liveDemoUrl || null,
         null,
         JSON.stringify([]),
         p.title,

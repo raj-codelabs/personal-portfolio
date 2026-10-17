@@ -18,11 +18,26 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 
-export const SettingsManager: React.FC = () => {
+export interface SettingsManagerProps {
+  initialSection?: 'all' | 'settings' | 'visibility' | 'backup' | 'security';
+}
+
+export const SettingsManager: React.FC<SettingsManagerProps> = ({ initialSection = 'all' }) => {
   const { siteSettings, refreshCms } = useCms();
+  const [activeSection, setActiveSection] = useState<'all' | 'settings' | 'visibility' | 'backup' | 'security'>(initialSection);
   const [formData, setFormData] = useState<CmsSiteSettings>(siteSettings);
   const [savingSettings, setSavingSettings] = useState(false);
   const [settingsStatus, setSettingsStatus] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  React.useEffect(() => {
+    setActiveSection(initialSection);
+  }, [initialSection]);
+
+  React.useEffect(() => {
+    if (siteSettings) {
+      setFormData(siteSettings);
+    }
+  }, [siteSettings]);
 
   // Password Change State
   const [currentPassword, setCurrentPassword] = useState('');
@@ -176,8 +191,68 @@ export const SettingsManager: React.FC = () => {
         </div>
       )}
 
+      {/* Section Filter Pills */}
+      <div className="flex flex-wrap gap-2 border-b border-[var(--border-subtle)] pb-3 font-mono text-xs">
+        <button
+          type="button"
+          onClick={() => setActiveSection('all')}
+          className={`px-3 py-1.5 rounded cursor-pointer transition-colors ${
+            activeSection === 'all'
+              ? 'bg-[var(--accent-primary)] text-[#0b0e14] font-bold'
+              : 'border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)]'
+          }`}
+        >
+          All Settings
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveSection('settings')}
+          className={`px-3 py-1.5 rounded cursor-pointer transition-colors ${
+            activeSection === 'settings'
+              ? 'bg-[var(--accent-primary)] text-[#0b0e14] font-bold'
+              : 'border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)]'
+          }`}
+        >
+          1. Appearance & Theme Invariants
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveSection('visibility')}
+          className={`px-3 py-1.5 rounded cursor-pointer transition-colors ${
+            activeSection === 'visibility'
+              ? 'bg-[var(--accent-primary)] text-[#0b0e14] font-bold'
+              : 'border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)]'
+          }`}
+        >
+          2. Section Visibility & Layout
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveSection('backup')}
+          className={`px-3 py-1.5 rounded cursor-pointer transition-colors ${
+            activeSection === 'backup'
+              ? 'bg-[var(--accent-primary)] text-[#0b0e14] font-bold'
+              : 'border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)]'
+          }`}
+        >
+          3. Snapshot Backup & Restore
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveSection('security')}
+          className={`px-3 py-1.5 rounded cursor-pointer transition-colors ${
+            activeSection === 'security'
+              ? 'bg-[var(--accent-primary)] text-[#0b0e14] font-bold'
+              : 'border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)]'
+          }`}
+        >
+          4. Admin Security
+        </button>
+      </div>
+
       {/* 1. Global SEO & Themes */}
       <form onSubmit={handleSaveSettings} className="space-y-6">
+        {(activeSection === 'all' || activeSection === 'settings') && (
         <div className="p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] space-y-5">
           <h2 className="text-sm font-mono font-bold text-[var(--text-primary)] uppercase tracking-wider border-b border-[var(--border-subtle)] pb-2 flex items-center gap-2">
             <Sliders className="w-4 h-4 text-[var(--accent-primary)]" />
@@ -243,8 +318,10 @@ export const SettingsManager: React.FC = () => {
             </div>
           </div>
         </div>
+        )}
 
         {/* 2. Section Visibility */}
+        {(activeSection === 'all' || activeSection === 'visibility') && (
         <div className="p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] space-y-5">
           <h2 className="text-sm font-mono font-bold text-[var(--text-primary)] uppercase tracking-wider border-b border-[var(--border-subtle)] pb-2 flex items-center gap-2">
             <Eye className="w-4 h-4 text-[var(--accent-copper)]" />
@@ -285,9 +362,11 @@ export const SettingsManager: React.FC = () => {
             ))}
           </div>
         </div>
+        )}
       </form>
 
       {/* 3. Database Backup & Restore */}
+      {(activeSection === 'all' || activeSection === 'backup') && (
       <div className="p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] space-y-5">
         <h2 className="text-sm font-mono font-bold text-[var(--text-primary)] uppercase tracking-wider border-b border-[var(--border-subtle)] pb-2 flex items-center gap-2">
           <Database className="w-4 h-4 text-[var(--accent-primary)]" />
@@ -338,8 +417,10 @@ export const SettingsManager: React.FC = () => {
           </label>
         </div>
       </div>
+      )}
 
       {/* 4. Administrator Account Security */}
+      {(activeSection === 'all' || activeSection === 'security') && (
       <div className="p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] space-y-5">
         <h2 className="text-sm font-mono font-bold text-[var(--text-primary)] uppercase tracking-wider border-b border-[var(--border-subtle)] pb-2 flex items-center gap-2">
           <Lock className="w-4 h-4 text-rose-400" />
@@ -418,6 +499,7 @@ export const SettingsManager: React.FC = () => {
           </button>
         </form>
       </div>
+      )}
     </div>
   );
 };

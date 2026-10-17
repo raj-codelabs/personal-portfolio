@@ -25,15 +25,20 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExit }) => {
       {currentTab === 'overview' && (
         <DashboardOverview onSelectTab={setCurrentTab} onViewPublicSite={onExit} />
       )}
-      {currentTab === 'profile' && <ProfileEditor />}
-      {currentTab === 'about' && <ProfileEditor />}
+      {currentTab === 'profile' && <ProfileEditor initialSection="profile" />}
+      {currentTab === 'about' && <ProfileEditor initialSection="about" />}
       {currentTab === 'projects' && <ProjectsManager />}
       {currentTab === 'skills' && <SkillsManager />}
       {currentTab === 'journey' && <JourneyManager />}
-      {currentTab === 'contact' && <MessagesManager />}
+      {currentTab === 'contact' && (
+        <div className="space-y-10">
+          <ProfileEditor initialSection="contact" />
+          <MessagesManager />
+        </div>
+      )}
       {currentTab === 'media' && <MediaManager />}
-      {currentTab === 'visibility' && <SettingsManager />}
-      {currentTab === 'settings' && <SettingsManager />}
+      {currentTab === 'visibility' && <SettingsManager initialSection="visibility" />}
+      {currentTab === 'settings' && <SettingsManager initialSection="settings" />}
     </AdminLayout>
   );
 };

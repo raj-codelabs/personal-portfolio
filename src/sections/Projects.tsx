@@ -39,6 +39,7 @@ export const Projects: React.FC = () => {
     displayOrder: p.displayOrder,
     startDate: p.startDate,
     completionDate: p.completionDate,
+    keyTakeaway: p.problem,
   }));
 
   const filteredProjects = publicProjects.filter((p) => {
@@ -112,10 +113,11 @@ export const Projects: React.FC = () => {
 
       {/* Projects Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {filteredProjects.map((project) => (
+        {filteredProjects.map((project, idx) => (
           <ProjectCard
             key={project.id}
             project={project}
+            index={idx}
             onOpenDetails={handleOpenDetails}
           />
         ))}

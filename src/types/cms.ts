@@ -84,6 +84,11 @@ export interface CmsProfile {
   secondaryCtaLink?: string;
   avatarUrl?: string;
   resumeUrl?: string;
+  idBadgeQrUrl?: string;
+  idBadgeNumber?: string;
+  sketchGrayscaleUrl?: string;
+  sketchColorUrl?: string;
+  sketchCaption?: string;
   contact: {
     email: string;
     github: string;
