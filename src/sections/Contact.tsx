@@ -4,7 +4,6 @@ import { useCms } from '../context/CmsContext';
 import { api } from '../services/api';
 import {
   Mail,
-  GitFork,
   Linkedin,
   Copy,
   Check,
@@ -14,12 +13,14 @@ import {
   AlertCircle,
   CheckCircle2,
   RefreshCw,
+  GitFork,
 } from 'lucide-react';
 
 export const Contact: React.FC = () => {
   const { theme } = useTheme();
   const { profile } = useCms();
   const [copied, setCopied] = useState(false);
+  const isStdout = theme === 'stdout';
 
   // Form state
   const [name, setName] = useState('');
@@ -30,11 +31,11 @@ export const Contact: React.FC = () => {
   const [formFeedback, setFormFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const contactData = profile?.contact || {
-    email: 'raj.golder.cse@university.edu',
-    github: 'https://github.com/raj-golder',
-    linkedin: 'https://linkedin.com/in/raj-golder',
-    location: 'Bangalore, India',
-    statusLabel: 'Active Undergraduate · Open to Systems Invariant Collaborations',
+    email: 'contact@rajgolder.dev',
+    github: 'https://github.com/raj-codelabs',
+    linkedin: 'https://linkedin.com/in/rajgolder',
+    location: 'MATS University · India',
+    statusLabel: 'FIRST-YEAR CSE STUDENT · LEARNING & BUILDING',
     customLinks: [],
   };
 
@@ -75,7 +76,7 @@ export const Contact: React.FC = () => {
 
       setFormFeedback({
         type: 'success',
-        text: res.message || 'Your correspondence has been securely logged. Thank you for reaching out.',
+        text: res.message || 'Your message has been sent. Thank you for reaching out!',
       });
       setName('');
       setEmail('');
@@ -85,7 +86,7 @@ export const Contact: React.FC = () => {
       console.error('Failed to submit inquiry:', err);
       setFormFeedback({
         type: 'error',
-        text: err?.message || 'Failed to send message. Please reach out directly via email.',
+        text: 'Failed to send message. Please reach out directly to contact@rajgolder.dev',
       });
     } finally {
       setSubmitting(false);
@@ -96,149 +97,232 @@ export const Contact: React.FC = () => {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="py-12 sm:py-16 space-y-8 text-left"
+      className="py-12 sm:py-16 space-y-8 text-left scroll-mt-16"
     >
       {/* Section Header */}
       <div className="pb-4 border-b border-[var(--border-subtle)]">
-        <div className="text-xs font-mono text-[var(--accent-primary)] mb-1">
-          05 // SECURE CORRESPONDENCE & COLLABORATION
-        </div>
+        {isStdout ? (
+          <div className="text-xs font-mono text-[#00e5c0] mb-1 uppercase tracking-wider">
+            GET IN TOUCH
+          </div>
+        ) : (
+          <div className="text-sm font-handwriting text-[#1d4ed8] font-bold mb-1">
+            Correspondence &amp; Contact
+          </div>
+        )}
         <h2
           id="contact-heading"
-          className="text-2xl sm:text-3xl font-bold font-display tracking-tight text-[var(--text-primary)]"
+          className={`text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)] ${
+            isStdout ? 'font-mono' : 'font-serif'
+          }`}
         >
-          Direct Correspondence
+          Get in Touch
         </h2>
-        <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-body mt-1 max-w-xl">
-          Open to discussions on systems research, compiler internals, reproducible ML pipelines, and undergraduate engineering apprenticeships.
+        <p className="text-sm sm:text-base text-[var(--text-secondary)] font-body mt-1 max-w-xl">
+          Open to internships, freelance projects, and collaborations. I reply promptly by email.
         </p>
       </div>
 
       {/* Contact Cards Container */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Direct Email Card */}
-        <div className="p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] flex flex-col justify-between shadow-xs">
+        {/* Email Card */}
+        <div
+          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs ${
+            isStdout
+              ? 'border-[#242e40] bg-[#121722] font-mono'
+              : 'border-[#e2dbce] bg-[#ffffff] font-serif'
+          }`}
+        >
           <div>
-            <div className="flex items-center gap-2 pb-2 mb-2 border-b border-[var(--border-subtle)] text-xs font-mono text-[var(--text-secondary)]">
-              <Mail className="w-4 h-4 text-[var(--accent-primary)]" />
-              <span>Institutional Inbox</span>
+            <div
+              className={`flex items-center gap-2 pb-2 mb-2 border-b text-xs ${
+                isStdout ? 'border-[#242e40] text-[#00e5c0]' : 'border-[#e2dbce] text-[#1d4ed8]'
+              }`}
+            >
+              <Mail className="w-4 h-4" />
+              <span className="font-bold">Email</span>
             </div>
-            <div className="text-xs text-[var(--text-secondary)] font-body mb-3">
-              Direct inbox for technical inquiries and research opportunities:
+            <div className="text-xs text-[var(--text-secondary)] mb-3 font-sans">
+              Direct communication for projects, internships, and queries.
             </div>
-            <div className="font-mono text-xs text-[var(--text-primary)] font-semibold break-all">
+            <div className="text-xs font-semibold text-[var(--text-primary)] break-all font-mono">
               {contactData.email}
             </div>
           </div>
 
-          <div className="flex items-center gap-2 pt-4 mt-4 border-t border-[var(--border-subtle)]">
+          <div
+            className={`flex items-center gap-2 pt-4 mt-4 border-t ${
+              isStdout ? 'border-[#242e40]' : 'border-[#e2dbce]'
+            }`}
+          >
             <a
               href={`mailto:${contactData.email}`}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded bg-[var(--accent-primary)] text-[#0b0e14] hover:bg-[var(--accent-primary-hover)] active:scale-[0.97] transition-all"
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-colors ${
+                isStdout
+                  ? 'bg-[#00e5c0] text-[#0b0e14] hover:bg-[#33ebd0] font-mono font-bold'
+                  : 'bg-[#1d4ed8] text-white hover:bg-[#1e40af] font-serif font-medium'
+              }`}
             >
-              <span>Compose</span>
-              <ExternalLink className="w-3 h-3" />
+              <Mail className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>Email</span>
             </a>
 
             <button
               onClick={copyEmail}
               aria-label="Copy email address to clipboard"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded border border-[var(--border-subtle)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:bg-[var(--bg-surface-elevated)] [@media(hover:hover)_and_(pointer:fine)]:active:scale-[0.97] transition-[transform,border-color,background-color] duration-140 ease-[cubic-bezier(0.23,1,0.32,1)] cursor-pointer"
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded border cursor-pointer transition-colors ${
+                isStdout
+                  ? 'border-[#242e40] text-[#f1f5f9] hover:border-[#00e5c0] bg-[#0d121c] font-mono'
+                  : 'border-[#e2dbce] text-[#1c1917] hover:border-[#1d4ed8] bg-[#fbf9f6] font-serif'
+              }`}
             >
-              <span className="inline-flex items-center gap-1.5 transition-[filter,opacity] duration-160 ease-out">
-                {copied ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-[var(--accent-success)]" />
-                    <span className="text-[var(--accent-success)]">Copied</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5 text-[var(--text-muted)]" />
-                    <span>Copy</span>
-                  </>
-                )}
-              </span>
+              {copied ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                  <span className="text-emerald-400">Copied</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>Copy</span>
+                </>
+              )}
             </button>
           </div>
         </div>
 
         {/* GitHub Card */}
-        <div className="p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] flex flex-col justify-between shadow-xs">
+        <div
+          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs ${
+            isStdout
+              ? 'border-[#242e40] bg-[#121722] font-mono'
+              : 'border-[#e2dbce] bg-[#ffffff] font-serif'
+          }`}
+        >
           <div>
-            <div className="flex items-center gap-2 pb-2 mb-2 border-b border-[var(--border-subtle)] text-xs font-mono text-[var(--text-secondary)]">
-              <GitFork className="w-4 h-4 text-[var(--accent-copper)]" />
-              <span>Version Control & Invariants</span>
+            <div
+              className={`flex items-center gap-2 pb-2 mb-2 border-b text-xs ${
+                isStdout ? 'border-[#242e40] text-[#00e5c0]' : 'border-[#e2dbce] text-[#1d4ed8]'
+              }`}
+            >
+              <GitFork className="w-4 h-4" />
+              <span className="font-bold">GitHub</span>
             </div>
-            <div className="text-xs text-[var(--text-secondary)] font-body mb-3">
-              Explore commit trees, reproducible lab notebooks, and personal builds:
+            <div className="text-xs text-[var(--text-secondary)] mb-3 font-sans">
+              Explore public repositories, code commits, and project files.
             </div>
-            <div className="font-mono text-xs text-[var(--text-primary)] font-semibold truncate">
-              {contactData.github.replace(/^https?:\/\//, '')}
+            <div className="text-xs font-semibold text-[var(--text-primary)] truncate font-mono">
+              github.com/raj-codelabs
             </div>
           </div>
 
-          <div className="pt-4 mt-4 border-t border-[var(--border-subtle)]">
+          <div
+            className={`pt-4 mt-4 border-t ${
+              isStdout ? 'border-[#242e40]' : 'border-[#e2dbce]'
+            }`}
+          >
             <a
-              href={contactData.github}
+              href="https://github.com/raj-codelabs"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded border border-[var(--border-subtle)] text-[var(--accent-primary)] hover:border-[var(--accent-primary)] hover:bg-[var(--bg-surface-elevated)] active:scale-[0.97] transition-all"
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-colors ${
+                isStdout
+                  ? 'border border-[#242e40] text-[#00e5c0] hover:border-[#00e5c0] bg-[#0d121c] font-mono'
+                  : 'border border-[#e2dbce] text-[#1d4ed8] hover:border-[#1d4ed8] bg-[#fbf9f6] font-serif'
+              }`}
             >
-              <span>Visit Profile</span>
+              <span>View on GitHub</span>
               <ExternalLink className="w-3 h-3" />
             </a>
           </div>
         </div>
 
         {/* LinkedIn Card */}
-        <div className="p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] flex flex-col justify-between shadow-xs">
+        <div
+          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs ${
+            isStdout
+              ? 'border-[#242e40] bg-[#121722] font-mono'
+              : 'border-[#e2dbce] bg-[#ffffff] font-serif'
+          }`}
+        >
           <div>
-            <div className="flex items-center gap-2 pb-2 mb-2 border-b border-[var(--border-subtle)] text-xs font-mono text-[var(--text-secondary)]">
-              <Linkedin className="w-4 h-4 text-[var(--accent-primary)]" />
-              <span>Academic Network</span>
+            <div
+              className={`flex items-center gap-2 pb-2 mb-2 border-b text-xs ${
+                isStdout ? 'border-[#242e40] text-[#00e5c0]' : 'border-[#e2dbce] text-[#1d4ed8]'
+              }`}
+            >
+              <Linkedin className="w-4 h-4" />
+              <span className="font-bold">LinkedIn</span>
             </div>
-            <div className="text-xs text-[var(--text-secondary)] font-body mb-3">
-              Connect for academic collaboration, reading groups, and symposiums:
+            <div className="text-xs text-[var(--text-secondary)] mb-3 font-sans">
+              Connect professionally and follow my undergraduate development.
             </div>
-            <div className="font-mono text-xs text-[var(--text-primary)] font-semibold truncate">
-              {contactData.linkedin.replace(/^https?:\/\//, '')}
+            <div className="text-xs font-semibold text-[var(--text-primary)] truncate font-mono">
+              linkedin.com/in/rajgolder
             </div>
           </div>
 
-          <div className="pt-4 mt-4 border-t border-[var(--border-subtle)]">
+          <div
+            className={`pt-4 mt-4 border-t ${
+              isStdout ? 'border-[#242e40]' : 'border-[#e2dbce]'
+            }`}
+          >
             <a
-              href={contactData.linkedin}
+              href="https://linkedin.com/in/rajgolder"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded border border-[var(--border-subtle)] text-[var(--accent-primary)] hover:border-[var(--accent-primary)] hover:bg-[var(--bg-surface-elevated)] active:scale-[0.97] transition-all"
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-colors ${
+                isStdout
+                  ? 'border border-[#242e40] text-[#00e5c0] hover:border-[#00e5c0] bg-[#0d121c] font-mono'
+                  : 'border border-[#e2dbce] text-[#1d4ed8] hover:border-[#1d4ed8] bg-[#fbf9f6] font-serif'
+              }`}
             >
-              <span>Connect</span>
+              <span>Connect on LinkedIn</span>
               <ExternalLink className="w-3 h-3" />
             </a>
           </div>
         </div>
       </div>
 
-      {/* Interactive Direct Transmission Terminal */}
-      <div className="p-6 sm:p-8 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] shadow-xs space-y-6">
-        <div className="border-b border-[var(--border-subtle)] pb-4 space-y-1">
-          <div className="flex items-center gap-2 text-xs font-mono text-[var(--accent-primary)]">
+      {/* Direct Transmission Form */}
+      <div
+        className={`p-6 sm:p-8 rounded-lg border shadow-xs space-y-6 ${
+          isStdout
+            ? 'border-[#242e40] bg-[#121722] font-mono'
+            : 'border-[#e2dbce] bg-[#ffffff] font-serif'
+        }`}
+      >
+        <div
+          className={`border-b pb-4 space-y-1 ${
+            isStdout ? 'border-[#242e40]' : 'border-[#e2dbce]'
+          }`}
+        >
+          <div
+            className={`flex items-center gap-2 text-xs font-bold ${
+              isStdout ? 'text-[#00e5c0]' : 'text-[#1d4ed8]'
+            }`}
+          >
             <MessageSquare className="w-4 h-4" />
-            <span>DISPATCH CORRESPONDENCE INQUIRY</span>
+            <span>SEND A MESSAGE</span>
           </div>
-          <h3 className="text-lg font-bold font-display text-[var(--text-primary)]">
-            Send Invariant Inquiry or Apprenticeship Proposal
+          <h3
+            className={`text-lg font-bold ${
+              isStdout ? 'text-[#f1f5f9]' : 'text-[#1c1917]'
+            }`}
+          >
+            Send a Direct Message
           </h3>
-          <p className="text-xs text-[var(--text-secondary)] font-body">
-            Messages are transmitted directly to the secure portfolio inbox.
+          <p className="text-xs text-[var(--text-secondary)] font-sans">
+            I reply promptly by email.
           </p>
         </div>
 
         {formFeedback && (
           <div
-            className={`p-3.5 rounded text-xs font-mono flex items-center gap-2 ${
+            aria-live="polite"
+            className={`p-3.5 rounded text-xs flex items-center gap-2 ${
               formFeedback.type === 'success'
-                ? 'border border-[var(--accent-success)]/40 bg-[var(--accent-success)]/10 text-[var(--accent-success)]'
+                ? 'border border-emerald-500/40 bg-emerald-500/10 text-emerald-400'
                 : 'border border-rose-500/40 bg-rose-500/10 text-rose-400'
             }`}
           >
@@ -251,11 +335,11 @@ export const Contact: React.FC = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmitInquiry} className="space-y-4 font-mono text-xs">
+        <form onSubmit={handleSubmitInquiry} className="space-y-4 text-xs">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label htmlFor="contact-sender-name" className="text-[var(--text-secondary)]">
-                Your Full Name / Identification *
+                Your Name *
               </label>
               <input
                 id="contact-sender-name"
@@ -263,14 +347,18 @@ export const Contact: React.FC = () => {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Dr. Ada Lovelace"
-                className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)]"
+                placeholder="Your name"
+                className={`w-full px-3 py-2 rounded border focus:outline-none ${
+                  isStdout
+                    ? 'border-[#242e40] bg-[#0b0e14] text-[#f1f5f9] focus:border-[#00e5c0]'
+                    : 'border-[#e2dbce] bg-[#faf8f5] text-[#1c1917] focus:border-[#1d4ed8]'
+                }`}
               />
             </div>
 
             <div className="space-y-1.5">
               <label htmlFor="contact-sender-email" className="text-[var(--text-secondary)]">
-                Return Email Address *
+                Your Email Address *
               </label>
               <input
                 id="contact-sender-email"
@@ -278,28 +366,36 @@ export const Contact: React.FC = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="e.g. ada@analytical.engine.ac.uk"
-                className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)]"
+                placeholder="you@example.com"
+                className={`w-full px-3 py-2 rounded border focus:outline-none ${
+                  isStdout
+                    ? 'border-[#242e40] bg-[#0b0e14] text-[#f1f5f9] focus:border-[#00e5c0]'
+                    : 'border-[#e2dbce] bg-[#faf8f5] text-[#1c1917] focus:border-[#1d4ed8]'
+                }`}
               />
             </div>
 
             <div className="space-y-1.5 sm:col-span-2">
               <label htmlFor="contact-subject" className="text-[var(--text-secondary)]">
-                Subject / Focus Area
+                Subject
               </label>
               <input
                 id="contact-subject"
                 type="text"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                placeholder="e.g. Invariants in scalar autograd vs backward PyTorch tape"
-                className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)]"
+                placeholder="What's this about?"
+                className={`w-full px-3 py-2 rounded border focus:outline-none ${
+                  isStdout
+                    ? 'border-[#242e40] bg-[#0b0e14] text-[#f1f5f9] focus:border-[#00e5c0]'
+                    : 'border-[#e2dbce] bg-[#faf8f5] text-[#1c1917] focus:border-[#1d4ed8]'
+                }`}
               />
             </div>
 
             <div className="space-y-1.5 sm:col-span-2">
               <label htmlFor="contact-message-body" className="text-[var(--text-secondary)]">
-                Message Body *
+                Message *
               </label>
               <textarea
                 id="contact-message-body"
@@ -307,31 +403,39 @@ export const Contact: React.FC = () => {
                 required
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Detail technical context, discussion points, or collaboration questions..."
-                className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] font-body text-xs leading-relaxed"
+                placeholder="How can I help?"
+                className={`w-full px-3 py-2 rounded border focus:outline-none text-xs leading-relaxed ${
+                  isStdout
+                    ? 'border-[#242e40] bg-[#0b0e14] text-[#f1f5f9] focus:border-[#00e5c0]'
+                    : 'border-[#e2dbce] bg-[#faf8f5] text-[#1c1917] focus:border-[#1d4ed8]'
+                }`}
               />
             </div>
           </div>
 
           <div className="flex items-center justify-between pt-2">
-            <span className="text-[11px] text-[var(--text-muted)]">
-              Securely stored in sqlite database.
+            <span className="text-[11px] text-[var(--text-muted)] font-sans">
+              I reply promptly by email.
             </span>
 
             <button
               type="submit"
               disabled={submitting}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded font-bold bg-[var(--accent-primary)] text-[#0b0e14] hover:bg-[var(--accent-primary-hover)] active:scale-[0.98] transition-all cursor-pointer shadow-xs disabled:opacity-50"
+              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded font-bold transition-all cursor-pointer shadow-xs disabled:opacity-50 ${
+                isStdout
+                  ? 'bg-[#00e5c0] text-[#0b0e14] hover:bg-[#33ebd0]'
+                  : 'bg-[#1d4ed8] text-white hover:bg-[#1e40af]'
+              }`}
             >
               {submitting ? (
                 <>
                   <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                  <span>Logging Correspondence...</span>
+                  <span>Sending Message...</span>
                 </>
               ) : (
                 <>
                   <Send className="w-3.5 h-3.5" />
-                  <span>Send Correspondence</span>
+                  <span>Send Message</span>
                 </>
               )}
             </button>

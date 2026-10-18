@@ -1,99 +1,102 @@
 import React, { useState } from 'react';
 import { Milestone } from '../types';
-import { GitCommit, GitBranch, Terminal, Calendar, Tag, ChevronDown, ChevronUp } from 'lucide-react';
+import { Milestone as MilestoneIcon, ChevronDown, ChevronUp, BookOpen, Tag } from 'lucide-react';
 
 interface StdoutJourneyProps {
   milestones: Milestone[];
 }
 
 export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
-  const [selectedMilestoneId, setSelectedMilestoneId] = useState<string>(milestones[milestones.length - 1]?.id || milestones[0]?.id);
-  const [showAllDetails, setShowAllDetails] = useState<boolean>(false);
+  const [selectedMilestoneId, setSelectedMilestoneId] = useState<string>(
+    milestones[milestones.length - 1]?.id || milestones[0]?.id
+  );
+  const [showAllDetails, setShowAllDetails] = useState<boolean>(true);
 
   const selectedMilestone = milestones.find((m) => m.id === selectedMilestoneId) || milestones[0];
 
   // Map branches to distinct horizontal lane offsets in SVG
-  // lane 0: 'main' (x = 40)
-  // lane 1: 'systems' (x = 110)
-  // lane 2: 'ml-core' (x = 180)
   const laneMap: Record<string, number> = {
-    'main': 45,
-    'systems': 105,
-    'ml-core': 165,
+    'main': 60,
+    'foundations': 60,
+    'python': 160,
+    'projects': 260,
   };
 
   const laneColors: Record<string, string> = {
-    'main': '#58a6ff',      // blue
-    'systems': '#3fb950',   // green
-    'ml-core': '#d29922',   // yellow/amber
+    'main': '#00e5c0',       // cyan (academics)
+    'foundations': '#00e5c0',  // cyan
+    'python': '#58a6ff',       // blue (python track)
+    'projects': '#e27d60',     // copper (practical builds)
+  };
+
+  const branchDisplayMap: Record<string, string> = {
+    'academics': 'Academics',
+    'foundations': 'Foundations',
+    'python': 'Python Track',
+    'python-track': 'Python Track',
+    'software': 'Software',
+    'projects': 'Projects',
+    'main': 'Academics',
   };
 
   // Node vertical spacing
-  const stepY = 70;
-  const startY = 40;
+  const stepY = 80;
+  const startY = 50;
   const svgHeight = milestones.length * stepY + 30;
 
   return (
-    <div className="space-y-6 text-left">
-      {/* Informative Header / Git status */}
-      <div className="p-3 rounded border border-[#30363d] bg-[#161b22] text-xs font-mono text-[#8b949e] flex flex-wrap items-center justify-between gap-3">
+    <div className="space-y-6 text-left font-mono">
+      {/* Informative Header */}
+      <div className="p-3 rounded border border-[#242e40] bg-[#121722] text-xs font-mono text-[#94a3b8] flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <GitBranch className="w-4 h-4 text-[#58a6ff]" aria-hidden="true" />
-          <span className="text-[#e6edf3]">git log --graph --oneline --all</span>
+          <MilestoneIcon className="w-4 h-4 text-[#00e5c0]" aria-hidden="true" />
+          <span className="text-[#f1f5f9] font-bold">Chronological Learning Milestones</span>
         </div>
-        <div className="text-[11px] text-[#8b949e]">
-          * Commit hashes are illustrative milestones
+        <div className="text-[11px] text-[#64748b]">
+          MATS University coursework &amp; verified self-directed builds
         </div>
       </div>
 
-      {/* Main Container: SVG DAG + Git Show Panel */}
+      {/* Main Container: SVG DAG + Details Panel */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Left Column: Interactive Git Graph & Node List */}
-        <div className="lg:col-span-7 rounded-md border border-[#30363d] bg-[#161b22] p-4 sm:p-5">
-          <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#30363d] text-xs font-mono text-[#8b949e]">
-            <span>Branch Topology & Milestones</span>
+        {/* Left Column: Interactive Milestone Graph & Node List */}
+        <div className="lg:col-span-7 rounded-md border border-[#242e40] bg-[#121722] p-4 sm:p-5">
+          <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#242e40] text-xs font-mono text-[#8b949e]">
+            <span>Milestone Track</span>
             <div className="flex items-center gap-3 text-[11px]">
               <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-[#58a6ff]" /> main
+                <span className="w-2 h-2 rounded-full bg-[#00e5c0]" /> Academics
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-[#3fb950]" /> systems
+                <span className="w-2 h-2 rounded-full bg-[#58a6ff]" /> Python
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-[#d29922]" /> ml-core
+                <span className="w-2 h-2 rounded-full bg-[#e27d60]" /> Projects
               </span>
             </div>
           </div>
 
           <div className="relative overflow-x-auto">
-            {/* SVG Git Graph */}
+            {/* SVG Learning Track with enlarged width to eliminate dead space */}
             <div className="min-w-[340px]">
               <svg
                 width="100%"
                 height={svgHeight}
-                viewBox={`0 0 210 ${svgHeight}`}
+                viewBox={`0 0 320 ${svgHeight}`}
                 className="overflow-visible"
-                aria-label="Git Directed Acyclic Graph representing portfolio milestones"
+                aria-label="Directed graph representing student learning milestones"
                 role="img"
               >
-                <defs>
-                  {/* Subtle glow filter */}
-                  <filter id="node-glow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="#58a6ff" floodOpacity="0.4" />
-                  </filter>
-                </defs>
-
                 {/* Connecting branch paths */}
                 {milestones.map((m, idx) => {
                   if (idx === 0) return null;
                   const prev = milestones[idx - 1];
-                  const x1 = laneMap[prev.branch] || 45;
+                  const x1 = laneMap[prev.branch] || 60;
                   const y1 = startY + (idx - 1) * stepY;
-                  const x2 = laneMap[m.branch] || 45;
+                  const x2 = laneMap[m.branch] || 60;
                   const y2 = startY + idx * stepY;
-                  const strokeColor = laneColors[m.branch] || '#58a6ff';
+                  const strokeColor = laneColors[m.branch] || '#00e5c0';
 
-                  // If same lane, straight line; if branch change, bezier curve
                   const pathData =
                     x1 === x2
                       ? `M ${x1} ${y1} L ${x2} ${y2}`
@@ -101,7 +104,7 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
 
                   return (
                     <path
-                      key={`path-${idx}`}
+                      key={`path-${m.id}`}
                       d={pathData}
                       fill="none"
                       stroke={strokeColor}
@@ -111,51 +114,40 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
                   );
                 })}
 
-                {/* Nodes */}
+                {/* Nodes with Title + Date Labels (Phase 3.1) */}
                 {milestones.map((m, idx) => {
-                  const x = laneMap[m.branch] || 45;
+                  const x = laneMap[m.branch] || 60;
                   const y = startY + idx * stepY;
                   const isSelected = m.id === selectedMilestoneId;
-                  const color = laneColors[m.branch] || '#58a6ff';
+                  const color = laneColors[m.branch] || '#00e5c0';
+                  const shortName = m.branch === 'projects' ? 'Projects' : m.branch === 'python' ? 'CS50P' : idx === 1 ? 'CS50x' : 'Academics';
 
                   return (
                     <g
-                      key={m.id}
-                      className="cursor-pointer focus:outline-none"
+                      key={`node-${m.id}`}
+                      onClick={() => setSelectedMilestoneId(m.id)}
+                      className="cursor-pointer"
                       tabIndex={0}
                       role="button"
-                      aria-label={`Milestone: ${m.title}, commit ${m.commitHash}`}
-                      onClick={() => setSelectedMilestoneId(m.id)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          setSelectedMilestoneId(m.id);
-                        }
-                      }}
+                      aria-label={`Milestone: ${m.title}, Date: ${m.date}`}
                     >
                       <circle
                         cx={x}
                         cy={y}
                         r={isSelected ? 8 : 6}
-                        fill="#0d1117"
+                        fill={isSelected ? '#0b0e14' : color}
                         stroke={color}
                         strokeWidth={isSelected ? 3 : 2}
-                        filter={isSelected ? 'url(#node-glow)' : undefined}
                       />
-                      {isSelected && (
-                        <circle cx={x} cy={y} r={3} fill={color} />
-                      )}
-
-                      {/* Small commit tag label next to node inside SVG */}
                       <text
                         x={x + 14}
                         y={y + 4}
-                        fill={isSelected ? '#58a6ff' : '#8b949e'}
+                        fill={isSelected ? '#00e5c0' : '#8b949e'}
                         fontSize="11"
                         fontFamily="monospace"
                         fontWeight={isSelected ? 'bold' : 'normal'}
                       >
-                        {m.commitHash}
+                        {m.logNumber || `0${idx + 1}`} · {shortName} · {m.date}
                       </text>
                     </g>
                   );
@@ -164,18 +156,19 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
 
               {/* Milestone Row Interactive Items aligned with graph */}
               <div className="mt-4 space-y-2">
-                {milestones.map((m) => {
+                {milestones.map((m, idx) => {
                   const isSelected = m.id === selectedMilestoneId;
-                  const branchColor = laneColors[m.branch];
+                  const branchColor = laneColors[m.branch] || '#00e5c0';
+                  const displayBranch = branchDisplayMap[m.branch.toLowerCase()] || branchDisplayMap[(m.branchLabel || '').toLowerCase()] || m.branch;
 
                   return (
                     <button
                       key={m.id}
                       onClick={() => setSelectedMilestoneId(m.id)}
-                      className={`w-full text-left p-2.5 rounded border transition-all text-xs font-mono cursor-pointer flex items-center justify-between gap-3 ${
+                      className={`w-full text-left p-3 rounded border transition-all text-xs font-mono cursor-pointer flex items-center justify-between gap-3 ${
                         isSelected
-                          ? 'border-[#58a6ff] bg-[#21262d] text-[#e6edf3]'
-                          : 'border-[#30363d] bg-[#0d1117] text-[#8b949e] hover:border-[#8b949e] hover:text-[#e6edf3]'
+                          ? 'border-[#00e5c0] bg-[#1a2332] text-[#f1f5f9]'
+                          : 'border-[#242e40] bg-[#0d121c] text-[#8b949e] hover:border-[#384660] hover:text-[#f1f5f9]'
                       }`}
                     >
                       <div className="flex items-center gap-2 truncate">
@@ -184,10 +177,10 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
                           style={{ backgroundColor: branchColor }}
                           aria-hidden="true"
                         />
-                        <span className="text-[#58a6ff] font-bold shrink-0">{m.commitHash}</span>
+                        <span className="text-[#00e5c0] font-bold shrink-0">{m.logNumber || `0${idx + 1}`}</span>
                         <span className="truncate">{m.title}</span>
                       </div>
-                      <span className="text-[11px] text-[#6e7681] shrink-0">{m.date}</span>
+                      <span className="text-[11px] text-[#64748b] shrink-0">{displayBranch} · {m.date}</span>
                     </button>
                   );
                 })}
@@ -196,66 +189,88 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
           </div>
         </div>
 
-        {/* Right Column: git show Inspection Drawer */}
-        <div className="lg:col-span-5 rounded-md border border-[#30363d] bg-[#161b22] p-5 font-mono text-xs text-[#e6edf3] sticky top-20">
-          <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#30363d]">
+        {/* Right Column: Milestone Details Inspector */}
+        <div className="lg:col-span-5 rounded-md border border-[#242e40] bg-[#121722] p-5 font-mono text-xs text-[#f1f5f9] sticky top-20">
+          <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#242e40]">
             <div className="flex items-center gap-2">
-              <Terminal className="w-4 h-4 text-[#3fb950]" aria-hidden="true" />
-              <span className="font-bold text-[#3fb950]">$ git show {selectedMilestone.commitHash}</span>
+              <BookOpen className="w-4 h-4 text-[#00e5c0]" aria-hidden="true" />
+              <span className="font-bold text-[#00e5c0]">Milestone #{selectedMilestone.logNumber}</span>
             </div>
-            <span className="text-[11px] text-[#8b949e]">{selectedMilestone.date}</span>
+            <span className="text-[11px] text-[#94a3b8]">{selectedMilestone.date}</span>
           </div>
 
           <div className="space-y-4">
             <div>
-              <div className="text-[#8b949e] text-[11px] uppercase tracking-wider mb-1">Commit Message</div>
-              <h4 className="text-sm font-bold text-[#e6edf3]">
+              <div className="text-[#64748b] text-[11px] uppercase tracking-wider mb-1">Milestone Title</div>
+              <h4 className="text-sm font-bold text-[#f1f5f9]">
                 {selectedMilestone.title}
               </h4>
             </div>
 
             <div>
-              <div className="text-[#8b949e] text-[11px] uppercase tracking-wider mb-1">Branch</div>
-              <div className="flex items-center gap-2 text-[#58a6ff]">
-                <GitBranch className="w-3.5 h-3.5" />
-                <span>{selectedMilestone.branchLabel || selectedMilestone.branch}</span>
+              <div className="text-[#64748b] text-[11px] uppercase tracking-wider mb-1">Focus Area</div>
+              <div className="flex items-center gap-2 text-[#00e5c0]">
+                <span>{branchDisplayMap[(selectedMilestone.branchLabel || selectedMilestone.branch).toLowerCase()] || selectedMilestone.branch}</span>
               </div>
             </div>
 
             <div>
-              <div className="text-[#8b949e] text-[11px] uppercase tracking-wider mb-1">Summary</div>
-              <p className="text-[#c9d1d9] leading-relaxed">
+              <div className="text-[#64748b] text-[11px] uppercase tracking-wider mb-1">Summary</div>
+              <p className="text-xs text-[#94a3b8] leading-relaxed">
                 {selectedMilestone.summary}
               </p>
             </div>
 
-            <div>
-              <div className="text-[#8b949e] text-[11px] uppercase tracking-wider mb-1">Diff & Inspection</div>
-              <div className="p-3 rounded bg-[#0d1117] border border-[#30363d] text-[#c9d1d9] leading-relaxed">
-                {selectedMilestone.details}
+            {selectedMilestone.details && (
+              <div>
+                <div className="text-[#64748b] text-[11px] uppercase tracking-wider mb-1">Details &amp; Practice</div>
+                <p className="text-xs text-[#f1f5f9] leading-relaxed">
+                  {selectedMilestone.details}
+                </p>
               </div>
-            </div>
+            )}
 
-            <div>
-              <div className="text-[#8b949e] text-[11px] uppercase tracking-wider mb-1.5">Key Learnings</div>
-              <ul className="space-y-1 text-[#8b949e]">
-                {selectedMilestone.learnings.map((learning, idx) => (
-                  <li key={idx} className="flex items-start gap-1.5">
-                    <span className="text-[#3fb950] shrink-0">+</span>
-                    <span>{learning}</span>
-                  </li>
+            {selectedMilestone.learnings && selectedMilestone.learnings.length > 0 && (
+              <div>
+                <button
+                  type="button"
+                  onClick={() => setShowAllDetails(!showAllDetails)}
+                  className="flex items-center justify-between w-full text-[11px] text-[#00e5c0] font-semibold pt-2 border-t border-[#242e40] cursor-pointer"
+                >
+                  <span>Key Concepts &amp; Takeaways</span>
+                  {showAllDetails ? (
+                    <ChevronUp className="w-3.5 h-3.5" />
+                  ) : (
+                    <ChevronDown className="w-3.5 h-3.5" />
+                  )}
+                </button>
+
+                {showAllDetails && (
+                  <ul className="mt-2 space-y-1.5 text-xs text-[#94a3b8]">
+                    {selectedMilestone.learnings.map((learning, idx) => (
+                      <li key={idx} className="flex items-start gap-1.5">
+                        <span className="text-[#00e5c0]">›</span>
+                        <span>{learning}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+
+            {selectedMilestone.tags && selectedMilestone.tags.length > 0 && (
+              <div className="pt-3 border-t border-[#242e40] flex flex-wrap gap-1.5">
+                {selectedMilestone.tags.map((t) => (
+                  <span
+                    key={t}
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] bg-[#1a2332] text-[#94a3b8]"
+                  >
+                    <Tag className="w-2.5 h-2.5 text-[#00e5c0]" />
+                    <span>{t}</span>
+                  </span>
                 ))}
-              </ul>
-            </div>
-
-            <div className="pt-3 border-t border-[#30363d] flex flex-wrap items-center gap-1.5">
-              <span className="text-[#6e7681]">Tags:</span>
-              {selectedMilestone.tags.map((tag) => (
-                <span key={tag} className="text-[#c9d1d9]">
-                  #{tag}
-                </span>
-              ))}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

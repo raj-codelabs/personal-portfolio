@@ -1,142 +1,159 @@
-# Dual-Theme Engineering Portfolio: `stdout` & `margin-notes`
+# Portfolio Credibility, Clarity & Polish Overhaul
 
-A personal engineering portfolio for **Raj Golder**, a 1st-year B.Tech Computer Science student specializing in Artificial Intelligence and Machine Learning. The website features an architecture that supports two distinct, cohesive visual identities sharing a single typed data layer: **`stdout`** (a developer terminal aesthetic with an interactive command prompt and an SVG Git DAG timeline) and **`margin-notes`** (an archival field notebook with Playfair Display typography, ink-line spine, and margin annotations).
+A systematic plan to transform Raj Golder's engineering portfolio into an authentic, credible showcase for recruiters and peers. This overhaul eliminates placeholder copy, removes contradictory badges and duplicate consoles, rebuilds the AI Study Notes Summarizer as a featured case study, refines the hero and skills presentations with concrete evidence, and ensures clean accessibility and mobile responsiveness across both `stdout` and `margin-notes` themes.
 
 ---
 
 ## User Review & Critical Decisions
 
 > [!IMPORTANT]
-> The foundational decisions below incorporate your answers from Phase 1 and define the boundaries of the implementation:
+> The implementation incorporates your confirmed answers and strict boundary rules:
 >
-> - **Student Identity & Domain Focus**: Built for **Raj Golder, B.Tech CSE (AI/ML) · 1st Year**. Projects and skills focus on computer science fundamentals (C/C++, Data Structures, Python), linear algebra/calculus for ML, and introductory machine learning implementations.
-> - **Exactly Two Themes**: Strict dual-theme system (`stdout` and `margin-notes`) with automatic system-preference detection (`dark` → `stdout`, `light` → `margin-notes`) and `localStorage` persistence. No hidden, easter-egg, or third themes.
-> - **Interactive Terminal in `stdout`**: The dark terminal hero features an interactive command prompt supporting real portfolio operations (e.g., `help`, `projects`, `journey`, `theme`, `clear`, `contact`, `whoami`).
-> - **Visual Dualism**: Rather than simple CSS color inversions, the two themes render completely different visual languages: a raw Git-commit DAG timeline in dark mode vs. an ink-and-paper archival notebook timeline in light mode.
+> - **AI Study Notes Summarizer Stack**: Identified as a **Python CLI** with command-line arguments and rich terminal formatting. Card and case study will reflect this concrete UI rather than generic web or TBD labels.
+> - **Contact Response Time**: Specified as **"I reply promptly by email"** (omitting unverified hourly claims).
+> - **Interactive Terminal Demotion**: Demoted from a third button to a quiet inline text link: **"Try the terminal › (Quick keyboard-driven portfolio navigation)"**.
+> - **Zero Placeholder Policy**: Every occurrence of `tbd`, `pending`, `to be confirmed`, `honest overview`, `last update`, and `logged to` will be eliminated or replaced with verified facts.
+> - **No Invented Metrics or Stubs**: Unstarted ideas (`PrereqOS`, `Book Recommendation Engine`) are removed from the main project card grid and consolidated into a clean 1-line text note: `Next: PrereqOS (prerequisite graph for learning topics) · Book Recommendation Engine (planned)`.
+> - **Single Consolidated Project Showcase**: Remove the duplicate "Project & Learning Console" / "Portfolio Status Register" views and move relevant code excerpts directly into the Summarizer case study.
+> - **Header & Navigation Polish**: Replace the top-right theme switch with a clean `GitHub ↗` outline button (preparing for the future `Resume` button). Relocate the theme switcher to the footer with clean labels (`Terminal` / `Notebook`). Logo updated to `$ raj-golder▌`.
+> - **Public Route Decoupling**: Remove the public CMS login link from the footer; retain `/admin` only via unlinked hash/route.
 
 ---
 
 ## 1. Overview & Core Concept
 
-- **What It Does**: Presents a student engineer's technical profile, curated projects, developmental milestone timeline, core technical skills, and engineering philosophy across two distinct visual presentations.
-- **Target Audience**: Technical recruiters, professors, research mentors, open-source maintainers, and engineering peers.
-- **Key Value**: Communicates technical curiosity, dedication to fundamentals, and engineering craft through high-fidelity, accessible frontend design rather than generic portfolio templates.
+- **What It Does**: Streamlines the portfolio into a lean, honest, and high-impact engineering profile. Positions Raj as a dedicated first-year computer science student (MATS University, Class of 2030) with completed CS50x and CS50P coursework who builds useful command-line and machine learning tools in Python and C.
+- **Audience**: Hiring managers, technical recruiters, research mentors, and peer engineers.
+- **Key Value**: Replaces self-undermining disclaimers and draft markers with clear evidence of competence, clean code architecture, and restrained aesthetic polish.
 
 ---
 
 ## 2. User Experience & Visual Design
 
-### Visual Identity Comparison
+### Structural Rhythm & Content Flow
 
 ```
-┌───────────────────────────────────────┬───────────────────────────────────────┐
-│ stdout (Dark Terminal Mode)           │ margin-notes (Light Editorial Mode)   │
-├───────────────────────────────────────┼───────────────────────────────────────┤
-│ Canvas: #0d1117 (GitHub Dark / Unix) │ Canvas: #fbf7ee (Archival Paper)      │
-│ Surface: #161b22                      │ Surface: #ffffff (Field Cards)        │
-│ Borders: #30363d                      │ Borders: #e3ded2 (Subtle Ruled Lines) │
-│ Accent: #58a6ff (Terminal Blue)       │ Accent: #0d5c6e (Deep Ink Teal)       │
-│ Secondary: #3fb950 (Terminal Green)   │ Secondary Accent: #8a5a00 (Ochre)     │
-│ Typography: JetBrains Mono / Fira     │ Typography: Playfair Display + DM Sans│
-│ Timeline: SVG Git-style DAG graph     │ Timeline: Vertical spine + [LOG #nn]  │
-│ Hero: Window chrome + Command Bar     │ Hero: Asymmetric editorial columns    │
-└───────────────────────────────────────┴───────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────┐
+│ Top Bar: Brand ($ raj-golder▌) ── Nav (5 links) ── Action (GitHub ↗)   │
+├────────────────────────────────────────────────────────────────────────┤
+│ Hero Section:                                                          │
+│ - Eyebrow: B.TECH CSE (AI/ML) · MATS UNIVERSITY · CLASS OF 2030        │
+│ - Headline: I build small, useful tools in Python_                    │
+│ - Subhead: First-year CSE student... CS50x & CS50P completed.          │
+│ - CTAs: [See my work ↓]  [GitHub ↗]                                   │
+│ - Demoted prober: Try the terminal › (Quick keyboard-driven nav)       │
+│ - Right column: Clean Developer Card (verified details, no barcode)    │
+├────────────────────────────────────────────────────────────────────────┤
+│ Featured Project Case Study (Full-Width Showcase):                     │
+│ - Left: AI Study Notes Summarizer problem, 3-step pipeline, learnings  │
+│ - Right: Code excerpt / Terminal preview                               │
+│ - Actions: [Case study] [GitHub ↗] (Live demo omitted if not deployed) │
+│ - Quiet footer note: Next builds (PrereqOS · Book Recommendation)      │
+├────────────────────────────────────────────────────────────────────────┤
+│ Development Journey & Timeline (Clean Title Case & Real Milestones)    │
+├────────────────────────────────────────────────────────────────────────┤
+│ Skills & Tooling (Single unified grid with evidence, zero pills)       │
+│ - Languages: Python (Summarizer, CS50P) · C (CS50x, Coursework)        │
+│ - Tools: Git, GitHub, VS Code, Linux CLI                               │
+│ - Learning now: AI/ML foundations, Data structures & algorithms        │
+├────────────────────────────────────────────────────────────────────────┤
+│ About & Philosophy (CS50x/CS50P completion, motivation, My Approach)   │
+├────────────────────────────────────────────────────────────────────────┤
+│ Contact (Email mailto + copy feedback, clean form, prompt reply note) │
+├────────────────────────────────────────────────────────────────────────┤
+│ Footer (Raj Golder · © 2026 · GitHub · LinkedIn · Theme Switcher)      │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Key User Flows
-
-1. **Initial Arrival & Theme Resolution**:
-   - The app detects `prefers-color-scheme`. If dark, it mounts as `stdout`; if light, as `margin-notes`.
-   - If the user previously chose a theme, their stored choice in `localStorage` takes precedence.
-   - The theme toggle in the header smoothly switches the root data attribute `data-theme="stdout" | "margin-notes"` and flips design tokens without layout flickering.
-2. **Interactive Exploration in `stdout`**:
-   - Visitors can read the hero or interact with the command bar (e.g., typing `projects` or clicking suggested chips like `$ ls -la projects` scrolls directly to the section or prints data).
-   - In the **Journey** section, milestones appear as an interactive SVG Git branch graph with commit hashes (clearly marked as illustrative milestones). Clicking a commit node opens a `git show`-style inspection drawer.
-3. **Reading Flow in `margin-notes`**:
-   - The hero adopts an archival field journal layout with serif display typography and quiet metadata.
-   - In the **Journey** section, the entries are numbered `[LOG #01]` through `[LOG #06]` along a delicate ink spine with margin commentary and expandable entry summaries.
-4. **Project Deep-Dive Modal**:
-   - Clicking "Inspect Project Details" on any card opens a fully accessible modal dialog (ESC key, focus trapped, returning focus to trigger button) detailing the problem, architecture, stack, and key learnings.
+### Visual & Typographic Polish Rules
+- **Typography Scale**: Body paragraphs $\ge 16\text{px}$ (sans) or $\ge 14\text{px}$ (mono). Eyebrows and metadata $\ge 12\text{px}$. Strictly no micro-text under $11\text{px}$.
+- **Tracking Discipline**: Reset tight tracking on sans body text (`letter-spacing: 0`). Headings and monospace UI labels retain disciplined typographic hierarchy.
+- **Color Contrast**: Ensure text contrast $\ge 4.5:1$ against dark surfaces (`#0d1117` / `#161b22`) and light surfaces (`#fbf7ee` / `#ffffff`). Borders maintain at least $3:1$ contrast.
+- **Section Anchors**: Set `scroll-margin-top: 4rem` on all section IDs (`#projects`, `#journey`, `#skills`, `#about`, `#contact`) to prevent header clipping on jump.
 
 ---
 
 ## 3. Key Product Decisions & Trade-Offs
 
-- **Decision 1: Native SVG Git Graph vs. Canvas Library**
-  - *Chosen Approach*: Hand-crafted, responsive SVG component with semantic path elements and keyboard-navigable `<circle>` and `<text>` nodes.
-  - *Why*: Eliminates heavy external charting libraries, guarantees zero layout shift, allows direct CSS custom property styling for themes, and ensures complete screen-reader accessibility via SVG title tags and ARIA labels.
-- **Decision 2: Centralized Typed Data Layer**
-  - *Chosen Approach*: Separate pure data files (`profile.ts`, `projects.ts`, `journey.ts`, `skills.ts`) consumed identically by both themes.
-  - *Why*: Guarantees that neither theme ever drifts out of sync or fabricates alternate facts, fulfilling the strict single-source-of-truth requirement.
-- **Decision 3: Zero-Pill Design Discipline**
-  - *Chosen Approach*: Render tech stacks and metadata as unboxed typographic lists with middle dots (`C++ · Python · PyTorch · Git`), reserving button styling strictly for interactive controls.
-  - *Why*: Adheres to anti-slop guidelines and prevents the dated "candy pill" look common in AI-generated sites.
+- **Decision 1: Removal of Duplicate Console & Invariant Workbench**
+  - *Chosen Approach*: Retire the separate "Project & Learning Console" and "Portfolio Status Register" components that duplicated project content and introduced confusing status tabs.
+  - *Why*: Eliminates cognitive clutter. The AI Study Notes Summarizer becomes a single full-width case study card containing its architecture, code excerpt, and takeaways.
+- **Decision 2: Ideas Demoted to Single Text Line**
+  - *Chosen Approach*: Remove empty concept cards (`PrereqOS`, `Book Recommendation Engine`) from the project grid and render them as a single quiet line: `Next: PrereqOS (prerequisite graph for learning topics) · Book Recommendation Engine (planned)`.
+  - *Why*: Prevents recruiters from clicking cards that have "Implementation not started", which undermines technical credibility.
+- **Decision 3: Skills with Evidence**
+  - *Chosen Approach*: Replace 3 scattered skill cards with a single structured grid linking each language and tool directly to concrete evidence (e.g. `Python: AI Study Notes Summarizer, CS50P`).
+  - *Why*: Eliminates self-deprecating "Beginner" badges while remaining honest about first-year mastery.
+- **Decision 4: Plain-Language Renaming**
+  - *Chosen Approach*: Rename jargon controls to standard terminology: "Examine Dossier" → "Case study", "source ↗" → "GitHub ↗", "Built Projects & Concepts" → "Projects", "Connect & Collaborate" → "Get in touch".
+  - *Why*: Meets recruiter expectations for clear, direct web navigation.
 
 ---
 
-## 4. Technical Architecture & Data Strategy
-
-### System Component Diagram
+## 4. Technical Architecture & Phased Execution
 
 ```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        Root Application (App.tsx)                      │
-│                [ ThemeContext: stdout | margin-notes ]                 │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │
-           ┌────────────────────────┴────────────────────────┐
-           ▼                                                 ▼
-┌───────────────────────┐                         ┌───────────────────────┐
-│     Shared Shell      │                         │  Central Data Store   │
-│  - Skip Link          │                         │  - profile.ts         │
-│  - Top Navbar         │◄─── Reads Data ─────────│  - projects.ts        │
-│  - Footer             │                         │  - journey.ts         │
-│  - ProjectDialog      │                         │  - skills.ts          │
-└──────────┬────────────┘                         └───────────────────────┘
-           │
-           ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                        Section Flow (#home .. #contact)                │
-│                                                                        │
-│  1. HeroSection                                                        │
-│     ├─ stdout: Terminal Window Chrome + Interactive Command Prompt     │
-│     └─ margin-notes: Editorial Serif Layout + Field Introduction       │
-│                                                                        │
-│  2. ProjectsSection (#projects)                                        │
-│     ├─ stdout: Console Buffer Cards with Dot Tech Delimiters           │
-│     └─ margin-notes: Clean Index Cards with Editorial Marginalia       │
-│                                                                        │
-│  3. JourneySection (#journey)                                          │
-│     ├─ stdout: StdoutGitGraph (Responsive SVG Directed Acyclic Graph)   │
-│     └─ margin-notes: MarginNotesTimeline (Ink-Spine Journal Entries)   │
-│                                                                        │
-│  4. SkillsSection (#skills)                                            │
-│     ├─ Systems & Languages (C, C++, Python, Shell, Git)               │
-│     ├─ Machine Learning Foundations (NumPy, Math for ML, PyTorch)      │
-│     └─ Tools & Environments (Linux, VS Code, Make, Jupyter)            │
-│                                                                        │
-│  5. AboutSection (#about)                                              │
-│     └─ Background, 1st Year Journey, Curiosity & Engineering Principles│
-│                                                                        │
-│  6. ContactSection (#contact) & Footer                                 │
-│     └─ Verified Email, GitHub, LinkedIn Links + Dynamic Year           │
-└────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│ Phase 1: Critical Sanitization & Case Study                             │
+│ 1. Search & purge all placeholder/draft strings (grep check)            │
+│ 2. Fix project status logic (public repo links, remove pending badges)  │
+│ 3. Build AI Study Notes Summarizer case study view                      │
+│ 4. Update CS50x / CS50P completion records across data files            │
+└────────────────────────────────────┬────────────────────────────────────┘
+                                     │
+┌────────────────────────────────────▼────────────────────────────────────┐
+│ Phase 2: Hero, Header & Skills Redesign                                 │
+│ 1. Update Hero: new eyebrow, headline, subhead, demoted prober link    │
+│ 2. Update Developer Card: remove barcode/ID, ensure 11px min text       │
+│ 3. Header: $ raj-golder▌ logo, GitHub ↗ outline CTA, no theme switch   │
+│ 4. Skills: single evidence-based grid, zero beginner disclaimers        │
+│ 5. Projects: single section, retire console & ideas cards               │
+└────────────────────────────────────┬────────────────────────────────────┘
+                                     │
+┌────────────────────────────────────▼────────────────────────────────────┐
+│ Phase 3: Journey, About, Contact & Footer                               │
+│ 1. Journey: node labels (Title + Date), Title Case display map          │
+│ 2. About: CS50 motivation, single My Approach quote, concise prose     │
+│ 3. Contact: clean email copy, prompt response note, validation states   │
+│ 4. Footer: move Theme Switcher here, remove public CMS link             │
+└────────────────────────────────────┬────────────────────────────────────┘
+                                     │
+┌────────────────────────────────────▼────────────────────────────────────┐
+│ Phase 4: Contrast, Typography & Verification                            │
+│ 1. Apply scroll-margin-top, contrast audit, 16px body/12px label rule   │
+│ 2. Verify keyboard navigation, escape listeners, reduced-motion hooks   │
+│ 3. Compile applet and run linter                                        │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Verification & Testing Plan
+### Detailed Component & File Execution Mapping
 
-1. **Compilation & Linting**: Verify clean TypeScript compilation (`tsc`) and Vite build without warnings or broken imports.
-2. **Dual-Theme Fidelity**:
-   - Test toggle between `stdout` and `margin-notes`.
-   - Verify all color tokens update cleanly on root (`data-theme`).
-   - Verify `localStorage` persistence across page reloads.
-   - Verify OS preference initialization (`prefers-color-scheme`).
-3. **Interactive Features**:
-   - Test terminal command input (`help`, `projects`, `journey`, `theme`, `clear`, `contact`).
-   - Test Git DAG milestone selection and `git show` inspector panel.
-   - Test Notebook timeline entry expansion.
-   - Test project detail modal: open, ESC key to close, close button, focus return.
-4. **Accessibility & Responsive Checks**:
-   - Keyboard Tab order and visible focus rings in both themes.
-   - Test on 320px mobile viewport, 768px tablet, and 1440px desktop.
-   - Check contrast ratios against WCAG 2.2 AA standards.
+1. **`src/data/profile.ts` & `src/data/projects.ts` & `src/data/journey.ts`**:
+   - Update metadata to MATS University Class of 2030, CS50x/CS50P completed.
+   - Clean out draft markers and placeholder links.
+   - Restructure `ai-study-notes-summarizer` with CLI details, concrete problem, 3-step pipeline, and code excerpt.
+2. **`src/sections/Hero.tsx` & `src/components/DeveloperIdCard.tsx`**:
+   - Rewrite headline: `I build small, useful tools in Python_`.
+   - Eyebrow: `B.TECH CSE (AI/ML) · MATS UNIVERSITY · CLASS OF 2030`.
+   - Subhead: `First-year CSE (AI/ML) student at MATS University. CS50x and CS50P completed. Currently building AI tools for studying.`.
+   - Remove duplicate GitHub link and loose philosophy box.
+   - Demote prober to `Try the terminal › (Quick keyboard-driven portfolio navigation)`.
+   - Clean ID card (remove barcode, ensure font sizes $\ge 11\text{px}$, disable 3D tilt under reduced motion).
+3. **`src/components/Navbar.tsx` & `src/components/Footer.tsx`**:
+   - Navbar brand: `$ raj-golder▌`.
+   - Top action: `GitHub ↗` button.
+   - Footer: Include theme switch (`Terminal / Blueprint` or `stdout / margin-notes`), remove public CMS link.
+4. **`src/sections/Projects.tsx` & `src/components/ProjectCard.tsx` & `src/components/ProjectDialog.tsx`**:
+   - Single clean project section.
+   - Featured case study card for Summarizer with Python CLI stack, problem, flow, and code block.
+   - Single-line ideas note for `PrereqOS` and `Book Recommendation Engine`.
+   - "Case study" and "GitHub ↗" button terminology.
+5. **`src/sections/Skills.tsx`**:
+   - Single unified grid: Languages, Tools, Learning now, with project and coursework attribution.
+6. **`src/sections/About.tsx` & `src/sections/Contact.tsx`**:
+   - Clean 3-sentence motivation in About with single quote block.
+   - Contact with mail icon, copy-email feedback, prompt reply promise, and unlinked `/admin` preservation.
+7. **`src/index.css` & Accessibility**:
+   - `scroll-margin-top: 4rem` on sections.
+   - Font size, contrast, and focus outline auditing.
+   - Final `compile_applet` and `lint_applet` verification.

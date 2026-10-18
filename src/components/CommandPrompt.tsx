@@ -42,25 +42,25 @@ export const CommandPrompt: React.FC = () => {
         </div>
       );
     } else if (trimmed === 'projects' || trimmed === 'ls projects' || trimmed === 'ls') {
-      responseNode = 'Navigating to [Projects] section. 5 baseline repositories available.';
+      responseNode = 'Navigating to [Projects]: AI Study Notes Summarizer (deployed) & upcoming concepts.';
       document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-    } else if (trimmed === 'journey' || trimmed === 'git log' || trimmed === 'timeline') {
-      responseNode = 'Navigating to [Journey] section. Rendering SVG Git DAG graph.';
+    } else if (trimmed === 'journey' || trimmed === 'timeline') {
+      responseNode = 'Navigating to [Learning Journey]: MATS University, CS50x, CS50P & projects.';
       document.getElementById('journey')?.scrollIntoView({ behavior: 'smooth' });
     } else if (trimmed === 'skills' || trimmed === 'cat skills') {
-      responseNode = 'Navigating to [Skills] section: C/C++, Python, Linear Algebra, PyTorch, Linux.';
+      responseNode = 'Navigating to [Skills]: Python, C, Git, GitHub, VS Code, and learning areas.';
       document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' });
     } else if (trimmed === 'about' || trimmed === 'cat about') {
-      responseNode = 'Navigating to [About] section: Student background, 1st-year goals & philosophy.';
+      responseNode = 'Navigating to [About]: Student background at MATS University & learning philosophy.';
       document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
     } else if (trimmed === 'contact' || trimmed === 'mail') {
-      responseNode = 'Navigating to [Contact] section. Direct email & links.';
+      responseNode = 'Navigating to [Contact]: GitHub, LinkedIn & direct messaging.';
       document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
     } else if (trimmed === 'theme' || trimmed === 'toggle theme' || trimmed === 'switch') {
       responseNode = 'Switching active visual identity...';
       toggleTheme();
     } else if (trimmed === 'whoami') {
-      responseNode = 'Raj Golder · B.Tech CSE (AI/ML) · 1st Year · Systems & Foundational ML';
+      responseNode = 'Raj Golder · CSE Student Building Practical Projects · MATS University (First Year)';
     } else if (trimmed === 'clear') {
       setHistory([]);
       setInputVal('');

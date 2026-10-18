@@ -16,16 +16,9 @@
     </pattern>
   </defs>
 
-  <!-- Paper background -->
-  <rect width="600" height="800" fill="#fafafa" />
-  <rect width="600" height="800" fill="url(#graph-grid)" opacity="0.6" />
-
-  <!-- Drafting border and margin marks -->
-  <rect x="25" y="25" width="550" height="750" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 4" />
-  <text x="35" y="45" font-family="'JetBrains Mono', monospace" font-size="10" fill="#64748b" letter-spacing="1.5">FIG. 01 — SYSTEMS RESEARCHER PORTRAIT STUDY</text>
-  <text x="470" y="45" font-family="'JetBrains Mono', monospace" font-size="10" fill="#94a3b8">SCALE 1:1</text>
-  <text x="35" y="765" font-family="'JetBrains Mono', monospace" font-size="9" fill="#94a3b8">COORD: [37.7749° N, 122.4194° W] // INVARIANTS LAB</text>
-  <text x="440" y="765" font-family="'JetBrains Mono', monospace" font-size="9" fill="#64748b">STUDY #042-B</text>
+  <!-- Natural sketch directly on paper without boxed frame -->
+  <text x="35" y="45" font-family="'JetBrains Mono', monospace" font-size="9" fill="#94a3b8" letter-spacing="1">PORTRAIT SKETCH // FIELD STUDY</text>
+  <text x="470" y="45" font-family="'JetBrains Mono', monospace" font-size="9" fill="#94a3b8">GRAPHITE</text>
 
   <!-- Technical Axis and Guides -->
   <line x1="300" y1="60" x2="300" y2="740" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="2 4" />

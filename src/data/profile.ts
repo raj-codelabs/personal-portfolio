@@ -2,26 +2,26 @@ import { Profile } from '../types';
 
 export const profileData: Profile = {
   name: 'Raj Golder',
-  title: 'B.Tech CSE (AI/ML) Undergraduate',
-  subtitle: 'Computer Science Student & Systems Explorer',
-  department: 'Department of Computer Science & Engineering',
-  semester: 'First Year · Undergrad',
-  institutionNote: 'Undergraduate Program [Replace with University Name]',
+  title: 'B.Tech CSE (AI/ML) Student',
+  subtitle: 'MATS University · Class of 2030',
+  department: 'B.Tech Computer Science & Engineering (AI/ML) · MATS University',
+  semester: 'Class of 2030',
+  institutionNote: 'MATS University · India',
   currentInterests: [
-    'Deep Learning Foundations & Backpropagation',
-    'Low-Level Systems & Memory Invariants in C/C++',
-    'Discrete Mathematics & Graph Algorithms',
-    'Applied Linear Algebra for Machine Learning',
+    'Python & Practical Tooling',
+    'C Programming & Systems Fundamentals',
+    'Data Structures & Algorithms Basics',
+    'Applied AI/ML for Study Productivity',
   ],
   shortBio:
-    'First-year computer science undergraduate digging into the mechanics of software from silicon to neural weights. Focused on understanding fundamental algorithms from first principles rather than relying solely on black-box libraries.',
+    'First-year CSE (AI/ML) student at MATS University. CS50x and CS50P completed. Currently building AI tools for studying.',
   philosophy:
-    'Build small, verify rigorously, and understand how the abstractions actually work underneath before stacking higher layers.',
+    'Learn the fundamentals, build small projects, and improve through experimentation.',
   contact: {
-    email: 'raj.golder@example.edu',
-    github: 'https://github.com/example-placeholder/raj-golder',
-    linkedin: 'https://linkedin.com/in/example-placeholder-raj-golder',
-    location: 'Campus Residence · Open to Summer 2027 Research & Apprenticeships',
-    statusLabel: 'AVAILABLE FOR COLLABORATION',
+    email: 'contact@rajgolder.dev',
+    github: 'https://github.com/raj-codelabs',
+    linkedin: 'https://linkedin.com/in/rajgolder',
+    location: 'MATS University · Raipur, India',
+    statusLabel: 'OPEN TO INTERNSHIPS & COLLABORATIONS',
   },
 };

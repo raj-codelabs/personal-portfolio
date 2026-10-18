@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
-import { ThemeToggle } from './ThemeToggle';
-import { Menu, X } from 'lucide-react';
+import { ExternalLink, Menu, X } from 'lucide-react';
 
 interface NavbarProps {
   activeSection?: string;
@@ -15,7 +14,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
 
   const navLinks = [
     { href: '#projects', label: 'Projects' },
-    { href: '#journey', label: 'Journey' },
+    { href: '#journey', label: 'Timeline' },
     { href: '#skills', label: 'Skills' },
     { href: '#about', label: 'About' },
     { href: '#contact', label: 'Contact' },
@@ -30,21 +29,21 @@ export const Navbar: React.FC<NavbarProps> = () => {
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4 md:gap-8">
-        {/* Zone 1: Brand */}
+        {/* Zone 1: Brand ($ raj-golder▌) */}
         <div className="shrink-0 flex items-center">
           <a
             href="#home"
             className={`text-sm md:text-base font-semibold transition-colors focus-visible:outline-none ${
               isStdout
-                ? 'font-mono text-[#58a6ff] hover:text-[#79b8ff]'
-                : 'font-serif text-[#302d29] hover:text-[#0d5c6e] tracking-tight'
+                ? 'font-mono text-[#f1f5f9] hover:text-[#00e5c0]'
+                : 'font-serif text-[#1c1917] hover:text-[#1d4ed8] tracking-tight'
             }`}
           >
             {isStdout ? (
               <span className="flex items-center gap-1.5">
-                <span className="text-[#3fb950]">$</span>
-                <span>whoami</span>
-                <span className="inline-block w-1.5 h-3.5 bg-[#58a6ff] animate-pulse ml-0.5" aria-hidden="true" />
+                <span className="text-[#00e5c0] font-bold">$</span>
+                <span className="font-bold">raj-golder</span>
+                <span className="text-[#00e5c0] animate-pulse" aria-hidden="true">▌</span>
               </span>
             ) : (
               <span className="flex items-baseline gap-2">
@@ -68,8 +67,8 @@ export const Navbar: React.FC<NavbarProps> = () => {
               href={link.href}
               className={`transition-colors whitespace-nowrap shrink-0 py-1 ${
                 isStdout
-                  ? 'text-[#8b949e] hover:text-[#e6edf3] font-mono hover:border-b hover:border-[#58a6ff]'
-                  : 'text-[#686158] hover:text-[#0d5c6e] font-sans hover:border-b hover:border-[#0d5c6e]'
+                  ? 'text-[#94a3b8] hover:text-[#f1f5f9] font-mono hover:border-b hover:border-[#00e5c0]'
+                  : 'text-[#686158] hover:text-[#1d4ed8] font-sans hover:border-b hover:border-[#1d4ed8]'
               }`}
             >
               {link.label}
@@ -77,9 +76,21 @@ export const Navbar: React.FC<NavbarProps> = () => {
           ))}
         </nav>
 
-        {/* Zone 3: Theme Toggle & Mobile Trigger */}
+        {/* Zone 3: GitHub ↗ outline CTA & Mobile Trigger */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          <ThemeToggle />
+          <a
+            href="https://github.com/raj-codelabs"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded border transition-colors ${
+              isStdout
+                ? 'border-[#242e40] text-[#f1f5f9] hover:border-[#00e5c0] hover:text-[#00e5c0] bg-[#121722] font-mono'
+                : 'border-[#e2dbce] text-[#1c1917] hover:border-[#1d4ed8] hover:text-[#1d4ed8] bg-[#ffffff] font-serif'
+            }`}
+          >
+            <span>GitHub</span>
+            <ExternalLink className="w-3 h-3" aria-hidden="true" />
+          </a>
 
           {/* Mobile Menu Button */}
           <button
@@ -125,6 +136,20 @@ export const Navbar: React.FC<NavbarProps> = () => {
               {link.label}
             </a>
           ))}
+          <a
+            href="https://github.com/raj-codelabs"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMobileMenuOpen(false)}
+            className={`block px-3 py-2 text-sm rounded border transition-colors flex items-center justify-between ${
+              isStdout
+                ? 'border-[#30363d] text-[#00e5c0] font-mono'
+                : 'border-[#e2dbce] text-[#1d4ed8] font-serif'
+            }`}
+          >
+            <span>GitHub Profile</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
         </nav>
       )}
     </header>

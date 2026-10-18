@@ -180,51 +180,67 @@ export { purgeExpiredSessions } from './auth.js';
 function seedInitialDataIfEmpty() {
   const now = new Date().toISOString();
 
-  // 1. Seed Profile
-  const profileRow = db.prepare('SELECT id FROM profile WHERE id = ?').get('current');
+  const defaultProfile = {
+    ...profileData,
+    primaryCtaText: 'Explore Projects',
+    primaryCtaLink: '#projects',
+    secondaryCtaText: 'Visit GitHub',
+    secondaryCtaLink: 'https://github.com/raj-codelabs',
+    avatarUrl: '',
+    idBadgeNumber: 'MATS-2026-CSE',
+    idBadgeQrUrl: 'https://github.com/raj-codelabs',
+    sketchGrayscaleUrl: '/assets/sketch-grayscale.svg',
+    sketchColorUrl: '/assets/sketch-color.svg',
+    sketchCaption: 'Raj Golder · First-year CSE student at MATS University studying programming fundamentals.',
+    contact: {
+      ...profileData.contact,
+      customLinks: [],
+    },
+  };
+
+  const defaultSettings = {
+    siteTitle: 'Raj Golder · CSE Student Building Practical Projects',
+    siteDescription: 'Portfolio of Raj Golder, a first-year CSE student building practical projects, developing programming fundamentals, and exploring AI/ML step by step.',
+    defaultTheme: 'stdout',
+    themeToggleVisible: true,
+    footerNote: '© 2026 Raj Golder. Built as a record of my learning and development.',
+    sectionsVisibility: {
+      hero: true,
+      projects: true,
+      journey: true,
+      skills: true,
+      about: true,
+      contact: true,
+    },
+    sectionOrder: ['hero', 'projects', 'journey', 'skills', 'about', 'contact'],
+  };
+
+  // 1. Seed or Refresh Profile
+  const profileRow = db.prepare('SELECT id, data_json FROM profile WHERE id = ?').get('current') as { id: string; data_json: string } | undefined;
   if (!profileRow) {
-    const defaultProfile = {
-      ...profileData,
-      primaryCtaText: 'Inspect Repositories',
-      primaryCtaLink: '#projects',
-      secondaryCtaText: 'Milestone DAG Graph',
-      secondaryCtaLink: '#journey',
-      avatarUrl: '',
-      contact: {
-        ...profileData.contact,
-        customLinks: [],
-      },
-    };
     db.prepare('INSERT INTO profile (id, data_json, updated_at) VALUES (?, ?, ?)')
       .run('current', JSON.stringify(defaultProfile), now);
+  } else if (profileRow.data_json.includes('silicon to neural weights') || profileRow.data_json.includes('bare-metal scalar equivalent') || profileRow.data_json.includes('Invariants')) {
+    db.prepare('UPDATE profile SET data_json = ?, updated_at = ? WHERE id = ?')
+      .run(JSON.stringify(defaultProfile), now, 'current');
   }
 
-  // 2. Seed Site Settings
-  const settingsRow = db.prepare('SELECT id FROM site_settings WHERE id = ?').get('current');
+  // 2. Seed or Refresh Site Settings
+  const settingsRow = db.prepare('SELECT id, data_json FROM site_settings WHERE id = ?').get('current') as { id: string; data_json: string } | undefined;
   if (!settingsRow) {
-    const defaultSettings = {
-      siteTitle: 'Raj Golder · Systems & Foundational Machine Learning',
-      siteDescription: 'First-principles engineering portfolio of Raj Golder, B.Tech CSE (AI/ML) student, featuring live invariant workbenches, C memory allocators, and autograd DAGs.',
-      defaultTheme: 'stdout',
-      themeToggleVisible: true,
-      footerNote: 'All project architectures and invariant diagrams documented for academic review.',
-      sectionsVisibility: {
-        hero: true,
-        projects: true,
-        journey: true,
-        skills: true,
-        about: true,
-        contact: true,
-      },
-      sectionOrder: ['hero', 'projects', 'journey', 'skills', 'about', 'contact'],
-    };
     db.prepare('INSERT INTO site_settings (id, data_json, updated_at) VALUES (?, ?, ?)')
       .run('current', JSON.stringify(defaultSettings), now);
+  } else if (settingsRow.data_json.includes('Systems & Foundational Machine Learning')) {
+    db.prepare('UPDATE site_settings SET data_json = ?, updated_at = ? WHERE id = ?')
+      .run(JSON.stringify(defaultSettings), now, 'current');
   }
 
-  // 3. Seed Projects
+  // 3. Seed or Refresh Projects
+  const oldProjects = db.prepare("SELECT id FROM projects WHERE id IN ('micro-autograd-mlp', 'c-allocator-sandbox')").all();
   const projectCount = (db.prepare('SELECT COUNT(*) as count FROM projects').get() as { count: number }).count;
-  if (projectCount === 0) {
+  if (projectCount === 0 || oldProjects.length > 0) {
+    db.prepare('DELETE FROM projects').run();
+
     const insertProject = db.prepare(`
       INSERT INTO projects (
         id, title, slug, subtitle, problem, built, architecture, lessons_json,
@@ -252,7 +268,7 @@ function seedInitialDataIfEmpty() {
         null,
         JSON.stringify([]),
         p.title,
-        idx < 3 ? 1 : 0, // feature first 3
+        idx === 0 ? 1 : 0, // feature only the deployed project first
         1, // published
         idx,
         null,
@@ -263,9 +279,13 @@ function seedInitialDataIfEmpty() {
     });
   }
 
-  // 4. Seed Skills & Categories
+  // 4. Seed or Refresh Skills & Categories
+  const oldSkills = db.prepare("SELECT id FROM skills WHERE name IN ('GDB & Valgrind', 'C++', 'TypeScript', 'NumPy', 'Valgrind', 'SVD')").all();
   const categoryCount = (db.prepare('SELECT COUNT(*) as count FROM skill_categories').get() as { count: number }).count;
-  if (categoryCount === 0) {
+  if (categoryCount === 0 || oldSkills.length > 0) {
+    db.prepare('DELETE FROM skills').run();
+    db.prepare('DELETE FROM skill_categories').run();
+
     const insertCat = db.prepare(`
       INSERT INTO skill_categories (id, category, kicker, description, display_order, is_published)
       VALUES (?, ?, ?, ?, ?, ?)
@@ -286,9 +306,12 @@ function seedInitialDataIfEmpty() {
     });
   }
 
-  // 5. Seed Milestones
+  // 5. Seed or Refresh Milestones
+  const oldMilestones = db.prepare("SELECT id FROM milestones WHERE id IN ('m4-c-memory-allocator', 'm5-scratch-autograd-engine')").all();
   const milestoneCount = (db.prepare('SELECT COUNT(*) as count FROM milestones').get() as { count: number }).count;
-  if (milestoneCount === 0) {
+  if (milestoneCount === 0 || oldMilestones.length > 0) {
+    db.prepare('DELETE FROM milestones').run();
+
     const insertMilestone = db.prepare(`
       INSERT INTO milestones (
         id, log_number, commit_hash, branch, branch_label, date, title,

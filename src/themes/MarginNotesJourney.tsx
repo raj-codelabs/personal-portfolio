@@ -22,15 +22,15 @@ export const MarginNotesJourney: React.FC<MarginNotesJourneyProps> = ({ mileston
   return (
     <div className="space-y-6 text-left">
       {/* Archival Chapter Heading */}
-      <div className="p-4 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] flex flex-wrap items-baseline justify-between gap-3 text-xs shadow-xs">
+      <div className="p-4 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] flex flex-wrap items-baseline justify-between gap-3 text-xs shadow-xs font-serif">
         <div className="flex items-center gap-2">
           <BookOpen className="w-4 h-4 text-[var(--accent-primary)]" aria-hidden="true" />
-          <span className="font-display font-bold text-sm text-[var(--text-primary)]">
-            Chronological Research Log & Field Invariants
+          <span className="font-serif font-bold text-sm text-[var(--text-primary)]">
+            Chronological Learning Log &amp; Milestones
           </span>
         </div>
-        <span className="text-[var(--text-muted)] font-mono">
-          Semester I Observations · B.Tech CSE (AI/ML)
+        <span className="text-[var(--text-muted)] font-serif italic text-xs">
+          First Year Studies · B.Tech CSE (AI/ML) · MATS University
         </span>
       </div>
 

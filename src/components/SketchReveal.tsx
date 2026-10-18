@@ -1,21 +1,12 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { useCms } from '../context/CmsContext';
-import {
-  RotateCcw,
-  Sparkles,
-  Palette,
-  Eye,
-  Info,
-  Sliders,
-  CheckCircle2,
-  AlertCircle,
-} from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 
 interface SketchRevealProps {
-  brushRadius?: number; // Brush size in pixels, default 42
+  brushRadius?: number; // Brush size in pixels, default 40
 }
 
-export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 42 }) => {
+export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 40 }) => {
   const { profile } = useCms();
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -27,9 +18,6 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 42 }) 
   // Status and configuration
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [loadError, setLoadError] = useState(false);
-  const [revealedPercent, setRevealedPercent] = useState(0);
-  const [isFullyRevealed, setIsFullyRevealed] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
   const [isInteracting, setIsInteracting] = useState(false);
 
   // Source images: configured via CMS or default editorial SVG assets
@@ -37,18 +25,7 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 42 }) 
   const colorSrc = (profile as any)?.sketchColorUrl || '/assets/sketch-color.svg';
   const editorialCaption =
     (profile as any)?.sketchCaption ||
-    'FIG. 01 — Architectural pencil study with scalar autograd DAGs & drafting ink annotations.';
-
-  // Check reduced-motion preference
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setReducedMotion(mediaQuery.matches);
-
-    const handleMotionChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    mediaQuery.addEventListener('change', handleMotionChange);
-    return () => mediaQuery.removeEventListener('change', handleMotionChange);
-  }, []);
+    'Drawn directly on open notebook paper · Carbon pencil study with autograd scalar DAGs in the margin.';
 
   // Initialize and load images
   useEffect(() => {
@@ -68,7 +45,7 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 42 }) 
 
     colorImg.onerror = () => {
       if (!active) return;
-      console.warn('Could not load color sketch asset, checking fallback');
+      console.warn('Could not load color sketch asset');
       setLoadError(true);
     };
 
@@ -99,13 +76,11 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 42 }) 
       canvas.width = pixelWidth;
       canvas.height = pixelHeight;
 
-      // Setup or resize offscreen mask canvas
       if (!offscreenMaskRef.current) {
         offscreenMaskRef.current = document.createElement('canvas');
       }
       const maskCanvas = offscreenMaskRef.current;
 
-      // Retain existing mask if resizing
       const tempCanvas = document.createElement('canvas');
       tempCanvas.width = maskCanvas.width;
       tempCanvas.height = maskCanvas.height;
@@ -151,7 +126,7 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 42 }) 
       // 1. Clear visible reveal canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // 2. Draw the high-detail color image
+      // 2. Draw the color image
       ctx.drawImage(colorImg, 0, 0, canvas.width, canvas.height);
 
       // 3. Composite with persistent user brush mask
@@ -197,7 +172,7 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 42 }) 
     [brushRadius, requestRender]
   );
 
-  // Pointer event handlers (smooth across mouse, pen, and touch)
+  // Pointer event handlers
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     isPointerDownRef.current = true;
     (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
@@ -205,7 +180,6 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 42 }) 
   };
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    // Reveal color on hover for mouse/pen; on drag for touch
     if (e.pointerType === 'mouse' || isPointerDownRef.current) {
       paintBrush(e.clientX, e.clientY);
     }
@@ -216,7 +190,7 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 42 }) 
     try {
       (e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId);
     } catch {
-      // Ignore if pointer capture already released
+      // Ignore
     }
   };
 
@@ -236,9 +210,7 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 42 }) 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    setIsFullyRevealed(false);
     setIsInteracting(false);
-    setRevealedPercent(0);
   }, []);
 
   // Full reveal control
@@ -253,126 +225,101 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 42 }) 
     }
 
     requestRender();
-    setIsFullyRevealed(true);
     setIsInteracting(true);
-    setRevealedPercent(100);
   }, [requestRender]);
 
   return (
-    <div className="w-full max-w-[380px] mx-auto font-mono text-left select-none">
-      {/* Notebook Engineering Card Container */}
-      <div className="rounded-xl border border-[#cbd5e1] bg-[#ffffff] shadow-lg p-3 sm:p-4 space-y-3 relative overflow-hidden transition-all duration-200">
-        {/* Top Notebook Drafting Header */}
-        <div className="flex items-center justify-between border-b border-[#e2e8f0] pb-2 text-[10px] text-[#0284c7]">
-          <div className="flex items-center gap-1.5 font-bold tracking-wider">
-            <Palette className="w-3.5 h-3.5 text-[#0284c7]" />
-            <span>FIELD PORTRAIT NOTEBOOK</span>
-          </div>
-          <span className="text-[#64748b] text-[9px] font-mono">DRAFTING INK · 1:1</span>
+    <div className="w-full max-w-[340px] sm:max-w-[380px] mx-auto text-left select-none space-y-2">
+      {/* Top Blue-Ink Handwritten Hint */}
+      <div className="flex items-center justify-between px-1">
+        <div className="flex items-center gap-1.5 text-base sm:text-lg font-handwriting text-[#1d4ed8]">
+          <span>Move your cursor across the sketch</span>
+          <span className="text-xl leading-none">↴</span>
         </div>
-
-        {/* Interactive Dual-Layer Reveal Canvas Viewport */}
-        <div
-          ref={containerRef}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
-          className="relative w-full aspect-[3/4] rounded-lg overflow-hidden border border-[#cbd5e1] bg-[#fafafa] cursor-crosshair touch-none shadow-inner"
-          title="Move your cursor across the sketch to reveal color"
-          role="region"
-          aria-label="Interactive color-reveal portrait. Move your mouse or drag your finger over the sketch to reveal color."
-        >
-          {/* Base Layer: Black-and-white pencil sketch */}
-          <img
-            src={grayscaleSrc}
-            alt="Pencil sketch portrait"
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
-            onError={() => setLoadError(true)}
-          />
-
-          {/* Reveal Overlay Layer: Canvas drawing the color image through user's brush mask */}
-          <canvas
-            ref={canvasRef}
-            className="absolute inset-0 w-full h-full pointer-events-none z-10"
-          />
-
-          {/* Fallback warning if custom image fails to load */}
-          {loadError && (
-            <div className="absolute inset-0 bg-white/95 flex flex-col items-center justify-center p-4 text-center z-20 space-y-2 text-xs text-[#0f172a]">
-              <AlertCircle className="w-6 h-6 text-[#c25e38]" />
-              <div className="font-bold">Image Source Notice</div>
-              <p className="text-[11px] text-[#475569]">
-                Configure matching grayscale and color portrait URLs in Admin Dashboard &gt; Profile.
-              </p>
-              <button
-                onClick={() => setLoadError(false)}
-                className="px-3 py-1 rounded bg-[#0284c7] text-white text-xs font-semibold cursor-pointer"
-              >
-                Retry Standard Study
-              </button>
-            </div>
-          )}
-
-          {/* Subtle Technical Grid Reticle Accent */}
-          <div className="absolute top-2 left-2 pointer-events-none z-15 text-[8px] text-[#0284c7]/70 font-mono">
-            <span>[X, Y] VERIFIED</span>
-          </div>
-
-          <div className="absolute top-2 right-2 pointer-events-none z-15 text-[8px] text-[#64748b] font-mono">
-            <span>RES: 600×800</span>
-          </div>
-
-          {/* Interactive floating hint - visible until user moves cursor */}
-          {!isInteracting && (
-            <div className="absolute inset-x-4 bottom-4 pointer-events-none z-20 flex justify-center">
-              <div className="px-3 py-1.5 rounded-full bg-white/95 border border-[#0284c7]/50 shadow-md backdrop-blur-xs flex items-center gap-1.5 text-[10px] text-[#0284c7] font-semibold animate-bounce">
-                <Sparkles className="w-3 h-3 text-[#0284c7]" />
-                <span>Move your cursor to bring the sketch to life</span>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Controls Bar & Engineering Notation */}
-        <div className="space-y-2 pt-1">
-          <div className="flex items-center justify-between text-xs">
-            {/* Reset Control */}
-            <button
-              type="button"
-              onClick={handleReset}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-[#cbd5e1] bg-[#f8fafc] text-[#0f172a] hover:bg-[#e2e8f0] hover:border-[#94a3b8] active:scale-[0.98] transition-all text-[11px] font-semibold cursor-pointer focus-visible:ring-2 focus-visible:ring-[#0284c7]"
-              aria-label="Reset portrait to original black and white pencil sketch"
-            >
-              <RotateCcw className="w-3 h-3 text-[#0284c7]" />
-              <span>Reset Sketch</span>
-            </button>
-
-            {/* Quick Reveal All */}
-            <button
-              type="button"
-              onClick={handleRevealAll}
-              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[10px] text-[#0284c7] hover:bg-[#eff6ff] hover:text-[#0369a1] transition-colors cursor-pointer"
-              aria-label="Reveal entire color portrait"
-            >
-              <Eye className="w-3 h-3" />
-              <span>Reveal Full Color</span>
-            </button>
-          </div>
-
-          {/* Editorial Caption */}
-          <p className="text-[10px] text-[#475569] leading-tight italic pt-0.5 border-t border-[#f1f5f9]">
-            {editorialCaption}
-          </p>
-        </div>
+        <span className="text-xs font-handwriting text-[#78716c] hidden sm:inline">
+          (or drag finger on touch)
+        </span>
       </div>
 
-      {/* Helpful accessibility description */}
-      <div className="mt-2 px-1 text-[9px] text-[#64748b] leading-tight flex items-start gap-1">
-        <Info className="w-3 h-3 text-[#0284c7] shrink-0 mt-0.5" />
-        <span>
-          Persistent watercolor reveal mask. Drag with mouse or finger to paint color over the graphite lines.
-        </span>
+      {/* 
+        NO CARD CONTAINER, NO BORDER, NO SHADOW, NO FLOATING PANEL.
+        The pencil sketch is drawn directly onto the notebook paper,
+        with soft feathered edges blending into the paper substrate.
+      */}
+      <div
+        ref={containerRef}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        className="relative w-full aspect-[3/4] cursor-crosshair touch-none select-none"
+        style={{
+          maskImage: 'radial-gradient(ellipse 92% 92% at 50% 50%, black 75%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 92% 92% at 50% 50%, black 75%, transparent 100%)',
+        }}
+        role="region"
+        aria-label="Pencil sketch portrait drawn on notebook paper. Move your cursor or drag your finger across the sketch to reveal color."
+      >
+        {/* Base Layer: Black-and-white graphite pencil sketch sitting directly on paper */}
+        <img
+          src={grayscaleSrc}
+          alt="Black-and-white pencil portrait sketched on notebook paper"
+          className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none mix-blend-multiply"
+          onError={() => setLoadError(true)}
+        />
+
+        {/* Reveal Layer: Canvas drawing the color wash through user's feathered brush strokes */}
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 w-full h-full pointer-events-none z-10 mix-blend-multiply"
+        />
+
+        {/* Fallback warning if custom image fails to load */}
+        {loadError && (
+          <div className="absolute inset-0 bg-[#faf8f5]/95 flex flex-col items-center justify-center p-4 text-center z-20 space-y-2 text-xs font-serif text-[#1c1917]">
+            <AlertCircle className="w-5 h-5 text-[#c25e38]" />
+            <div className="font-bold">Portrait Image Notice</div>
+            <p className="text-[11px] text-[#78716c]">
+              Configure matching grayscale and color portrait URLs in Admin Dashboard &gt; Profile.
+            </p>
+            <button
+              onClick={() => setLoadError(false)}
+              className="text-[#1d4ed8] underline font-handwriting text-sm cursor-pointer"
+            >
+              Reload standard sketch study
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Notebook Margin Annotations & Discreet Reset Control */}
+      <div className="px-1 pt-1 space-y-1.5 border-t border-[#e2dbce]/60">
+        <div className="flex items-center justify-between text-xs">
+          {/* Discreet Reset Styled like a Handwritten Notebook Annotation */}
+          <button
+            type="button"
+            onClick={handleReset}
+            className="font-handwriting text-base text-[#1d4ed8] hover:text-[#1e40af] cursor-pointer inline-flex items-center gap-1.5 underline underline-offset-4 decoration-[#93c5fd] hover:decoration-[#1d4ed8] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1d4ed8]"
+            aria-label="Erase watercolor and restore black and white pencil sketch"
+          >
+            <span>↺ erase ink & return to graphite</span>
+          </button>
+
+          {/* Quick Reveal Wash Action */}
+          <button
+            type="button"
+            onClick={handleRevealAll}
+            className="font-handwriting text-sm text-[#78716c] hover:text-[#1d4ed8] cursor-pointer transition-colors focus-visible:outline-none"
+            aria-label="Reveal entire watercolor edition"
+          >
+            <span>[view full watercolor wash]</span>
+          </button>
+        </div>
+
+        {/* Editorial Pencil Caption */}
+        <p className="font-serif italic text-xs text-[#78716c] leading-relaxed">
+          {editorialCaption}
+        </p>
       </div>
     </div>
   );

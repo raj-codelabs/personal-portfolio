@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { useCms } from '../context/CmsContext';
 import { Milestone } from '../types';
 import { milestonesData } from '../data/journey';
 import { StdoutJourney } from '../themes/StdoutJourney';
 import { MarginNotesJourney } from '../themes/MarginNotesJourney';
-import { GitBranch, ListFilter } from 'lucide-react';
 
 export const Journey: React.FC = () => {
   const { theme } = useTheme();
   const { milestones: cmsMilestones } = useCms();
-  // Allow toggling between Graph view and Field Notes view regardless of theme
-  const [viewMode, setViewMode] = useState<'graph' | 'notes'>('graph');
+  const isStdout = theme === 'stdout';
 
   const activeMilestones: Milestone[] =
     cmsMilestones && cmsMilestones.length > 0
@@ -35,53 +33,39 @@ export const Journey: React.FC = () => {
     <section
       id="journey"
       aria-labelledby="journey-heading"
-      className="py-12 sm:py-16 space-y-8 text-left"
+      className="py-12 sm:py-16 space-y-8 text-left scroll-mt-16"
     >
       {/* Section Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[var(--border-subtle)]">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono text-[var(--accent-primary)] mb-1">
-            <GitBranch className="w-3.5 h-3.5" aria-hidden="true" />
-            <span>02 // TOPOLOGICAL MILESTONES & CURRICULUM DAG</span>
-          </div>
+          {isStdout ? (
+            <div className="text-xs font-mono text-[#00e5c0] mb-1 uppercase tracking-wider flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#00e5c0]" />
+              TIMELINE · ACADEMIC &amp; SOFTWARE MILESTONES
+            </div>
+          ) : (
+            <div className="text-sm font-handwriting text-[#1d4ed8] font-bold mb-1">
+              Field Chronicle &amp; Coursework Notes
+            </div>
+          )}
           <h2
             id="journey-heading"
-            className="text-2xl sm:text-3xl font-bold font-display tracking-tight text-[var(--text-primary)]"
+            className={`text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)] ${
+              isStdout ? 'font-mono' : 'font-serif'
+            }`}
           >
-            Developmental Journey
+            Timeline
           </h2>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-body mt-1 max-w-xl">
-            Chronological commit DAG documenting systems programming in C, mathematical derivations, heap allocator design, and reverse-mode autodiff.
+          <p className="text-sm sm:text-base text-[var(--text-secondary)] font-body mt-1 max-w-xl">
+            {isStdout
+              ? 'Chronological milestones tracking MATS University coursework, CS50x and CS50P completion, and practical builds.'
+              : 'Chronological notebook entries documenting foundational computer science studies, coding observations, and key takeaways.'}
           </p>
-        </div>
-
-        {/* View Switcher: Graph vs Notes */}
-        <div className="flex items-center gap-1 p-1 rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-xs font-mono shadow-xs self-start sm:self-auto">
-          <button
-            onClick={() => setViewMode('graph')}
-            className={`px-3 py-1 rounded transition-colors cursor-pointer ${
-              viewMode === 'graph'
-                ? 'bg-[var(--accent-primary)] text-[#0b0e14] font-bold shadow-xs'
-                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-            }`}
-          >
-            Topology DAG
-          </button>
-          <button
-            onClick={() => setViewMode('notes')}
-            className={`px-3 py-1 rounded transition-colors cursor-pointer ${
-              viewMode === 'notes'
-                ? 'bg-[var(--accent-primary)] text-[#0b0e14] font-bold shadow-xs'
-                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-            }`}
-          >
-            Field Notes
-          </button>
         </div>
       </div>
 
-      {/* Render Selected View */}
-      {viewMode === 'graph' ? (
+      {/* Render Theme-Specific View */}
+      {isStdout ? (
         <StdoutJourney milestones={activeMilestones} />
       ) : (
         <MarginNotesJourney milestones={activeMilestones} />

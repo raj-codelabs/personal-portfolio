@@ -28,7 +28,7 @@ export interface Milestone {
   id: string;
   logNumber: string;
   commitHash: string;
-  branch: 'main' | 'ml-core' | 'systems';
+  branch: 'main' | 'ml-core' | 'systems' | 'python' | 'projects' | 'foundations' | string;
   branchLabel?: string;
   date: string;
   title: string;
@@ -41,7 +41,7 @@ export interface Milestone {
 
 export interface SkillItem {
   name: string;
-  level: 'Core Fluency' | 'Active Exploration' | 'Foundations';
+  level: 'Core Fluency' | 'Active Exploration' | 'Foundations' | 'Beginner' | 'Version Control' | 'Repositories' | 'Code Editor' | 'Active Study' | string;
   focusArea: string;
 }
 
