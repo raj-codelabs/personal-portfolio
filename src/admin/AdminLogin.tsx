@@ -53,6 +53,14 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onBackToSite }) => {
     }
   };
 
+  const handleFillDefault = () => {
+    setEmail('admin@rajgolder.dev');
+    setPassword('AdminPassword2026!');
+    if (needsSetup) {
+      setConfirmPassword('AdminPassword2026!');
+    }
+  };
+
   const displayedError = localError || error;
 
   return (
@@ -79,9 +87,29 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onBackToSite }) => {
           </h1>
           <p className="text-xs text-[var(--text-secondary)] font-body leading-relaxed">
             {needsSetup
-              ? 'No administrator is currently provisioned. Enter your administrative credentials to securely initialize the CMS. Once created, public registration is permanently disabled.'
-              : 'Sign in with your authorized credentials to manage portfolio content, repositories, and site invariants.'}
+              ? 'No administrator is currently provisioned. Click "Fill Credentials" below to initialize with default credentials, or enter your custom administrator details.'
+              : 'Sign in with your authorized credentials to manage portfolio content, projects, and site invariants.'}
           </p>
+        </div>
+
+        {/* Quick Credentials / Default Info Helper */}
+        <div className="p-3 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] space-y-2 text-left">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider font-semibold">
+              Default Credentials
+            </span>
+            <button
+              type="button"
+              onClick={handleFillDefault}
+              className="text-[11px] font-mono text-[var(--accent-primary)] hover:underline cursor-pointer font-bold"
+            >
+              Fill Credentials
+            </button>
+          </div>
+          <div className="text-[11px] font-mono text-[var(--text-secondary)] space-y-0.5">
+            <div><span className="text-[var(--text-muted)]">Email:</span> admin@rajgolder.dev</div>
+            <div><span className="text-[var(--text-muted)]">Password:</span> AdminPassword2026!</div>
+          </div>
         </div>
 
         {/* Error Alert */}

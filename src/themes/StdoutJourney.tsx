@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { Milestone } from '../types';
 import { Milestone as MilestoneIcon, ChevronDown, ChevronUp, BookOpen, Tag } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { spring, distance } from '../motion/motion-tokens';
+import { useReducedMotionGlobal } from '../motion/useReducedMotionGlobal';
 
 interface StdoutJourneyProps {
   milestones: Milestone[];
 }
 
 export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
+  const reducedMotion = useReducedMotionGlobal();
   const [selectedMilestoneId, setSelectedMilestoneId] = useState<string>(
     milestones[milestones.length - 1]?.id || milestones[0]?.id
   );
@@ -53,7 +57,7 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
           <span className="text-[#f1f5f9] font-bold">Chronological Learning Milestones</span>
         </div>
         <div className="text-[11px] text-[#64748b]">
-          MATS University coursework &amp; verified self-directed builds
+          Foundational coursework &amp; verified self-directed builds
         </div>
       </div>
 
@@ -162,10 +166,12 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
                   const displayBranch = branchDisplayMap[m.branch.toLowerCase()] || branchDisplayMap[(m.branchLabel || '').toLowerCase()] || m.branch;
 
                   return (
-                    <button
+                    <motion.button
                       key={m.id}
                       onClick={() => setSelectedMilestoneId(m.id)}
-                      className={`w-full text-left p-3 rounded border transition-all text-xs font-mono cursor-pointer flex items-center justify-between gap-3 ${
+                      whileTap={reducedMotion ? undefined : { scale: 0.99 }}
+                      transition={spring.snap}
+                      className={`w-full text-left p-3 rounded border transition-colors text-xs font-mono cursor-pointer flex items-center justify-between gap-3 ${
                         isSelected
                           ? 'border-[#00e5c0] bg-[#1a2332] text-[#f1f5f9]'
                           : 'border-[#242e40] bg-[#0d121c] text-[#8b949e] hover:border-[#384660] hover:text-[#f1f5f9]'
@@ -181,7 +187,7 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
                         <span className="truncate">{m.title}</span>
                       </div>
                       <span className="text-[11px] text-[#64748b] shrink-0">{displayBranch} · {m.date}</span>
-                    </button>
+                    </motion.button>
                   );
                 })}
               </div>

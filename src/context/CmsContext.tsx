@@ -32,12 +32,21 @@ interface CmsContextType {
   loading: boolean;
   error: string | null;
   refreshCms: () => Promise<void>;
+  updateProfileDirectly: (updates: Partial<CmsProfile>) => Promise<void>;
 }
 
 const CmsContext = createContext<CmsContextType | undefined>(undefined);
 
 export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [profile, setProfile] = useState<CmsProfile>(fallbackProfile as CmsProfile);
+  const [profile, setProfile] = useState<CmsProfile>(() => {
+    try {
+      const saved = localStorage.getItem('raj_portfolio_profile_override');
+      if (saved) {
+        return { ...fallbackProfile, ...JSON.parse(saved) } as CmsProfile;
+      }
+    } catch {}
+    return fallbackProfile as CmsProfile;
+  });
   const [projects, setProjects] = useState<CmsProject[]>(
     fallbackProjects.map((p, idx) => ({
       ...p,
@@ -79,12 +88,38 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const updateProfileDirectly = useCallback(async (updates: Partial<CmsProfile>) => {
+    setProfile((prev) => {
+      const merged = { ...prev, ...updates };
+      try {
+        localStorage.setItem('raj_portfolio_profile_override', JSON.stringify(merged));
+      } catch (e) {
+        console.warn('Could not save to localStorage:', e);
+      }
+      return merged;
+    });
+
+    try {
+      await api.updateProfile(updates as CmsProfile);
+    } catch {
+      // Ignored if offline/unauthenticated
+    }
+  }, []);
+
   const fetchCmsData = useCallback(async () => {
     try {
       setLoading(true);
       const data: PublicPortfolioData = await api.getPublicPortfolio();
       if (data) {
-        if (data.profile && data.profile.name) setProfile(data.profile);
+        let mergedProfile = data.profile;
+        try {
+          const saved = localStorage.getItem('raj_portfolio_profile_override');
+          if (saved) {
+            mergedProfile = { ...data.profile, ...JSON.parse(saved) };
+          }
+        } catch {}
+
+        if (mergedProfile && mergedProfile.name) setProfile(mergedProfile);
         if (Array.isArray(data.projects)) setProjects(data.projects);
         if (Array.isArray(data.skillCategories)) setSkillCategories(data.skillCategories);
         if (Array.isArray(data.milestones)) setMilestones(data.milestones);
@@ -115,6 +150,7 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         loading,
         error,
         refreshCms: fetchCmsData,
+        updateProfileDirectly,
       }}
     >
       {children}

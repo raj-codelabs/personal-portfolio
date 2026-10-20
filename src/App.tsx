@@ -25,19 +25,23 @@ function PortfolioMain() {
   const { isAuthenticated, loading: authLoading } = useAdminAuth();
   const [view, setView] = useState<'public' | 'admin'>('public');
 
-  // Sync hash routing: #admin loads admin view, others load public
+  // Sync routing: #admin or /admin loads admin view, others load public
   useEffect(() => {
-    const checkHash = () => {
-      if (window.location.hash === '#admin') {
+    const checkRoute = () => {
+      if (window.location.hash === '#admin' || window.location.pathname === '/admin') {
         setView('admin');
-      } else if (view === 'admin' && window.location.hash !== '#admin') {
+      } else if (view === 'admin' && window.location.hash !== '#admin' && window.location.pathname !== '/admin') {
         setView('public');
       }
     };
 
-    checkHash();
-    window.addEventListener('hashchange', checkHash);
-    return () => window.removeEventListener('hashchange', checkHash);
+    checkRoute();
+    window.addEventListener('hashchange', checkRoute);
+    window.addEventListener('popstate', checkRoute);
+    return () => {
+      window.removeEventListener('hashchange', checkRoute);
+      window.removeEventListener('popstate', checkRoute);
+    };
   }, [view]);
 
   // Sync dynamic HTML Title & Meta
@@ -59,7 +63,8 @@ function PortfolioMain() {
   };
 
   const handleExitAdmin = () => {
-    window.history.pushState(null, '', window.location.pathname);
+    window.history.pushState(null, '', window.location.pathname === '/admin' ? '/' : window.location.pathname);
+    window.location.hash = '';
     setView('public');
   };
 

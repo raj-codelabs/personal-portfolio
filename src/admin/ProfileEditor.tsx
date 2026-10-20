@@ -17,7 +17,9 @@ import {
   MapPin,
   FileText,
   Sliders,
+  Camera,
 } from 'lucide-react';
+import { PhotoChangeModal } from '../components/PhotoChangeModal';
 
 export interface ProfileEditorProps {
   initialSection?: 'all' | 'profile' | 'about' | 'contact';
@@ -31,6 +33,7 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ initialSection = '
   const [customLinkLabel, setCustomLinkLabel] = useState('');
   const [customLinkUrl, setCustomLinkUrl] = useState('');
   const [saving, setSaving] = useState(false);
+  const [photoModalMode, setPhotoModalMode] = useState<'id-card' | 'white-mode' | null>(null);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   useEffect(() => {
@@ -305,10 +308,20 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ initialSection = '
             {/* Signature Interaction 1: Dark Theme Developer ID Card */}
             <div className="sm:col-span-2 pt-3 border-t border-[var(--border-subtle)] space-y-3">
               <div className="flex items-center justify-between">
-                <span className="font-bold text-[var(--accent-primary)] uppercase tracking-wider text-[11px]">
-                  Dark Theme: Developer ID Card Settings
-                </span>
-                <span className="text-[10px] text-[var(--text-muted)]">stdout theme hero</span>
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-[var(--accent-primary)] uppercase tracking-wider text-[11px]">
+                    Dark Theme: Developer ID Card Settings
+                  </span>
+                  <span className="text-[10px] text-[var(--text-muted)]">stdout theme hero</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setPhotoModalMode('id-card')}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-[var(--accent-primary)]/40 text-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/10 text-xs font-mono font-medium cursor-pointer transition-colors"
+                >
+                  <Camera className="w-3.5 h-3.5" />
+                  <span>Change ID Photo</span>
+                </button>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
@@ -342,10 +355,20 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ initialSection = '
             {/* Signature Interaction 2: White Theme Color-Reveal Notebook Sketch */}
             <div className="sm:col-span-2 pt-3 border-t border-[var(--border-subtle)] space-y-3">
               <div className="flex items-center justify-between">
-                <span className="font-bold text-[var(--accent-copper)] uppercase tracking-wider text-[11px]">
-                  White Theme: Notebook Color-Reveal Sketch Settings
-                </span>
-                <span className="text-[10px] text-[var(--text-muted)]">margin-notes theme hero</span>
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-[var(--accent-copper)] uppercase tracking-wider text-[11px]">
+                    White Theme: Notebook Color-Reveal Sketch Settings
+                  </span>
+                  <span className="text-[10px] text-[var(--text-muted)]">margin-notes theme hero</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setPhotoModalMode('white-mode')}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-[#c25e38]/40 text-[#c25e38] hover:bg-[#c25e38]/10 text-xs font-mono font-medium cursor-pointer transition-colors"
+                >
+                  <Camera className="w-3.5 h-3.5" />
+                  <span>Change White Mode Photos</span>
+                </button>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
@@ -676,6 +699,15 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ initialSection = '
           </button>
         </div>
       </form>
+
+      {/* Photo Change Modal */}
+      {photoModalMode && (
+        <PhotoChangeModal
+          isOpen={Boolean(photoModalMode)}
+          onClose={() => setPhotoModalMode(null)}
+          initialMode={photoModalMode}
+        />
+      )}
     </div>
   );
 };

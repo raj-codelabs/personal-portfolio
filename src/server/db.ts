@@ -1,6 +1,7 @@
 import { DatabaseSync } from 'node:sqlite';
 import path from 'node:path';
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import { profileData } from '../data/profile.js';
 import { projectsData } from '../data/projects.js';
 import { skillsData } from '../data/skills.js';
@@ -180,6 +181,18 @@ export { purgeExpiredSessions } from './auth.js';
 function seedInitialDataIfEmpty() {
   const now = new Date().toISOString();
 
+  // 0. Seed Default Admin if none exists
+  const adminCount = (db.prepare('SELECT COUNT(*) as count FROM admins').get() as { count: number }).count;
+  if (adminCount === 0) {
+    const salt = crypto.randomBytes(16).toString('hex');
+    const hash = crypto.scryptSync('AdminPassword2026!', salt, 64).toString('hex');
+    db.prepare(`
+      INSERT INTO admins (id, email, password_hash, salt, created_at, last_login_at)
+      VALUES (?, ?, ?, ?, ?, NULL)
+    `).run('admin-primary', 'admin@rajgolder.dev', hash, salt, now);
+    console.log('[Seed] Provisioned initial admin: admin@rajgolder.dev');
+  }
+
   const defaultProfile = {
     ...profileData,
     primaryCtaText: 'Explore Projects',
@@ -187,11 +200,11 @@ function seedInitialDataIfEmpty() {
     secondaryCtaText: 'Visit GitHub',
     secondaryCtaLink: 'https://github.com/raj-codelabs',
     avatarUrl: '',
-    idBadgeNumber: 'MATS-2026-CSE',
+    idBadgeNumber: 'RG-2026-CSE',
     idBadgeQrUrl: 'https://github.com/raj-codelabs',
     sketchGrayscaleUrl: '/assets/sketch-grayscale.svg',
     sketchColorUrl: '/assets/sketch-color.svg',
-    sketchCaption: 'Raj Golder · First-year CSE student at MATS University studying programming fundamentals.',
+    sketchCaption: 'Raj Golder · First-year CSE student studying programming fundamentals.',
     contact: {
       ...profileData.contact,
       customLinks: [],
@@ -220,7 +233,13 @@ function seedInitialDataIfEmpty() {
   if (!profileRow) {
     db.prepare('INSERT INTO profile (id, data_json, updated_at) VALUES (?, ?, ?)')
       .run('current', JSON.stringify(defaultProfile), now);
-  } else if (profileRow.data_json.includes('silicon to neural weights') || profileRow.data_json.includes('bare-metal scalar equivalent') || profileRow.data_json.includes('Invariants')) {
+  } else if (
+    profileRow.data_json.includes('silicon to neural weights') ||
+    profileRow.data_json.includes('bare-metal scalar equivalent') ||
+    profileRow.data_json.includes('Invariants') ||
+    profileRow.data_json.includes('MATS-2026-CSE') ||
+    profileRow.data_json.includes('MATS University · Class of 2030')
+  ) {
     db.prepare('UPDATE profile SET data_json = ?, updated_at = ? WHERE id = ?')
       .run(JSON.stringify(defaultProfile), now, 'current');
   }

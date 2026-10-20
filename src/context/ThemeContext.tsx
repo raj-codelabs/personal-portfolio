@@ -76,6 +76,20 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } catch (err) {
       console.warn('Could not persist theme to localStorage:', err);
     }
+
+    const prefersReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!prefersReduced && typeof document !== 'undefined' && 'startViewTransition' in document) {
+      try {
+        (document as any).startViewTransition(() => {
+          setThemeState({ theme: newTheme, isManual: true });
+        });
+        return;
+      } catch {
+        // Fallback if view transition fails
+      }
+    }
+
     setThemeState({ theme: newTheme, isManual: true });
   };
 

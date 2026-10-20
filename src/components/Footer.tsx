@@ -1,14 +1,13 @@
 import React from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { useCms } from '../context/CmsContext';
-import { ThemeToggle } from './ThemeToggle';
-import { GitFork, Linkedin } from 'lucide-react';
+import { GitFork, Linkedin, Lock } from 'lucide-react';
 
 interface FooterProps {
   onOpenAdmin?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = () => {
+export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
   const { theme } = useTheme();
   const { profile } = useCms();
   const isStdout = theme === 'stdout';
@@ -16,6 +15,15 @@ export const Footer: React.FC<FooterProps> = () => {
   const name = profile?.name || 'Raj Golder';
   const github = 'https://github.com/raj-codelabs';
   const linkedin = 'https://linkedin.com/in/rajgolder';
+
+  const handleAdminClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onOpenAdmin) {
+      onOpenAdmin();
+    } else {
+      window.location.hash = '#admin';
+    }
+  };
 
   return (
     <footer
@@ -29,11 +37,9 @@ export const Footer: React.FC<FooterProps> = () => {
           <span className="font-bold text-[var(--text-primary)]">{name}</span>
           <span className="text-[var(--border-subtle)]" aria-hidden="true">·</span>
           <span>© 2026</span>
-          <span className="text-[var(--border-subtle)]" aria-hidden="true">·</span>
-          <span>MATS University</span>
         </div>
 
-        {/* Right: Links & Theme Switcher */}
+        {/* Right: Links, Theme Switcher & Admin Access */}
         <div className="flex items-center gap-4 text-xs font-mono">
           <a
             href={github}
@@ -61,8 +67,17 @@ export const Footer: React.FC<FooterProps> = () => {
 
           <span className="text-[var(--border-subtle)]" aria-hidden="true">·</span>
 
-          {/* Theme switcher moved to footer */}
-          <ThemeToggle />
+          {/* Admin Login Access */}
+          <button
+            type="button"
+            onClick={handleAdminClick}
+            title="Admin Login & CMS Dashboard"
+            aria-label="Admin Login"
+            className="hover:text-[var(--accent-primary)] transition-colors inline-flex items-center gap-1.5 cursor-pointer font-medium"
+          >
+            <Lock className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
+            <span>Admin Login</span>
+          </button>
         </div>
       </div>
     </footer>

@@ -36,22 +36,23 @@ export const CommandPrompt: React.FC = () => {
             <span>about</span>
             <span>contact</span>
             <span>theme</span>
+            <span>admin</span>
             <span>whoami</span>
             <span>clear</span>
           </div>
         </div>
       );
     } else if (trimmed === 'projects' || trimmed === 'ls projects' || trimmed === 'ls') {
-      responseNode = 'Navigating to [Projects]: AI Study Notes Summarizer (deployed) & upcoming concepts.';
+      responseNode = 'Navigating to [Projects]: AI Study Notes Summarizer & upcoming concepts.';
       document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
     } else if (trimmed === 'journey' || trimmed === 'timeline') {
-      responseNode = 'Navigating to [Learning Journey]: MATS University, CS50x, CS50P & projects.';
+      responseNode = 'Navigating to [Timeline]: CS50x, CS50P & practical projects.';
       document.getElementById('journey')?.scrollIntoView({ behavior: 'smooth' });
     } else if (trimmed === 'skills' || trimmed === 'cat skills') {
       responseNode = 'Navigating to [Skills]: Python, C, Git, GitHub, VS Code, and learning areas.';
       document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' });
     } else if (trimmed === 'about' || trimmed === 'cat about') {
-      responseNode = 'Navigating to [About]: Student background at MATS University & learning philosophy.';
+      responseNode = 'Navigating to [About]: Student background & engineering philosophy.';
       document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
     } else if (trimmed === 'contact' || trimmed === 'mail') {
       responseNode = 'Navigating to [Contact]: GitHub, LinkedIn & direct messaging.';
@@ -59,8 +60,11 @@ export const CommandPrompt: React.FC = () => {
     } else if (trimmed === 'theme' || trimmed === 'toggle theme' || trimmed === 'switch') {
       responseNode = 'Switching active visual identity...';
       toggleTheme();
+    } else if (trimmed === 'admin' || trimmed === 'login' || trimmed === 'sudo' || trimmed === 'cms') {
+      responseNode = 'Navigating to [Admin Login] & CMS dashboard...';
+      window.location.hash = '#admin';
     } else if (trimmed === 'whoami') {
-      responseNode = 'Raj Golder · CSE Student Building Practical Projects · MATS University (First Year)';
+      responseNode = 'Raj Golder · B.Tech CSE (AI/ML) · Class of 2030';
     } else if (trimmed === 'clear') {
       setHistory([]);
       setInputVal('');
@@ -85,7 +89,7 @@ export const CommandPrompt: React.FC = () => {
     executeCommand(inputVal);
   };
 
-  const quickCommands = ['help', 'projects', 'journey', 'skills', 'about', 'contact', 'theme'];
+  const quickCommands = ['help', 'projects', 'journey', 'skills', 'about', 'contact', 'admin', 'theme'];
 
   return (
     <div className="w-full rounded-md border border-[#30363d] bg-[#0d1117] font-mono text-xs overflow-hidden shadow-md">

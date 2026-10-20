@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { useCms } from '../context/CmsContext';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Camera } from 'lucide-react';
+import { PhotoChangeModal } from './PhotoChangeModal';
 
 interface SketchRevealProps {
   brushRadius?: number; // Brush size in pixels, default 40
@@ -19,6 +20,7 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 40 }) 
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [loadError, setLoadError] = useState(false);
   const [isInteracting, setIsInteracting] = useState(false);
+  const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
 
   // Source images: configured via CMS or default editorial SVG assets
   const grayscaleSrc = (profile as any)?.sketchGrayscaleUrl || '/assets/sketch-grayscale.svg';
@@ -172,14 +174,53 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 40 }) 
     [brushRadius, requestRender]
   );
 
-  // Pointer event handlers
+  const fadeIntervalRef = useRef<number | null>(null);
+
+  // Settle back to graphite slowly on pointer leave (Section 7.4)
+  const handlePointerLeave = useCallback(() => {
+    isPointerDownRef.current = false;
+    if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current);
+
+    let fadeSteps = 0;
+    fadeIntervalRef.current = window.setInterval(() => {
+      fadeSteps++;
+      const maskCanvas = offscreenMaskRef.current;
+      if (!maskCanvas) {
+        if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current);
+        return;
+      }
+      const maskCtx = maskCanvas.getContext('2d');
+      if (maskCtx) {
+        maskCtx.globalCompositeOperation = 'destination-out';
+        maskCtx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+        maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
+        maskCtx.globalCompositeOperation = 'source-over';
+        requestRender();
+      }
+      if (fadeSteps > 40) {
+        if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current);
+      }
+    }, 40);
+  }, [requestRender]);
+
+  // Pointer event handlers with soft trail & pan-y compliance
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (fadeIntervalRef.current) {
+      clearInterval(fadeIntervalRef.current);
+      fadeIntervalRef.current = null;
+    }
     isPointerDownRef.current = true;
-    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+    if (e.pointerType === 'mouse') {
+      (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+    }
     paintBrush(e.clientX, e.clientY);
   };
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (fadeIntervalRef.current) {
+      clearInterval(fadeIntervalRef.current);
+      fadeIntervalRef.current = null;
+    }
     if (e.pointerType === 'mouse' || isPointerDownRef.current) {
       paintBrush(e.clientX, e.clientY);
     }
@@ -188,14 +229,18 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 40 }) 
   const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
     isPointerDownRef.current = false;
     try {
-      (e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId);
+      if (e.pointerType === 'mouse') {
+        (e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId);
+      }
     } catch {
       // Ignore
     }
+    handlePointerLeave();
   };
 
   // Reset to original black-and-white sketch
   const handleReset = useCallback(() => {
+    if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current);
     const canvas = canvasRef.current;
     const maskCanvas = offscreenMaskRef.current;
     if (!canvas || !maskCanvas) return;
@@ -215,6 +260,7 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 40 }) 
 
   // Full reveal control
   const handleRevealAll = useCallback(() => {
+    if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current);
     const maskCanvas = offscreenMaskRef.current;
     if (!maskCanvas) return;
 
@@ -237,14 +283,13 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 40 }) 
           <span className="text-xl leading-none">↴</span>
         </div>
         <span className="text-xs font-handwriting text-[#78716c] hidden sm:inline">
-          (or drag finger on touch)
+          (or touch to explore)
         </span>
       </div>
 
       {/* 
         NO CARD CONTAINER, NO BORDER, NO SHADOW, NO FLOATING PANEL.
-        The pencil sketch is drawn directly onto the notebook paper,
-        with soft feathered edges blending into the paper substrate.
+        touch-action: pan-y ensures vertical page scroll is never hijacked (Section 7.4).
       */}
       <div
         ref={containerRef}
@@ -252,13 +297,15 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 40 }) 
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
-        className="relative w-full aspect-[3/4] cursor-crosshair touch-none select-none"
+        onPointerLeave={handlePointerLeave}
+        className="relative w-full aspect-[3/4] cursor-crosshair select-none"
         style={{
+          touchAction: 'pan-y',
           maskImage: 'radial-gradient(ellipse 92% 92% at 50% 50%, black 75%, transparent 100%)',
           WebkitMaskImage: 'radial-gradient(ellipse 92% 92% at 50% 50%, black 75%, transparent 100%)',
         }}
         role="region"
-        aria-label="Pencil sketch portrait drawn on notebook paper. Move your cursor or drag your finger across the sketch to reveal color."
+        aria-label="Pencil sketch portrait drawn on notebook paper. Move your cursor or touch across the sketch to reveal color."
       >
         {/* Base Layer: Black-and-white graphite pencil sketch sitting directly on paper */}
         <img
@@ -292,17 +339,29 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 40 }) 
         )}
       </div>
 
-      {/* Notebook Margin Annotations & Discreet Reset Control */}
+      {/* Notebook Margin Annotations & Controls */}
       <div className="px-1 pt-1 space-y-1.5 border-t border-[#e2dbce]/60">
-        <div className="flex items-center justify-between text-xs">
+        <div className="flex flex-wrap items-center justify-between gap-1 text-xs pt-0.5">
           {/* Discreet Reset Styled like a Handwritten Notebook Annotation */}
           <button
             type="button"
             onClick={handleReset}
-            className="font-handwriting text-base text-[#1d4ed8] hover:text-[#1e40af] cursor-pointer inline-flex items-center gap-1.5 underline underline-offset-4 decoration-[#93c5fd] hover:decoration-[#1d4ed8] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1d4ed8]"
+            className="font-handwriting text-base text-[#1d4ed8] hover:text-[#1e40af] cursor-pointer inline-flex items-center gap-1 underline underline-offset-4 decoration-[#93c5fd] hover:decoration-[#1d4ed8] transition-colors focus-visible:outline-none"
             aria-label="Erase watercolor and restore black and white pencil sketch"
           >
-            <span>↺ erase ink & return to graphite</span>
+            <span>↺ erase ink</span>
+          </button>
+
+          {/* Change photos in white mode */}
+          <button
+            type="button"
+            onClick={() => setIsPhotoModalOpen(true)}
+            className="font-handwriting text-sm text-[#c25e38] hover:text-[#9c4220] cursor-pointer inline-flex items-center gap-1 transition-colors underline decoration-[#fdba74]"
+            aria-label="Change sketch and portrait photos in white mode"
+            title="Upload or change white mode photos"
+          >
+            <Camera className="w-3.5 h-3.5" />
+            <span>change sketch &amp; photo</span>
           </button>
 
           {/* Quick Reveal Wash Action */}
@@ -312,7 +371,7 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 40 }) 
             className="font-handwriting text-sm text-[#78716c] hover:text-[#1d4ed8] cursor-pointer transition-colors focus-visible:outline-none"
             aria-label="Reveal entire watercolor edition"
           >
-            <span>[view full watercolor wash]</span>
+            <span>[reveal wash]</span>
           </button>
         </div>
 
@@ -321,6 +380,13 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 40 }) 
           {editorialCaption}
         </p>
       </div>
+
+      {/* Photo Change Modal for White Mode */}
+      <PhotoChangeModal
+        isOpen={isPhotoModalOpen}
+        onClose={() => setIsPhotoModalOpen(false)}
+        initialMode="white-mode"
+      />
     </div>
   );
 };

@@ -34,7 +34,7 @@ export const Contact: React.FC = () => {
     email: 'contact@rajgolder.dev',
     github: 'https://github.com/raj-codelabs',
     linkedin: 'https://linkedin.com/in/rajgolder',
-    location: 'MATS University · India',
+    location: 'Raipur, India',
     statusLabel: 'FIRST-YEAR CSE STUDENT · LEARNING & BUILDING',
     customLinks: [],
   };

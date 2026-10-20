@@ -9,29 +9,27 @@ import {
   Cpu,
   ArrowRight,
   Terminal,
+  Camera,
 } from 'lucide-react';
+import { PhotoChangeModal } from './PhotoChangeModal';
+import { spring } from '../motion/motion-tokens';
+import { useReducedMotionGlobal } from '../motion/useReducedMotionGlobal';
 
 export const DeveloperIdCard: React.FC = () => {
   const { profile } = useCms();
+  const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [shine, setShine] = useState({ x: 50, y: 50, opacity: 0 });
   const [isHovered, setIsHovered] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const reducedMotion = useReducedMotionGlobal();
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Detect touch devices and reduced-motion preferences
+  // Detect touch devices
   useEffect(() => {
     if (typeof window === 'undefined') return;
     setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
-
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setReducedMotion(mediaQuery.matches);
-
-    const handleMotionChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    mediaQuery.addEventListener('change', handleMotionChange);
-    return () => mediaQuery.removeEventListener('change', handleMotionChange);
   }, []);
 
   const handlePointerMove = useCallback(
@@ -47,10 +45,10 @@ export const DeveloperIdCard: React.FC = () => {
       const normX = (x / rect.width) * 2 - 1;
       const normY = (y / rect.height) * 2 - 1;
 
-      // Restrained tilt angle: 3 to 4 degrees max
-      const maxTilt = 4;
-      const tiltX = -normY * maxTilt;
-      const tiltY = normX * maxTilt;
+      // Section 7.4: tilt max 6deg
+      const maxTilt = 6;
+      const tiltX = Math.max(-6, Math.min(6, -normY * maxTilt));
+      const tiltY = Math.max(-6, Math.min(6, normX * maxTilt));
 
       setTilt({ x: tiltX, y: tiltY });
       setShine({
@@ -100,6 +98,13 @@ export const DeveloperIdCard: React.FC = () => {
     ? `rotateY(${180 + tilt.y}deg) rotateX(${-tilt.x}deg)`
     : `rotateY(${tilt.y}deg) rotateX(${tilt.x}deg)`;
 
+  // Section 1 & 7.4: Flip uses physical spring (underdamped ~0.7); hover tilt uses settle
+  const transitionStyle = reducedMotion
+    ? 'none'
+    : isHovered && !isTouchDevice
+    ? 'transform 140ms cubic-bezier(0.23, 1, 0.32, 1)' // settle spring
+    : 'transform 650ms cubic-bezier(0.34, 1.45, 0.64, 1)'; // physical underdamped spring for badge flip ONLY
+
   return (
     <div
       className="relative w-full max-w-[360px] mx-auto select-none font-mono"
@@ -119,11 +124,11 @@ export const DeveloperIdCard: React.FC = () => {
         onKeyDown={handleKeyDown}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
-        className="relative w-full h-[520px] rounded-2xl cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#00e5c0] focus-visible:ring-offset-4 focus-visible:ring-offset-[#0b0e14] transition-shadow duration-300"
+        className="relative w-full h-[560px] rounded-2xl cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#00e5c0] focus-visible:ring-offset-4 focus-visible:ring-offset-[#0b0e14] transition-shadow duration-300"
         style={{
           transformStyle: 'preserve-3d',
           transform: transformStyle,
-          transition: isHovered && !isTouchDevice && !reducedMotion ? 'transform 100ms ease-out' : 'transform 600ms cubic-bezier(0.23, 1, 0.32, 1)',
+          transition: transitionStyle,
         }}
       >
         {/* Specular Highlight Layer */}
@@ -140,7 +145,7 @@ export const DeveloperIdCard: React.FC = () => {
         {/* FRONT FACE: Credential Card */}
         <div
           aria-hidden={isFlipped}
-          className="absolute inset-0 w-full h-full rounded-2xl bg-[#0d121c] border border-[#24334a] p-6 flex flex-col justify-between shadow-xl overflow-hidden text-left"
+          className="absolute inset-0 w-full h-full rounded-2xl bg-[#0d121c] border border-[#24334a] p-5 sm:p-6 flex flex-col justify-between shadow-xl overflow-hidden text-left"
           style={{
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
@@ -159,75 +164,162 @@ export const DeveloperIdCard: React.FC = () => {
           />
 
           {/* Top Header */}
-          <div className="relative z-10 flex items-center justify-between border-b border-[#1c2738] pb-3">
-            <div className="flex items-center gap-2 pt-1">
-              <div className="w-7 h-6 rounded bg-[#00e5c0]/15 border border-[#00e5c0]/40 flex items-center justify-center">
+          <div className="relative z-10 flex items-center justify-between border-b border-[#1c2738] pb-2.5">
+            <div className="flex items-center gap-2">
+              <div
+                className="w-6 h-6 rounded bg-[#00e5c0]/15 border border-[#00e5c0]/40 flex items-center justify-center transition-transform duration-100 ease-out"
+                style={{
+                  transform: reducedMotion ? 'none' : `translate3d(${tilt.y * 0.5}px, ${-tilt.x * 0.5}px, 8px)`,
+                }}
+              >
                 <Cpu className="w-3.5 h-3.5 text-[#00e5c0]" />
               </div>
               <div className="leading-tight">
-                <div className="text-[11px] tracking-wider text-[#00e5c0] font-bold">MATS UNIVERSITY</div>
-                <div className="text-[11px] text-[#94a3b8]">B.TECH CSE (AI/ML)</div>
+                <div className="text-[10px] tracking-wider text-[#00e5c0] font-bold">ENGINEERING ID</div>
+                <div className="text-[10px] text-[#94a3b8]">B.TECH CSE (AI/ML)</div>
               </div>
             </div>
 
-            <div className="pt-1 text-right">
-              <div className="text-[11px] font-bold text-[#f1f5f9] tracking-wider">CLASS OF 2030</div>
+            <div className="text-right leading-tight">
+              <div className="text-[10px] font-bold text-[#f1f5f9] tracking-wider">MATS UNIVERSITY</div>
+              <div className="text-[10px] text-[#e27d60] font-mono font-medium">CLASS OF 2030</div>
             </div>
           </div>
 
-          {/* Middle Identity Section */}
-          <div className="relative z-10 space-y-4 my-auto">
-            <div className="flex items-center gap-4">
-              <div className="relative w-20 h-20 rounded-xl bg-[#141b27] border border-[#00e5c0]/40 p-1 shrink-0 overflow-hidden shadow-md">
-                <div className="w-full h-full rounded-lg bg-[#0a0e14] border border-[#233144] flex flex-col items-center justify-center text-[#64748b]">
-                  <Cpu className="w-7 h-7 text-[#00e5c0]" />
-                  <span className="text-[11px] text-[#94a3b8] font-mono mt-0.5">DEV</span>
+          {/* UPPER HALF: ID Photo occupying the upper half space of the ID card */}
+          <div className="relative z-10 my-1">
+            <div
+              className="relative w-full h-[225px] rounded-xl bg-[#141b27] border border-[#00e5c0]/45 overflow-hidden shadow-lg group/photo cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsPhotoModalOpen(true);
+              }}
+              title="Click to change ID photo"
+            >
+              {profile.avatarUrl ? (
+                <img
+                  src={profile.avatarUrl}
+                  alt={name}
+                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover/photo:scale-105"
+                />
+              ) : (
+                <div className="w-full h-full rounded-xl bg-gradient-to-b from-[#111a28] via-[#0d1420] to-[#080d14] flex flex-col items-center justify-center text-center p-4">
+                  <div className="relative w-16 h-16 rounded-full bg-[#162030] border-2 border-[#00e5c0]/50 flex items-center justify-center mb-2 shadow-inner group-hover/photo:border-[#00e5c0] transition-colors">
+                    <Cpu className="w-8 h-8 text-[#00e5c0]" />
+                  </div>
+                  <div className="relative text-xs font-bold text-[#f1f5f9] tracking-wider font-mono">
+                    {name}
+                  </div>
+                  <div className="relative text-[10px] text-[#00e5c0] font-mono mt-0.5">
+                    STUDENT CREDENTIAL
+                  </div>
+                  <div className="relative text-[9px] text-[#94a3b8] font-mono mt-1">
+                    Click to upload or select photo
+                  </div>
                 </div>
-                <div className="absolute top-1 left-1 w-2 h-2 border-t-2 border-l-2 border-[#00e5c0]" />
-                <div className="absolute top-1 right-1 w-2 h-2 border-t-2 border-r-2 border-[#00e5c0]" />
-                <div className="absolute bottom-1 left-1 w-2 h-2 border-b-2 border-l-2 border-[#00e5c0]" />
-                <div className="absolute bottom-1 right-1 w-2 h-2 border-b-2 border-r-2 border-[#00e5c0]" />
+              )}
+
+              {/* Holographic Scanline Overlay on Photo */}
+              <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-[#00e5c0]/5 to-transparent opacity-40 mix-blend-screen" />
+
+              {/* Top Badge Tag */}
+              <div className="absolute top-2.5 left-2.5 z-20 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#0b0f19]/80 backdrop-blur-md border border-[#00e5c0]/40 text-[9px] text-[#00e5c0] font-mono font-bold tracking-wider">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#00e5c0] animate-pulse" />
+                <span>STUDENT ID</span>
               </div>
 
-              <div className="space-y-1 min-w-0">
-                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#00e5c0]/10 border border-[#00e5c0]/30 text-[11px] text-[#00e5c0] font-semibold">
-                  <span>UNDERGRADUATE</span>
-                </div>
+              {/* Cyber Corner Marks */}
+              <div className="absolute top-1.5 left-1.5 w-2.5 h-2.5 border-t-2 border-l-2 border-[#00e5c0] pointer-events-none" />
+              <div className="absolute top-1.5 right-1.5 w-2.5 h-2.5 border-t-2 border-r-2 border-[#00e5c0] pointer-events-none" />
+              <div className="absolute bottom-1.5 left-1.5 w-2.5 h-2.5 border-b-2 border-l-2 border-[#00e5c0] pointer-events-none" />
+              <div className="absolute bottom-1.5 right-1.5 w-2.5 h-2.5 border-b-2 border-r-2 border-[#00e5c0] pointer-events-none" />
+
+              {/* Prominent Change Photo Floating Button */}
+              <div className="absolute bottom-2.5 right-2.5 z-20">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsPhotoModalOpen(true);
+                  }}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#0b0f19]/85 hover:bg-[#00e5c0] text-[#00e5c0] hover:text-[#0a0e14] border border-[#00e5c0]/60 text-[10px] font-mono font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer"
+                  title="Change ID photo"
+                >
+                  <Camera className="w-3 h-3" />
+                  <span>Change photo</span>
+                </button>
+              </div>
+
+              {/* Hover Hint Overlay */}
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/photo:opacity-100 flex flex-col items-center justify-center text-[#00e5c0] transition-opacity duration-200 pointer-events-none">
+                <Camera className="w-6 h-6 mb-1" />
+                <span className="text-[11px] font-mono font-bold tracking-wider">CHANGE PHOTO</span>
+                <span className="text-[9px] text-slate-300 font-mono mt-0.5">Upload file or paste URL</span>
+              </div>
+            </div>
+          </div>
+
+          {/* LOWER HALF: Identity Details, Verified Skills & Barcode */}
+          <div className="relative z-10 space-y-2.5 pt-1">
+            {/* Name & Academic Rank */}
+            <div>
+              <div className="flex items-center justify-between gap-2">
                 <h3 className="text-xl font-bold text-[#f8fafc] tracking-tight truncate">
                   {name}
                 </h3>
-                <p className="text-[11px] text-[#94a3b8] leading-tight line-clamp-2">
-                  {role}
-                </p>
-                <div className="text-[11px] text-[#e27d60] font-mono font-medium">
-                  MATS UNIVERSITY
-                </div>
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#00e5c0]/10 border border-[#00e5c0]/30 text-[10px] text-[#00e5c0] font-semibold shrink-0">
+                  UNDERGRAD
+                </span>
+              </div>
+              <div className="flex items-center justify-between text-xs text-[#94a3b8] font-mono mt-0.5">
+                <span>{role}</span>
+                <span className="text-[#e27d60] font-medium">MATS University</span>
               </div>
             </div>
 
-            {/* Core Learning Skills */}
-            <div className="space-y-2 pt-1">
-              <div className="text-[11px] text-[#94a3b8] uppercase tracking-wider flex items-center justify-between">
+            {/* Verified Foundations */}
+            <div className="space-y-1">
+              <div className="text-[10px] text-[#94a3b8] uppercase tracking-wider flex items-center justify-between">
                 <span>Verified Foundations:</span>
-                <span className="text-[#00e5c0] font-mono">COMPLETED</span>
+                <span className="text-[#00e5c0] font-mono text-[10px]">CS50x &amp; CS50P</span>
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {primarySkills.map((skill, idx) => (
                   <span
                     key={idx}
-                    className="px-2.5 py-1 rounded bg-[#162030] border border-[#2b3d56] text-[#e2e8f0] text-[11px] font-mono tracking-tight"
+                    className="px-2 py-0.5 rounded bg-[#162030] border border-[#2b3d56] text-[#e2e8f0] text-[10px] font-mono tracking-tight"
                   >
                     {skill}
                   </span>
                 ))}
               </div>
             </div>
+
+            {/* Barcode & Credential Serial */}
+            <div className="flex items-center justify-between pt-1 border-t border-[#1c2738] text-[10px] text-[#64748b] font-mono">
+              <div className="flex items-center gap-1">
+                <span className="text-[#00e5c0]">ID:</span>
+                <span className="text-[#cbd5e1] tracking-wider">RG-2026-MATS-8472</span>
+              </div>
+              {/* Micro barcode decoration with depth shift */}
+              <div
+                className="flex items-center gap-[2px] h-3.5 opacity-60 transition-transform duration-100 ease-out"
+                style={{
+                  transform: reducedMotion ? 'none' : `translate3d(${tilt.y * 0.4}px, ${-tilt.x * 0.4}px, 6px)`,
+                }}
+                aria-hidden="true"
+              >
+                {[2, 1, 3, 1, 2, 4, 1, 2, 3, 1, 4, 2, 1, 2].map((w, i) => (
+                  <span key={i} className="h-full bg-[#94a3b8]" style={{ width: `${w}px` }} />
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Bottom Flip Control */}
-          <div className="relative z-10 pt-3 border-t border-[#1c2738] flex items-center justify-between">
-            <span className="text-[11px] text-[#94a3b8]">
-              Press Enter to flip
+          <div className="relative z-10 pt-2 border-t border-[#1c2738] flex items-center justify-between">
+            <span className="text-[10px] text-[#94a3b8]">
+              Press Enter or click to flip
             </span>
 
             <button
@@ -237,7 +329,7 @@ export const DeveloperIdCard: React.FC = () => {
                 e.stopPropagation();
                 toggleFlip();
               }}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#162233] border border-[#00e5c0]/40 text-[11px] font-semibold text-[#00e5c0] hover:bg-[#00e5c0] hover:text-[#0b0e14] transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#162233] border border-[#00e5c0]/40 text-[11px] font-semibold text-[#00e5c0] hover:bg-[#00e5c0] hover:text-[#0b0e14] transition-colors cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>PROFILE DETAILS</span>
@@ -262,7 +354,7 @@ export const DeveloperIdCard: React.FC = () => {
               <Terminal className="w-4 h-4 text-[#00e5c0]" />
               <div>
                 <div className="text-[11px] text-[#00e5c0] font-bold tracking-wider">STUDENT PROFILE</div>
-                <div className="text-[11px] text-[#94a3b8]">MATS UNIVERSITY · CLASS OF 2030</div>
+                <div className="text-[11px] text-[#94a3b8]">ACADEMIC VERIFICATION</div>
               </div>
             </div>
             <div className="text-[11px] text-[#e27d60] font-mono">B.TECH CSE</div>
@@ -371,6 +463,13 @@ export const DeveloperIdCard: React.FC = () => {
       <div className="mt-3 text-center text-[11px] text-[var(--text-muted)] font-mono">
         Click card or press Enter to flip credential
       </div>
+
+      {/* Photo Change Modal */}
+      <PhotoChangeModal
+        isOpen={isPhotoModalOpen}
+        onClose={() => setIsPhotoModalOpen(false)}
+        initialMode="id-card"
+      />
     </div>
   );
 };

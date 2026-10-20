@@ -4,20 +4,20 @@ export const milestonesData: Milestone[] = [
   {
     id: 'm1-btech-matriculation',
     logNumber: '01',
-    commitHash: 'mats-ug',
+    commitHash: 'btech-ug',
     branch: 'main',
     branchLabel: 'Academics',
     date: '2026',
-    title: 'B.Tech CSE (AI/ML) · MATS University',
+    title: 'B.Tech CSE (AI/ML) · Undergraduate Studies',
     summary: 'Commenced undergraduate engineering studies in Computer Science & Engineering (AI/ML) at MATS University, Class of 2030.',
     details:
-      'Building a strong foundation in computer science, discrete structures, mathematics, and structured programming at MATS University.',
+      'Building a strong foundation in computer science, discrete structures, mathematics, and structured programming.',
     learnings: [
       'Core programming paradigms in C and introductory computer science concepts.',
       'Understanding fundamental data representations and algorithmic problem solving.',
     ],
-    marginAnnotation: 'Matriculation at MATS University (Class of 2030).',
-    tags: ['MATS University', 'Class of 2030', 'Academics'],
+    marginAnnotation: 'Undergraduate studies commenced at MATS University (Class of 2030).',
+    tags: ['B.Tech', 'CSE', 'Academics'],
   },
   {
     id: 'm2-cs50x-completed',
