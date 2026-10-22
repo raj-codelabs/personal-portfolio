@@ -1,159 +1,147 @@
-# Portfolio Credibility, Clarity & Polish Overhaul
+# ECHO Interactive Architecture & Editorial Physics Integration
 
-A systematic plan to transform Raj Golder's engineering portfolio into an authentic, credible showcase for recruiters and peers. This overhaul eliminates placeholder copy, removes contradictory badges and duplicate consoles, rebuilds the AI Study Notes Summarizer as a featured case study, refines the hero and skills presentations with concrete evidence, and ensures clean accessibility and mobile responsiveness across both `stdout` and `margin-notes` themes.
+A sequential engineering plan to integrate high-fidelity editorial features from the ECHO portfolio architecture into Raj Golder's developer portfolio. This plan adapts 7 key interactive systems—Orbital Preloader, Editorial Hero with metallic shaders, ScrollExpandMedia Kinetic Canvas, Horizontal Spatial Canvas timeline, WorksWheel 3D Drum Reel, WebGL Liquid displacement, and Dynamic Modal Inspection—while strictly maintaining Raj's authentic identity as a first-year CSE student and honoring the dual-theme contract (`stdout` technical workstation vs `margin-notes` archival engineering notebook).
 
 ---
 
 ## User Review & Critical Decisions
 
 > [!IMPORTANT]
-> The implementation incorporates your confirmed answers and strict boundary rules:
+> The architectural plan directly incorporates your confirmed preferences and design boundaries:
 >
-> - **AI Study Notes Summarizer Stack**: Identified as a **Python CLI** with command-line arguments and rich terminal formatting. Card and case study will reflect this concrete UI rather than generic web or TBD labels.
-> - **Contact Response Time**: Specified as **"I reply promptly by email"** (omitting unverified hourly claims).
-> - **Interactive Terminal Demotion**: Demoted from a third button to a quiet inline text link: **"Try the terminal › (Quick keyboard-driven portfolio navigation)"**.
-> - **Zero Placeholder Policy**: Every occurrence of `tbd`, `pending`, `to be confirmed`, `honest overview`, `last update`, and `logged to` will be eliminated or replaced with verified facts.
-> - **No Invented Metrics or Stubs**: Unstarted ideas (`PrereqOS`, `Book Recommendation Engine`) are removed from the main project card grid and consolidated into a clean 1-line text note: `Next: PrereqOS (prerequisite graph for learning topics) · Book Recommendation Engine (planned)`.
-> - **Single Consolidated Project Showcase**: Remove the duplicate "Project & Learning Console" / "Portfolio Status Register" views and move relevant code excerpts directly into the Summarizer case study.
-> - **Header & Navigation Polish**: Replace the top-right theme switch with a clean `GitHub ↗` outline button (preparing for the future `Resume` button). Relocate the theme switcher to the footer with clean labels (`Terminal` / `Notebook`). Logo updated to `$ raj-golder▌`.
-> - **Public Route Decoupling**: Remove the public CMS login link from the footer; retain `/admin` only via unlinked hash/route.
+> 1. **Sequential Phased Implementation**: All adapted ECHO systems will be implemented in four sequential phases, verifying stability and build health at each milestone.
+> 2. **Theme Allocation (Strict Divergence)**:
+>    - **`stdout` (Dark Terminal / Workstation)**: Receives the full computational and mathematical instrument suite—mathematical 3D cylindrical WorksWheel projection, WebGL liquid mesh refraction (lightweight shader canvas), hardware-accelerated kinetic expand canvas, and orbital vector preloader.
+>    - **`margin-notes` (Light Paper Notebook)**: Deliberately preserves the quiet, tactile feel of a physical engineer's drafting notebook. 3D drums and liquid chromatic shaders are cleanly disabled in favor of an archival drafting compass preloader, an unfolding ledger timeline, and physical blueprint cards.
+> 3. **Preloader Session Lifecycle**: The preloader runs once per session via `sessionStorage` (`echo_preloader_seen`), with a quick replay trigger accessible in the footer and smooth `requestAnimationFrame` cleanup.
+> 4. **Authentic First-Year Engineering Identity**: No exaggerated senior-engineer claims or generic corporate fluff. The graphics, shaders, and 3D reels showcase Raj's passion for mathematical beauty, computational physics, and clean code (Python, C, CS50x/CS50P).
+> 5. **Accessibility & Zero-Lag Physics**: All motion systems respect `prefers-reduced-motion` and Apple WWDC fluid interface principles (zero-delay pointer response, spring physics via Motion 12, interruptible gestures).
 
 ---
 
 ## 1. Overview & Core Concept
 
-- **What It Does**: Streamlines the portfolio into a lean, honest, and high-impact engineering profile. Positions Raj as a dedicated first-year computer science student (MATS University, Class of 2030) with completed CS50x and CS50P coursework who builds useful command-line and machine learning tools in Python and C.
-- **Audience**: Hiring managers, technical recruiters, research mentors, and peer engineers.
-- **Key Value**: Replaces self-undermining disclaimers and draft markers with clear evidence of competence, clean code architecture, and restrained aesthetic polish.
+- **What It Builds**: Transforms Raj Golder's portfolio from a static layout into an editorial kinetic experience. Combines precision typography with hardware-accelerated spatial mechanics:
+  - **Orbital Preloader**: Mathematical orbital wavy wave dot system with session persistence.
+  - **Editorial Hero & Metallic Shaders**: Dynamic fluid typography (`clamp` / `vw`) paired with subtle metallic luminance gradient shifts and code-depth layering.
+  - **ScrollExpandMedia Kinetic Canvas**: Scroll-driven expansion of the featured case study (AI Study Notes Summarizer) from a compact specimen card into a full-bleed inspection canvas.
+  - **Horizontal Spatial Experience Canvas**: Converts vertical page scroll in `#journey` into horizontal spatial progression along an engineering track graph.
+  - **WorksWheel 3D Drum Reel (`stdout` mode)**: Mathematical 3D cylindrical drum projection with smooth pointer drag, inertia momentum, and keyboard navigation.
+  - **FlexCarousel WebGL Liquid Displacement (`stdout` mode)**: Lightweight interactive canvas overlay simulating subtle optical liquid lens refraction on hover/drag.
+  - **Dynamic Specimen Modal**: Expanded deep-dive modal featuring verified Python CLI architecture, token pipelines, and trade-off notes.
 
 ---
 
 ## 2. User Experience & Visual Design
 
-### Structural Rhythm & Content Flow
+### Visual Hierarchy & Theme Matrix
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│ Top Bar: Brand ($ raj-golder▌) ── Nav (5 links) ── Action (GitHub ↗)   │
-├────────────────────────────────────────────────────────────────────────┤
-│ Hero Section:                                                          │
-│ - Eyebrow: B.TECH CSE (AI/ML) · MATS UNIVERSITY · CLASS OF 2030        │
-│ - Headline: I build small, useful tools in Python_                    │
-│ - Subhead: First-year CSE student... CS50x & CS50P completed.          │
-│ - CTAs: [See my work ↓]  [GitHub ↗]                                   │
-│ - Demoted prober: Try the terminal › (Quick keyboard-driven nav)       │
-│ - Right column: Clean Developer Card (verified details, no barcode)    │
-├────────────────────────────────────────────────────────────────────────┤
-│ Featured Project Case Study (Full-Width Showcase):                     │
-│ - Left: AI Study Notes Summarizer problem, 3-step pipeline, learnings  │
-│ - Right: Code excerpt / Terminal preview                               │
-│ - Actions: [Case study] [GitHub ↗] (Live demo omitted if not deployed) │
-│ - Quiet footer note: Next builds (PrereqOS · Book Recommendation)      │
-├────────────────────────────────────────────────────────────────────────┤
-│ Development Journey & Timeline (Clean Title Case & Real Milestones)    │
-├────────────────────────────────────────────────────────────────────────┤
-│ Skills & Tooling (Single unified grid with evidence, zero pills)       │
-│ - Languages: Python (Summarizer, CS50P) · C (CS50x, Coursework)        │
-│ - Tools: Git, GitHub, VS Code, Linux CLI                               │
-│ - Learning now: AI/ML foundations, Data structures & algorithms        │
-├────────────────────────────────────────────────────────────────────────┤
-│ About & Philosophy (CS50x/CS50P completion, motivation, My Approach)   │
-├────────────────────────────────────────────────────────────────────────┤
-│ Contact (Email mailto + copy feedback, clean form, prompt reply note) │
-├────────────────────────────────────────────────────────────────────────┤
-│ Footer (Raj Golder · © 2026 · GitHub · LinkedIn · Theme Switcher)      │
-└────────────────────────────────────────────────────────────────────────┘
-```
-
-### Visual & Typographic Polish Rules
-- **Typography Scale**: Body paragraphs $\ge 16\text{px}$ (sans) or $\ge 14\text{px}$ (mono). Eyebrows and metadata $\ge 12\text{px}$. Strictly no micro-text under $11\text{px}$.
-- **Tracking Discipline**: Reset tight tracking on sans body text (`letter-spacing: 0`). Headings and monospace UI labels retain disciplined typographic hierarchy.
-- **Color Contrast**: Ensure text contrast $\ge 4.5:1$ against dark surfaces (`#0d1117` / `#161b22`) and light surfaces (`#fbf7ee` / `#ffffff`). Borders maintain at least $3:1$ contrast.
-- **Section Anchors**: Set `scroll-margin-top: 4rem` on all section IDs (`#projects`, `#journey`, `#skills`, `#about`, `#contact`) to prevent header clipping on jump.
+| Feature | `stdout` (Terminal Workstation) | `margin-notes` (Engineering Notebook) | Reduced Motion Fallback |
+| :--- | :--- | :--- | :--- |
+| **Preloader** | Orbital wavy coordinate matrix + ASCII boot probe | Compass drafting circle animation with warm ink stroke | Instant fade-in (150ms opacity transition) |
+| **Editorial Hero** | Dynamic typography with metallic luminance shimmer | Hand-inked headline style (`Newsreader`), pencil grid | Static high-contrast typography |
+| **Expand Stage** | Kinetic scale & unblur GPU interpolator | Clean responsive accordion expand | Static expanded view |
+| **Timeline Canvas** | Sticky horizontal coordinate track progression | Unfolding horizontal engineering ledger | Vertical timeline list |
+| **WorksWheel Reel**| Cylindrical 3D drum reel (`rotateX`, `translateZ`) | Editorial flat grid with index numbers | Accessible 2D grid with keyboard navigation |
+| **Liquid Lens** | Real-time WebGL chromatic aberration & wave bending | Flat archival paper textures (no WebGL overhead) | Disabled |
+| **Project Modal** | Technical spec sheet, terminal ASCII log, CLI flags | Handwritten margin notes, paper ticket style | Instant non-animated dialog |
 
 ---
 
 ## 3. Key Product Decisions & Trade-Offs
 
-- **Decision 1: Removal of Duplicate Console & Invariant Workbench**
-  - *Chosen Approach*: Retire the separate "Project & Learning Console" and "Portfolio Status Register" components that duplicated project content and introduced confusing status tabs.
-  - *Why*: Eliminates cognitive clutter. The AI Study Notes Summarizer becomes a single full-width case study card containing its architecture, code excerpt, and takeaways.
-- **Decision 2: Ideas Demoted to Single Text Line**
-  - *Chosen Approach*: Remove empty concept cards (`PrereqOS`, `Book Recommendation Engine`) from the project grid and render them as a single quiet line: `Next: PrereqOS (prerequisite graph for learning topics) · Book Recommendation Engine (planned)`.
-  - *Why*: Prevents recruiters from clicking cards that have "Implementation not started", which undermines technical credibility.
-- **Decision 3: Skills with Evidence**
-  - *Chosen Approach*: Replace 3 scattered skill cards with a single structured grid linking each language and tool directly to concrete evidence (e.g. `Python: AI Study Notes Summarizer, CS50P`).
-  - *Why*: Eliminates self-deprecating "Beginner" badges while remaining honest about first-year mastery.
-- **Decision 4: Plain-Language Renaming**
-  - *Chosen Approach*: Rename jargon controls to standard terminology: "Examine Dossier" → "Case study", "source ↗" → "GitHub ↗", "Built Projects & Concepts" → "Projects", "Connect & Collaborate" → "Get in touch".
-  - *Why*: Meets recruiter expectations for clear, direct web navigation.
+- **Decision 1: WebGL Overhead vs Performance Budget**
+  - *Chosen Approach*: Implement WebGL liquid distortion using a lightweight native canvas shader (~2KB custom fragment shader) rather than importing heavy three.js or monolithic libraries.
+  - *Why*: Keeps bundle size minimal, loads instantly, and runs at 60–120 FPS on mobile and low-power laptops without dropped frames.
+- **Decision 2: Scroll Hijacking vs Natural Sticky Scrubbing**
+  - *Chosen Approach*: Use CSS `position: sticky` and native viewport scroll tracking (`useScroll` from Motion 12) for the Horizontal Spatial Canvas rather than hijacking the browser's native wheel event.
+  - *Why*: Eliminates rubber-banding bugs and trackpad friction, ensuring native gesture momentum feels smooth and predictable.
+- **Decision 3: Dual-Mode Isolation for WorksWheel 3D Reel**
+  - *Chosen Approach*: Render WorksWheel in `stdout` mode while providing a responsive editorial card grid in `margin-notes` mode.
+  - *Why*: Directly honors the user's requirement to protect the quiet, analog paper feel of `margin-notes` while letting `stdout` shine as a high-tech developer workstation.
+- **Decision 4: Mobile & Touch Gestures**
+  - *Chosen Approach*: WorksWheel and Expand Canvas automatically adapt to horizontal swipe gestures on touch viewports with momentum deceleration and boundary spring bounce.
 
 ---
 
-## 4. Technical Architecture & Phased Execution
+## 4. Technical Architecture
+
+### Component Hierarchy & Interaction Flow
 
 ```
-┌─────────────────────────────────────────────────────────────────────────┐
-│ Phase 1: Critical Sanitization & Case Study                             │
-│ 1. Search & purge all placeholder/draft strings (grep check)            │
-│ 2. Fix project status logic (public repo links, remove pending badges)  │
-│ 3. Build AI Study Notes Summarizer case study view                      │
-│ 4. Update CS50x / CS50P completion records across data files            │
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │
-┌────────────────────────────────────▼────────────────────────────────────┐
-│ Phase 2: Hero, Header & Skills Redesign                                 │
-│ 1. Update Hero: new eyebrow, headline, subhead, demoted prober link    │
-│ 2. Update Developer Card: remove barcode/ID, ensure 11px min text       │
-│ 3. Header: $ raj-golder▌ logo, GitHub ↗ outline CTA, no theme switch   │
-│ 4. Skills: single evidence-based grid, zero beginner disclaimers        │
-│ 5. Projects: single section, retire console & ideas cards               │
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │
-┌────────────────────────────────────▼────────────────────────────────────┐
-│ Phase 3: Journey, About, Contact & Footer                               │
-│ 1. Journey: node labels (Title + Date), Title Case display map          │
-│ 2. About: CS50 motivation, single My Approach quote, concise prose     │
-│ 3. Contact: clean email copy, prompt response note, validation states   │
-│ 4. Footer: move Theme Switcher here, remove public CMS link             │
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │
-┌────────────────────────────────────▼────────────────────────────────────┐
-│ Phase 4: Contrast, Typography & Verification                            │
-│ 1. Apply scroll-margin-top, contrast audit, 16px body/12px label rule   │
-│ 2. Verify keyboard navigation, escape listeners, reduced-motion hooks   │
-│ 3. Compile applet and run linter                                        │
-└─────────────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────┐
+│ EchoPreloader (sessionStorage check -> Orbital Canvas -> Dissolve)     │
+├────────────────────────────────────────────────────────────────────────┤
+│ App Container (Theme Provider: stdout | margin-notes)                  │
+│                                                                        │
+│ ┌────────────────────────────────────────────────────────────────────┐ │
+│ │ Navbar ($ raj-golder▌, Nav links, Status indicator, GitHub ↗)      │ │
+│ ├────────────────────────────────────────────────────────────────────┤ │
+│ │ EditorialHero (Metallic shader text shimmer + Fluid clamp type)     │ │
+│ ├────────────────────────────────────────────────────────────────────┤ │
+│ │ ProjectsSection:                                                   │ │
+│ │   ├── ScrollExpandMedia (Kinetic unblur stage for Summarizer)      │ │
+│ │   ├── [If stdout] WorksWheel3D (Cylindrical 3D Drum Reel)          │ │
+│ │   └── [If margin-notes] EditorialGrid (Archival Specimen Cards)    │ │
+│ ├────────────────────────────────────────────────────────────────────┤ │
+│ │ JourneySection:                                                    │ │
+│ │   └── HorizontalSpatialCanvas (Sticky vertical-to-horizontal scrub)│ │
+│ ├────────────────────────────────────────────────────────────────────┤ │
+│ │ SkillsSection (Evidence-based tooling matrix, zero pill tags)      │ │
+│ ├────────────────────────────────────────────────────────────────────┤ │
+│ │ AboutSection (CS50x/CS50P journey, first-principles philosophy)    │ │
+│ ├────────────────────────────────────────────────────────────────────┤ │
+│ │ ContactSection (Prompt email copy feedback, clean terminal mail)   │ │
+│ ├────────────────────────────────────────────────────────────────────┤ │
+│ │ Footer (Theme switcher, session preloader replay button, copyright)│ │
+│ └────────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│ ProjectInspectionModal (Deep-dive specs, CLI flags, pipeline breakdown)│
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Detailed Component & File Execution Mapping
+### Sequential Implementation Phases
 
-1. **`src/data/profile.ts` & `src/data/projects.ts` & `src/data/journey.ts`**:
-   - Update metadata to MATS University Class of 2030, CS50x/CS50P completed.
-   - Clean out draft markers and placeholder links.
-   - Restructure `ai-study-notes-summarizer` with CLI details, concrete problem, 3-step pipeline, and code excerpt.
-2. **`src/sections/Hero.tsx` & `src/components/DeveloperIdCard.tsx`**:
-   - Rewrite headline: `I build small, useful tools in Python_`.
-   - Eyebrow: `B.TECH CSE (AI/ML) · MATS UNIVERSITY · CLASS OF 2030`.
-   - Subhead: `First-year CSE (AI/ML) student at MATS University. CS50x and CS50P completed. Currently building AI tools for studying.`.
-   - Remove duplicate GitHub link and loose philosophy box.
-   - Demote prober to `Try the terminal › (Quick keyboard-driven portfolio navigation)`.
-   - Clean ID card (remove barcode, ensure font sizes $\ge 11\text{px}$, disable 3D tilt under reduced motion).
-3. **`src/components/Navbar.tsx` & `src/components/Footer.tsx`**:
-   - Navbar brand: `$ raj-golder▌`.
-   - Top action: `GitHub ↗` button.
-   - Footer: Include theme switch (`Terminal / Blueprint` or `stdout / margin-notes`), remove public CMS link.
-4. **`src/sections/Projects.tsx` & `src/components/ProjectCard.tsx` & `src/components/ProjectDialog.tsx`**:
-   - Single clean project section.
-   - Featured case study card for Summarizer with Python CLI stack, problem, flow, and code block.
-   - Single-line ideas note for `PrereqOS` and `Book Recommendation Engine`.
-   - "Case study" and "GitHub ↗" button terminology.
-5. **`src/sections/Skills.tsx`**:
-   - Single unified grid: Languages, Tools, Learning now, with project and coursework attribution.
-6. **`src/sections/About.tsx` & `src/sections/Contact.tsx`**:
-   - Clean 3-sentence motivation in About with single quote block.
-   - Contact with mail icon, copy-email feedback, prompt reply promise, and unlinked `/admin` preservation.
-7. **`src/index.css` & Accessibility**:
-   - `scroll-margin-top: 4rem` on sections.
-   - Font size, contrast, and focus outline auditing.
-   - Final `compile_applet` and `lint_applet` verification.
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│ Phase 1: Orbital Preloader & Editorial Hero Enhancements               │
+│ • Implement EchoPreloader with sessionStorage session cache.           │
+│ • Build dual-mode animation: Orbital dot wave (stdout) / Drafting      │
+│   compass arc (margin-notes).                                          │
+│ • Enhance Hero with metallic luminance shader text and dynamic clamp   │
+│   fluid typography.                                                    │
+│ • Add preloader replay button in the footer for easy demonstration.    │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+┌───────────────────────────────────▼────────────────────────────────────┐
+│ Phase 2: Horizontal Spatial Timeline Canvas                            │
+│ • Rebuild #journey with sticky vertical-to-horizontal scrub.           │
+│ • stdout: Interactive coordinate track graph with pulse nodes.         │
+│ • margin-notes: Unfolding horizontal archival ledger.                  │
+│ • Full accessible vertical fallback for prefers-reduced-motion.        │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+┌───────────────────────────────────▼────────────────────────────────────┐
+│ Phase 3: ScrollExpandMedia Kinetic Canvas Stage                        │
+│ • Implement ScrollExpandMedia stage for AI Study Notes Summarizer.     │
+│ • Scrub card geometry, border radius, and dual-layer GPU unblur.       │
+│ • Deep project inspection modal with interactive CLI pipeline tabs.    │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+┌───────────────────────────────────▼────────────────────────────────────┐
+│ Phase 4: WorksWheel 3D Drum Reel & WebGL Liquid Shaders (stdout only)  │
+│ • Implement mathematical 3D cylindrical drum (rotateX / translateZ).   │
+│ • Drag physics with momentum inertia, wheel steps, and touch support.  │
+│ • Add lightweight WebGL liquid displacement shader on card hover.      │
+│ • Preserve flat archival layout in margin-notes; verify build & audit. │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 5. Verification & Testing Strategy
+
+- **Build & Compilation**: Run `compile_applet` and `lint_applet` after each phase to guarantee zero TypeScript or CSS regressions.
+- **Session Lifecycle**: Verify `sessionStorage` correctly prevents preloader re-triggering on navigation while allowing manual replay via the footer action.
+- **Theme Invariance**: Test theme toggle dynamically to ensure 3D canvas and WebGL shaders instantiate cleanly in `stdout` and tear down without memory leaks when switching to `margin-notes`.
+- **Accessibility & Motion**: Verify full responsiveness across desktop, tablet, and mobile, with instant non-kinetic rendering under `prefers-reduced-motion: reduce`.

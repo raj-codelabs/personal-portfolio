@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { ExternalLink, Menu, X } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
@@ -15,9 +15,11 @@ export const Navbar: React.FC<NavbarProps> = () => {
   const reducedMotion = useReducedMotionGlobal();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [activeId, setActiveId] = useState<string>('home');
   const [cursorBlinking, setCursorBlinking] = useState(true);
+
+  const isClickScrollingRef = useRef(false);
+  const clickTimeoutRef = useRef<number | null>(null);
 
   const isStdout = theme === 'stdout';
 
@@ -29,7 +31,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
     { href: '#contact', id: 'contact', label: 'Contact' },
   ];
 
-  // Stop cursor blinking after 3s (Section 3.1)
+  // Stop cursor blinking after 3s
   useEffect(() => {
     if (reducedMotion) {
       setCursorBlinking(false);
@@ -41,20 +43,50 @@ export const Navbar: React.FC<NavbarProps> = () => {
     return () => clearTimeout(timer);
   }, [reducedMotion]);
 
-  // Compress on scroll & scroll progress calculation (Section 4)
+  // Robust scroll-spy and scroll compression
   useEffect(() => {
     let ticking = false;
+
+    const determineActiveSection = () => {
+      if (isClickScrollingRef.current) return;
+
+      const currentY = window.scrollY;
+      const viewportHeight = window.innerHeight;
+      const scrollHeight = document.documentElement.scrollHeight;
+
+      // 1. If reached bottom of page, highlight contact
+      if (currentY + viewportHeight >= scrollHeight - 80) {
+        setActiveId('contact');
+        return;
+      }
+
+      // 2. If above projects, active section is home (no tab underline)
+      const projectsEl = document.getElementById('projects');
+      if (projectsEl && currentY < projectsEl.offsetTop - 160) {
+        setActiveId('home');
+        return;
+      }
+
+      // 3. Check sections in reverse order (bottom-up: contact, about, skills, journey, projects)
+      const sectionIds = ['contact', 'about', 'skills', 'journey', 'projects'];
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 220 && rect.bottom > 80) {
+            setActiveId(id);
+            return;
+          }
+        }
+      }
+    };
 
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const currentY = window.scrollY;
           setIsScrolled(currentY > 24);
-
-          const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-          const progress = maxScroll > 0 ? Math.min(Math.max(currentY / maxScroll, 0), 1) : 0;
-          setScrollProgress(progress);
-
+          determineActiveSection();
           ticking = false;
         });
         ticking = true;
@@ -62,37 +94,34 @@ export const Navbar: React.FC<NavbarProps> = () => {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+
+    // Initial check and re-checks after theme layout reflow
     handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    const t1 = setTimeout(determineActiveSection, 60);
+    const t2 = setTimeout(determineActiveSection, 220);
 
-  // Section 4: Scroll-spy via IntersectionObserver (crossing 40% of viewport)
-  useEffect(() => {
-    const sectionIds = ['home', 'projects', 'journey', 'skills', 'about', 'contact'];
-    const elements = sectionIds
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null);
-
-    if (elements.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
-          }
-        });
-      },
-      {
-        // RootMargin crossing 40% of viewport
-        rootMargin: '-35% 0px -45% 0px',
-        threshold: 0,
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      if (clickTimeoutRef.current) {
+        clearTimeout(clickTimeoutRef.current);
       }
-    );
+    };
+  }, [theme]);
 
-    elements.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
+  const handleNavClick = (id: string) => {
+    setActiveId(id);
+    isClickScrollingRef.current = true;
+    if (clickTimeoutRef.current) {
+      window.clearTimeout(clickTimeoutRef.current);
+    }
+    clickTimeoutRef.current = window.setTimeout(() => {
+      isClickScrollingRef.current = false;
+    }, 850);
+  };
 
   return (
     <header
@@ -102,22 +131,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
           : 'bg-[#fbf7ee]/95 backdrop-blur-md'
       }`}
     >
-      {/* Scroll progress hairline (Section 4, 2px accent bar at top) */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[2px] pointer-events-none z-50 overflow-hidden"
-        aria-hidden="true"
-      >
-        <div
-          className={`h-full w-full origin-left transition-transform duration-75 ${
-            isStdout ? 'bg-[#00e5c0]' : 'bg-[#1d4ed8]'
-          }`}
-          style={{
-            transform: `scaleX(${scrollProgress})`,
-          }}
-        />
-      </div>
-
-      {/* Header Container with compress-on-scroll (Section 4) */}
+      {/* Header Container with compress-on-scroll */}
       <motion.div
         animate={{
           paddingTop: isScrolled ? 10 : 14,
@@ -130,6 +144,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
         <div className="shrink-0 flex items-center">
           <a
             href="#home"
+            onClick={() => handleNavClick('home')}
             className={`text-sm md:text-base font-semibold transition-colors focus-visible:outline-none ${
               isStdout
                 ? 'font-mono text-[#f1f5f9] hover:text-[#00e5c0]'
@@ -160,7 +175,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
           </a>
         </div>
 
-        {/* Zone 2: Navigation Links with Scroll-Spy Underline (FLIP / layoutId with spring.settle) */}
+        {/* Zone 2: Navigation Links with Scroll-Spy Underline (Scoped to active theme to avoid mode-switch glitch) */}
         <nav
           aria-label="Main Navigation"
           className="hidden md:flex items-center gap-6 lg:gap-8 text-xs font-medium uppercase tracking-wider relative"
@@ -171,6 +186,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
               <a
                 key={link.href}
                 href={link.href}
+                onClick={() => handleNavClick(link.id)}
                 className={`relative py-1 transition-colors whitespace-nowrap shrink-0 group ${
                   isStdout
                     ? isActive
@@ -183,10 +199,10 @@ export const Navbar: React.FC<NavbarProps> = () => {
               >
                 <span>{link.label}</span>
 
-                {/* Single underline element sliding between nav items with spring.settle (Section 4) */}
+                {/* Underline element sliding between nav items */}
                 {isActive && (
                   <motion.div
-                    layoutId="nav-underline"
+                    layoutId={`nav-underline-${theme}`}
                     transition={reducedMotion ? { duration: 0 } : spring.settle}
                     className={`absolute bottom-0 left-0 right-0 h-[2px] ${
                       isStdout ? 'bg-[#00e5c0]' : 'bg-[#1d4ed8]'
@@ -244,7 +260,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
         </div>
       </motion.div>
 
-      {/* 1px bottom hairline fades in when scrollY > 24 (Section 4) */}
+      {/* 1px bottom hairline fades in when scrollY > 24 */}
       <motion.div
         animate={{ opacity: isScrolled ? 1 : 0 }}
         transition={reducedMotion ? { duration: 0 } : spring.snap}
@@ -272,7 +288,10 @@ export const Navbar: React.FC<NavbarProps> = () => {
               <a
                 key={link.href}
                 href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => {
+                  handleNavClick(link.id);
+                  setMobileMenuOpen(false);
+                }}
                 className={`block px-3 py-2 text-sm rounded transition-colors ${
                   isStdout
                     ? activeId === link.id

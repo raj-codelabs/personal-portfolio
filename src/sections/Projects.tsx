@@ -4,7 +4,7 @@ import { projectsData } from '../data/projects';
 import { ProjectDialog } from '../components/ProjectDialog';
 import { useTheme } from '../context/ThemeContext';
 import { ExternalLink, Terminal, ChevronRight, Code2 } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { spring, distance } from '../motion/motion-tokens';
 import { useReducedMotionGlobal } from '../motion/useReducedMotionGlobal';
 
@@ -127,7 +127,7 @@ export const Projects: React.FC = () => {
           reducedMotion || isTouch
             ? undefined
             : {
-                y: -3,
+                y: -2,
                 transition: spring.snap,
               }
         }
@@ -226,18 +226,8 @@ export const Projects: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Code Excerpt & Terminal Preview with clip-path mask reveal (Section 5) & Parallax (Section 7.1) */}
-          <motion.div
-            style={
-              reducedMotion
-                ? undefined
-                : {
-                    transform: `translate(${parallax.x}px, ${parallax.y}px)`,
-                    transition: 'transform 200ms cubic-bezier(0.23, 1, 0.32, 1)',
-                  }
-            }
-            className="lg:col-span-5 space-y-3"
-          >
+          {/* Right Column: Code Excerpt & Terminal Preview with clip-path mask reveal (Section 5) */}
+          <div className="lg:col-span-5 space-y-3">
             <div className="flex items-center justify-between text-xs font-mono text-[var(--text-muted)] pb-1">
               <div className="flex items-center gap-1.5">
                 <Code2 className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
@@ -299,7 +289,7 @@ def extract_study_takeaways(notes_text: str, max_points: int = 5) -> list[str]:
                 ✓ Extracted 4 key definitions and 5 bullet takeaways in 0.4s
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </motion.article>
 
@@ -309,14 +299,16 @@ def extract_study_takeaways(notes_text: str, max_points: int = 5) -> list[str]:
         <span>PrereqOS (prerequisite graph for learning topics) · Book Recommendation Engine (planned)</span>
       </div>
 
-      {/* Case Study Modal Dialog */}
-      {selectedProject && (
-        <ProjectDialog
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-          triggerRef={triggerRef}
-        />
-      )}
+      {/* Case Study Modal Dialog with Fluid AnimatePresence */}
+      <AnimatePresence>
+        {selectedProject && (
+          <ProjectDialog
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+            triggerRef={triggerRef}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 };

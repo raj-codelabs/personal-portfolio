@@ -3,7 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script>document.documentElement.classList.add('js');</script>
+    <script>
+      (function () {
+        // In AI Studio preview iframes, HMR WebSockets are not used or may be closed by reverse proxies.
+        // Catch benign Vite client WebSocket rejections so they don't generate unhandled console warnings.
+        window.addEventListener('unhandledrejection', function (event) {
+          var msg = (event && event.reason && (event.reason.message || event.reason.toString())) || '';
+          if (typeof msg === 'string' && msg.indexOf('WebSocket closed without opened') !== -1) {
+            event.preventDefault();
+          }
+        });
+
+        var d = document.documentElement;
+        d.classList.add('js');
+        try {
+          var skip = sessionStorage.getItem('coverSeen') || sessionStorage.getItem('coverDismissed') || location.hash;
+          if (skip) { d.classList.add('skip-cover'); return; }
+        } catch (e) {}
+        var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!reduce) d.classList.add('cover-anim');
+      })();
+    </script>
     <title>Raj Golder | B.Tech CSE (AI/ML) Student, Python Projects</title>
     <meta name="description" content="First-year CSE (AI/ML) student at MATS University. CS50x and CS50P completed. Building practical AI tools for studying." />
     <meta property="og:title" content="Raj Golder | B.Tech CSE (AI/ML) Student, Python Projects" />

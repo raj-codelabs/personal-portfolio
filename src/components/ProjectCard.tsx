@@ -58,7 +58,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onOpenDetails
         reducedMotion || isTouch
           ? undefined
           : {
-              y: -3,
+              y: -2,
               transition: spring.snap,
             }
       }

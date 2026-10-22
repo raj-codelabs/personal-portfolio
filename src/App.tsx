@@ -9,6 +9,7 @@ import { CmsProvider, useCms } from './context/CmsContext';
 import { AdminAuthProvider, useAdminAuth } from './context/AdminAuthContext';
 import { SkipLink } from './components/SkipLink';
 import { Navbar } from './components/Navbar';
+import { Cover } from './components/Cover';
 import { Hero } from './sections/Hero';
 import { Projects } from './sections/Projects';
 import { Journey } from './sections/Journey';
@@ -106,6 +107,7 @@ function PortfolioMain() {
         tabIndex={-1}
         className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 focus:outline-none"
       >
+        <Cover />
         {visibility.hero !== false && <Hero />}
         {visibility.projects !== false && <Projects />}
         {visibility.journey !== false && <Journey />}

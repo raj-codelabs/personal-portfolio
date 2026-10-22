@@ -71,10 +71,35 @@
     font-family: var(--font-serif);
   }
 
-  /* Typography Rules (Phase 3.5) */
+  /* Typography Optical Sizing & Tracking (WWDC 2020 / Apple Fluid Doctrine) */
+  h1 {
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  h2 {
+    letter-spacing: -0.02em;
+    line-height: 1.18;
+    text-wrap: balance;
+  }
+
+  h3 {
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+
   p {
     letter-spacing: 0;
     word-spacing: normal;
+    text-wrap: pretty;
+  }
+
+  /* Instant Press Feedback — Kill Latency (WWDC 2018 §1) */
+  button:active:not(:disabled),
+  [role="button"]:active:not(:disabled) {
+    transform: scale(0.975);
+    transition: transform 80ms cubic-bezier(0.2, 0, 0, 1);
   }
 
   /* Section Anchors with header offset (Phase 4) */
@@ -133,6 +158,11 @@
     ::view-transition-new(*) {
       animation: none !important;
     }
+  }
+
+  /* Section 1.2: Cover progressive enhancement */
+  .skip-cover #cover {
+    display: none !important;
   }
 }
 

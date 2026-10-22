@@ -2,6 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import { Project } from '../types';
 import { useTheme } from '../context/ThemeContext';
 import { X, ExternalLink, GitFork, ArrowLeft, Terminal, CheckCircle2 } from 'lucide-react';
+import { motion } from 'motion/react';
+import { appleSprings } from '../motion/fluid-physics';
+import { useReducedMotionGlobal } from '../motion/useReducedMotionGlobal';
 
 interface ProjectDialogProps {
   project: Project | null;
@@ -68,25 +71,36 @@ export const ProjectDialog: React.FC<ProjectDialogProps> = ({ project, onClose, 
     };
   }, [project, onClose, triggerRef]);
 
+  const reducedMotion = useReducedMotionGlobal();
+
   if (!project) return null;
 
   return (
-    <div
+    <motion.div
       role="presentation"
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-xs transition-opacity"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.18, ease: 'easeOut' }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-md"
     >
-      <div
+      <motion.div
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="dialog-title"
         aria-describedby="dialog-description"
         onClick={(e) => e.stopPropagation()}
-        className={`w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl border p-6 sm:p-8 shadow-2xl transition-all ${
+        initial={reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: 8 }}
+        transition={reducedMotion ? { duration: 0.14 } : appleSprings.reposition}
+        style={{ transformOrigin: 'center center' }}
+        className={`w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl border p-6 sm:p-8 shadow-2xl ${
           isStdout
-            ? 'border-[#242e40] bg-[#121722] text-[#f1f5f9] font-mono'
-            : 'border-[#e2dbce] bg-[#ffffff] text-[#1c1917] font-serif shadow-xl'
+            ? 'border-[#242e40] bg-[#121722]/95 border-t-white/15 text-[#f1f5f9] font-mono'
+            : 'border-[#e2dbce] bg-[#ffffff]/95 border-t-white/60 text-[#1c1917] font-serif shadow-xl'
         }`}
       >
         {/* Header Bar */}
@@ -238,7 +252,7 @@ export const ProjectDialog: React.FC<ProjectDialogProps> = ({ project, onClose, 
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };

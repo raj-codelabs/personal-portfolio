@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Syntropic Filamentation · Algorithmic Philosophy</title>
+  
+  <!-- p5.js from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+
+  <!-- Typography: Poppins (Anthropic UI) & Lora (Editorial Serif) & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =======================================================================
+       ANTHROPIC BRANDING SYSTEM & STYLING
+       ======================================================================= */
+    :root {
+      --bg-page: #FAF9F5;
+      --bg-surface: #FFFFFF;
+      --bg-surface-elevated: #F4F1EA;
+      --bg-card: #FFFFFF;
+      --border-subtle: #E8E5DD;
+      --border-strong: #D6D2C4;
+      --text-primary: #191919;
+      --text-secondary: #5C5955;
+      --text-muted: #8C8881;
+      
+      /* Anthropic Terracotta / Coral Accent Palette */
+      --accent-coral: #CC785C;
+      --accent-coral-hover: #B8674D;
+      --accent-coral-light: #F7EBE6;
+      --accent-warm-sand: #D97757;
+      --accent-slate: #3B3A36;
+      
+      --font-ui: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-editorial: 'Lora', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+      --shadow-elevated: 0 10px 25px -5px rgba(30, 25, 20, 0.06), 0 8px 10px -6px rgba(30, 25, 20, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      font-family: var(--font-ui);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top App Header (Anthropic style) */
+    header.app-header {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .header-title {
+      font-family: var(--font-ui);
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+    }
+
+    .header-badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: var(--accent-coral-light);
+      color: var(--accent-coral);
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+    }
+
+    .header-subtext {
+      font-family: var(--font-editorial);
+      font-style: italic;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* Main Application Grid */
+    .app-container {
+      display: grid;
+      grid-template-columns: 370px 1fr;
+      flex: 1;
+      min-height: calc(100vh - 65px);
+    }
+
+    @media (max-width: 980px) {
+      .app-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* =======================================================================
+       SIDEBAR CONTROLS (Anthropic Form System)
+       ======================================================================= */
+    aside.sidebar {
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border-subtle);
+      padding: 24px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      overflow-y: auto;
+      max-height: calc(100vh - 65px);
+    }
+
+    .sidebar-section {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .sidebar-section:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--accent-coral);
+    }
+
+    /* Seed Controls (FIXED SECTION) */
+    .seed-display-card {
+      background: var(--bg-page);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .seed-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .seed-value {
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 0.05em;
+    }
+
+    .button-group-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.2fr;
+      gap: 6px;
+    }
+
+    .btn {
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+    }
+
+    .btn:hover {
+      background: var(--bg-surface-elevated);
+      border-color: var(--text-muted);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--accent-coral);
+      border-color: var(--accent-coral);
+      color: #FFFFFF;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-coral-hover);
+      border-color: var(--accent-coral-hover);
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border-strong);
+      background: transparent;
+      color: var(--text-primary);
+    }
+
+    .jump-seed-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .input-field {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      padding: 8px 12px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      flex: 1;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .input-field:focus {
+      border-color: var(--accent-coral);
+    }
+
+    /* Preset seeds pills */
+    .preset-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pill-btn {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 4px 8px;
+      border-radius: 9999px;
+      background: var(--bg-page);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .pill-btn:hover {
+      border-color: var(--accent-coral);
+      color: var(--accent-coral);
+      background: var(--accent-coral-light);
+    }
+
+    /* Parameters Controls (VARIABLE SECTION) */
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .control-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .control-label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .value-display {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-coral);
+      font-weight: 600;
+    }
+
+    .control-desc {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    /* Custom range slider (Anthropic Coral theme) */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      background: var(--border-subtle);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+      margin: 4px 0;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent-coral);
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    /* Color Palette Selector */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .palette-card {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 8px;
+      cursor: pointer;
+      background: var(--bg-page);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 0.15s ease;
+      text-align: left;
+    }
+
+    .palette-card:hover {
+      border-color: var(--accent-coral);
+    }
+
+    .palette-card.active {
+      border-color: var(--accent-coral);
+      background: var(--accent-coral-light);
+    }
+
+    .palette-name {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .palette-swatches {
+      display: flex;
+      height: 12px;
+      border-radius: 3px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .palette-swatches span {
+      flex: 1;
+      height: 100%;
+    }
+
+    /* Background tone toggle */
+    .bg-toggle-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .bg-toggle-btn {
+      flex: 1;
+      padding: 6px 8px;
+      font-size: 0.74rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      color: var(--text-secondary);
+    }
+
+    .bg-toggle-btn.active {
+      border-color: var(--accent-coral);
+      background: var(--accent-coral-light);
+      color: var(--accent-coral);
+      font-weight: 600;
+    }
+
+    /* Action Buttons (FIXED SECTION) */
+    .actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .btn-full {
+      grid-column: span 2;
+    }
+
+    /* Status indicator strip */
+    .status-strip {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      background: var(--bg-page);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10B981;
+      margin-right: 6px;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* =======================================================================
+       CANVAS VIEWPORT
+       ======================================================================= */
+    main.viewport {
+      background: var(--bg-page);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: auto;
+    }
+
+    .canvas-wrapper {
+      position: relative;
+      background: #FFFFFF;
+      box-shadow: var(--shadow-elevated);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 100%;
+    }
+
+    #defaultCanvas0 {
+      display: block;
+      max-width: 100%;
+      height: auto !important;
+    }
+
+    .canvas-overlay-bar {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border-subtle);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-secondary);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .philosophy-card-below {
+      max-width: 900px;
+      width: 100%;
+      margin-top: 28px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .philosophy-card-below h2 {
+      font-family: var(--font-editorial);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .philosophy-card-below p {
+      font-family: var(--font-editorial);
+      font-size: 0.94rem;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .philosophy-card-below p:last-child {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="header-brand">
+      <h1 class="header-title">Syntropic Filamentation</h1>
+      <span class="header-badge">Algorithmic Movement</span>
+      <span class="header-subtext">The Helmholtz-Hodge Phase Portrait &amp; Symplectic Geodesics</span>
+    </div>
+    <div class="header-meta">
+      <span>Anthropic Aesthetic</span>
+      <span>·</span>
+      <span>p5.js v1.7.0</span>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- =======================================================================
+         SIDEBAR CONTROLS
+         ======================================================================= -->
+    <aside class="sidebar">
+
+      <!-- 1. SEED CONTROLS (FIXED ANTHROPIC SECTION) -->
+      <div class="sidebar-section">
+        <div class="section-title">
+          <span>Seed Configuration</span>
+          <span class="section-tag">Deterministic</span>
+        </div>
+
+        <div class="seed-display-card">
+          <span class="seed-label">CURRENT SEED</span>
+          <span class="seed-value" id="current-seed-display">#12345</span>
+        </div>
+
+        <div class="button-group-row">
+          <button class="btn" onclick="prevSeed()" title="Previous Seed">← Prev</button>
+          <button class="btn" onclick="nextSeed()" title="Next Seed">Next →</button>
+          <button class="btn btn-outline" onclick="randomSeedJump()" title="Randomize Seed">🎲 Random</button>
+        </div>
+
+        <div class="jump-seed-row">
+          <input type="number" id="seed-input" class="input-field" placeholder="Jump to seed..." min="1" max="9999999" value="12345">
+          <button class="btn btn-primary" onclick="jumpToSeed()">Go</button>
+        </div>
+
+        <div>
+          <div class="control-desc" style="margin-bottom: 6px;">Curated Movement Variations:</div>
+          <div class="preset-pills">
+            <button class="pill-btn" onclick="loadSeedPreset(42)">#42 Vortex</button>
+            <button class="pill-btn" onclick="loadSeedPreset(108)">#108 Geodesic</button>
+            <button class="pill-btn" onclick="loadSeedPreset(314)">#314 Harmonic</button>
+            <button class="pill-btn" onclick="loadSeedPreset(777)">#777 Solenoid</button>
+            <button class="pill-btn" onclick="loadSeedPreset(1618)">#1618 Golden</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. PARAMETERS (VARIABLE SECTION: SPECIFIC TO SYNTROPIC FILAMENTATION) -->
+      <div class="sidebar-section">
+        <div class="section-title">
+          <span>Algorithmic Parameters</span>
+          <span class="section-tag">Phase Space</span>
+        </div>
+
+        <!-- Param 1: Domain Warp Strength -->
+        <div class="control-group">
+          <div class="control-header">
+            <span class="control-label">Domain Warp Intensity</span>
+            <span class="value-display" id="warp-value">2.20</span>
+          </div>
+          <input type="range" id="param-warp" min="0.4" max="4.0" step="0.05" value="2.2" oninput="updateParam('warpStrength', this.value, 'warp-value', 2)">
+          <span class="control-desc">Recursive coordinate deformation via multi-octave curl tensor.</span>
+        </div>
+
+        <!-- Param 2: Solenoidal Vorticity Ratio -->
+        <div class="control-group">
+          <div class="control-header">
+            <span class="control-label">Solenoidal Ratio (Curl)</span>
+            <span class="value-display" id="vorticity-value">1.45</span>
+          </div>
+          <input type="range" id="param-vorticity" min="0.0" max="3.0" step="0.05" value="1.45" oninput="updateParam('vorticity', this.value, 'vorticity-value', 2)">
+          <span class="control-desc">Balance between divergence-free vortex swirl and laminar gradient flow.</span>
+        </div>
+
+        <!-- Param 3: Filament Tracer Density -->
+        <div class="control-group">
+          <div class="control-header">
+            <span class="control-label">Tracer Density</span>
+            <span class="value-display" id="density-value">2200</span>
+          </div>
+          <input type="range" id="param-density" min="600" max="4500" step="100" value="2200" oninput="updateParam('tracerCount', this.value, 'density-value', 0)">
+          <span class="control-desc">Number of autonomous numerical agents carving geodesic trails.</span>
+        </div>
+
+        <!-- Param 4: Integration Step (dt) -->
+        <div class="control-group">
+          <div class="control-header">
+            <span class="control-label">Geodesic Step ($dt$)</span>
+            <span class="value-display" id="step-value">1.60</span>
+          </div>
+          <input type="range" id="param-step" min="0.5" max="3.5" step="0.05" value="1.60" oninput="updateParam('stepSize', this.value, 'step-value', 2)">
+          <span class="control-desc">Symplectic integration distance per temporal iteration.</span>
+        </div>
+
+        <!-- Param 5: Pigment Opacity -->
+        <div class="control-group">
+          <div class="control-header">
+            <span class="control-label">Trail Luminescence</span>
+            <span class="value-display" id="alpha-value">0.040</span>
+          </div>
+          <input type="range" id="param-alpha" min="0.01" max="0.12" step="0.005" value="0.04" oninput="updateParam('alphaBase', this.value, 'alpha-value', 3)">
+          <span class="control-desc">Infinitesimal atomic pigment accumulation per particle step.</span>
+        </div>
+
+        <!-- Param 6: Noise Field Frequency -->
+        <div class="control-group">
+          <div class="control-header">
+            <span class="control-label">Spatial Frequency</span>
+            <span class="value-display" id="freq-value">0.0028</span>
+          </div>
+          <input type="range" id="param-freq" min="0.001" max="0.007" step="0.0002" value="0.0028" oninput="updateParam('noiseFreq', this.value, 'freq-value', 4)">
+          <span class="control-desc">Fundamental wavelength of the underlying scalar potential.</span>
+        </div>
+      </div>
+
+      <!-- 3. COLOR HARMONIES (VARIABLE/OPTIONAL SECTION) -->
+      <div class="sidebar-section">
+        <div class="section-title">
+          <span>Pigment Harmonies</span>
+          <span class="section-tag">Organic</span>
+        </div>
+
+        <div class="palette-grid">
+          <div class="palette-card active" onclick="selectPalette('terracotta', this)">
+            <span class="palette-name">Terracotta &amp; Charcoal</span>
+            <div class="palette-swatches">
+              <span style="background: #CC785C;"></span>
+              <span style="background: #D97757;"></span>
+              <span style="background: #2B2A27;"></span>
+              <span style="background: #E8B89B;"></span>
+            </div>
+          </div>
+
+          <div class="palette-card" onclick="selectPalette('lapislazuli', this)">
+            <span class="palette-name">Lapis &amp; Raw Sienna</span>
+            <div class="palette-swatches">
+              <span style="background: #1E3A8A;"></span>
+              <span style="background: #3B82F6;"></span>
+              <span style="background: #C2843A;"></span>
+              <span style="background: #F4E2C7;"></span>
+            </div>
+          </div>
+
+          <div class="palette-card" onclick="selectPalette('ochre', this)">
+            <span class="palette-name">Gold Ochre &amp; Sage</span>
+            <div class="palette-swatches">
+              <span style="background: #B45309;"></span>
+              <span style="background: #D97706;"></span>
+              <span style="background: #577555;"></span>
+              <span style="background: #EFE8DA;"></span>
+            </div>
+          </div>
+
+          <div class="palette-card" onclick="selectPalette('sumi', this)">
+            <span class="palette-name">Carbon Ink (Sumi-e)</span>
+            <div class="palette-swatches">
+              <span style="background: #111110;"></span>
+              <span style="background: #383734;"></span>
+              <span style="background: #737068;"></span>
+              <span style="background: #CFCBC2;"></span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 6px;">
+          <div class="control-desc" style="margin-bottom: 6px;">Canvas Ground Tone:</div>
+          <div class="bg-toggle-row">
+            <button class="bg-toggle-btn active" id="bg-light-btn" onclick="setGroundTone('light')">Warm Ivory (#FAF9F5)</button>
+            <button class="bg-toggle-btn" id="bg-dark-btn" onclick="setGroundTone('dark')">Obsidian Slate (#161614)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. ACTIONS (FIXED ANTHROPIC SECTION) -->
+      <div class="sidebar-section">
+        <div class="section-title">
+          <span>Actions &amp; Export</span>
+          <span class="section-tag">Reproducible</span>
+        </div>
+
+        <div class="actions-grid">
+          <button class="btn btn-primary" onclick="restartSimulation()">↻ Regenerate</button>
+          <button class="btn" id="toggle-play-btn" onclick="togglePlayState()">⏸ Pause</button>
+          <button class="btn" onclick="resetToDefaults()">Reset Defaults</button>
+          <button class="btn btn-outline" onclick="exportArtworkPNG()">↓ Download PNG</button>
+        </div>
+
+        <div class="status-strip">
+          <span><span class="status-dot"></span><span id="engine-status">Iterating Phase Geodesics</span></span>
+          <span id="step-counter">Step: 0</span>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- =======================================================================
+         MAIN CANVAS VIEWPORT
+         ======================================================================= -->
+    <main class="viewport">
+      <div class="canvas-wrapper" id="canvas-container">
+        <!-- p5.js canvas attaches here -->
+        <div class="canvas-overlay-bar">
+          <span id="canvas-status-seed">Seed: #12345</span>
+          <span>·</span>
+          <span id="canvas-status-res">1000 × 1000 px</span>
+          <span>·</span>
+          <span id="canvas-status-fps">60 fps</span>
+        </div>
+      </div>
+
+      <!-- Philosophy Card Below Canvas -->
+      <article class="philosophy-card-below">
+        <h2>About Syntropic Filamentation</h2>
+        <p>
+          In the continuum of physical nature, order does not battle chaos; rather, syntropy emerges as matter surrenders to the geometry of invisible force. Syntropic Filamentation posits that beauty in computational art is neither an image nor a composition, but an emergent thermodynamic state—a choreography of differential equations resolving non-linear tension across dimensional boundaries.
+        </p>
+        <p>
+          Autonomous numerical agents traverse a continuous scalar potential perturbed by multi-octave domain warping. Their individual trajectories deposit atomic quantities of luminous pigment along geodesic curves, creating silk-like topological manifolds where overlapping strands generate organic interference moiré of staggering mathematical poise.
+        </p>
+      </article>
+    </main>
+  </div>
+
+  <!-- =======================================================================
+       P5.JS ALGORITHMIC ENGINE & PARAMETER BINDINGS
+       ======================================================================= -->
+  <script>
+    /* -----------------------------------------------------------------------
+       PARAMETER DEFINITIONS (The 10% essential parameters)
+       ----------------------------------------------------------------------- */
+    let params = {
+      seed: 12345,
+      warpStrength: 2.20,
+      vorticity: 1.45,
+      tracerCount: 2200,
+      stepSize: 1.60,
+      alphaBase: 0.040,
+      noiseFreq: 0.0028,
+      paletteKey: 'terracotta',
+      groundTone: 'light', // 'light' or 'dark'
+      maxSteps: 700
+    };
+
+    const DEFAULT_PARAMS = JSON.parse(JSON.stringify(params));
+
+    /* Pigment Harmonies */
+    const PALETTES = {
+      terracotta: {
+        name: 'Terracotta & Charcoal',
+        lightBg: '#FAF9F5',
+        darkBg: '#151413',
+        colors: [
+          [204, 120, 92],   // Anthropic Terracotta
+          [217, 119, 87],   // Warm Coral
+          [43, 42, 39],     // Deep Charcoal
+          [194, 94, 56],    // Burnt Sienna
+          [232, 184, 155],  // Apricot Sand
+          [92, 89, 85]      // Warm Slate
+        ]
+      },
+      lapislazuli: {
+        name: 'Lapis & Raw Sienna',
+        lightBg: '#FAF8F5',
+        darkBg: '#0F131C',
+        colors: [
+          [30, 58, 138],    // Deep Lapis
+          [59, 130, 246],   // Cerulean Blue
+          [194, 132, 58],   // Raw Sienna
+          [244, 226, 199],  // Bone White
+          [37, 99, 235],    // Radiant Cobalt
+          [217, 160, 91]    // Honey Ochre
+        ]
+      },
+      ochre: {
+        name: 'Gold Ochre & Sage',
+        lightBg: '#FAF9F4',
+        darkBg: '#131613',
+        colors: [
+          [180, 83, 9],     // Deep Ochre
+          [217, 119, 6],    // Amber Gold
+          [87, 117, 85],    // Muted Sage
+          [62, 84, 60],     // Forest Umber
+          [239, 232, 218],  // Flaxen Ground
+          [146, 64, 14]     // Raw Sienna
+        ]
+      },
+      sumi: {
+        name: 'Carbon Ink (Sumi-e)',
+        lightBg: '#F8F7F3',
+        darkBg: '#111110',
+        colors: [
+          [17, 17, 16],     // Dense Carbon
+          [56, 55, 52],     // Stone Charcoal
+          [115, 112, 104],  // Dilute Ink
+          [168, 164, 154],  // Washed Mist
+          [207, 203, 194],  // Rice Paper White
+          [82, 80, 75]      // Sepia Graphite
+        ]
+      }
+    };
+
+    /* Simulation State */
+    let tracers = [];
+    let currentStep = 0;
+    let isRunning = true;
+    const CANVAS_SIZE = 1000;
+
+    /* -----------------------------------------------------------------------
+       TRACER / PARTICLE CLASS
+       Symplectic Euler stepping through domain-warped vector potential
+       ----------------------------------------------------------------------- */
+    class FilamentTracer {
+      constructor(x, y, paletteColors) {
+        this.reset(x, y, paletteColors);
+      }
+
+      reset(x, y, paletteColors) {
+        this.pos = createVector(x, y);
+        this.prevPos = this.pos.copy();
+        this.vel = createVector(0, 0);
+        this.age = 0;
+        this.maxAge = floor(random(250, 600));
+        this.dead = false;
+        
+        // Assign a harmonic color index from palette
+        const c1 = random(paletteColors);
+        const c2 = random(paletteColors);
+        this.baseColor = c1;
+        this.altColor = c2;
+        this.weight = random(0.65, 1.45);
+      }
+
+      update(warpStrength, vorticity, noiseFreq, stepSize) {
+        if (this.dead) return;
+
+        this.prevPos.set(this.pos);
+
+        // 1. Multi-octave domain warping: compute warped coordinates (q, r)
+        const nx = this.pos.x * noiseFreq;
+        const ny = this.pos.y * noiseFreq;
+
+        const qx = noise(nx, ny);
+        const qy = noise(nx + 5.2, ny + 1.3);
+
+        const rx = noise(nx + 4.0 * qx * (warpStrength * 0.4), ny + 4.0 * qy * (warpStrength * 0.4));
+        const ry = noise(nx + 4.0 * qx * (warpStrength * 0.4) + 1.7, ny + 4.0 * qy * (warpStrength * 0.4) + 9.2);
+
+        // 2. Fundamental potential angle
+        const baseAngle = noise(
+          nx + warpStrength * rx,
+          ny + warpStrength * ry
+        ) * TWO_PI * 2.5;
+
+        // 3. Solenoidal curl approximation via central finite differences of potential scalar
+        const eps = 4.0;
+        const pL = noise((this.pos.x - eps) * noiseFreq, this.pos.y * noiseFreq);
+        const pR = noise((this.pos.x + eps) * noiseFreq, this.pos.y * noiseFreq);
+        const pU = noise(this.pos.x * noiseFreq, (this.pos.y - eps) * noiseFreq);
+        const pD = noise(this.pos.x * noiseFreq, (this.pos.y + eps) * noiseFreq);
+
+        const curlX = (pD - pU) / (2.0 * eps);
+        const curlY = -(pR - pL) / (2.0 * eps);
+
+        // 4. Synthesizing total directional force
+        const dir = p5.Vector.fromAngle(baseAngle);
+        dir.mult(1.0);
+
+        const curlVec = createVector(curlX * 120.0, curlY * 120.0);
+        curlVec.mult(vorticity);
+
+        dir.add(curlVec);
+        dir.normalize();
+
+        // Symplectic velocity integration with damping
+        this.vel.mult(0.65);
+        this.vel.add(p5.Vector.mult(dir, stepSize * 1.5));
+
+        this.pos.add(this.vel);
+        this.age++;
+
+        // Boundary checks: soft wrap or terminate
+        if (
+          this.pos.x < -30 || this.pos.x > width + 30 ||
+          this.pos.y < -30 || this.pos.y > height + 30 ||
+          this.age >= this.maxAge
+        ) {
+          this.dead = true;
+        }
+      }
+
+      display(alphaBase, isDarkGround) {
+        if (this.dead) return;
+
+        // Velocity and vorticity dictate color blending
+        const speed = this.vel.mag();
+        const t = constrain(map(speed, 0.4, 3.2, 0, 1), 0, 1);
+
+        const r = lerp(this.baseColor[0], this.altColor[0], t);
+        const g = lerp(this.baseColor[1], this.altColor[1], t);
+        const b = lerp(this.baseColor[2], this.altColor[2], t);
+
+        // Dynamic alpha: fast filaments burn brighter, edge filaments fade gently
+        const fade = sin(map(this.age, 0, this.maxAge, 0, PI));
+        const effectiveAlpha = map(alphaBase, 0.01, 0.12, 10, 80) * fade;
+
+        stroke(r, g, b, effectiveAlpha);
+        strokeWeight(this.weight);
+        line(this.prevPos.x, this.prevPos.y, this.pos.x, this.pos.y);
+      }
+    }
+
+    /* -----------------------------------------------------------------------
+       P5.JS SETUP & DRAW
+       ----------------------------------------------------------------------- */
+    function setup() {
+      const canvas = createCanvas(CANVAS_SIZE, CANVAS_SIZE);
+      canvas.parent('canvas-container');
+      pixelDensity(min(window.devicePixelRatio || 1, 2));
+      
+      initSystem();
+    }
+
+    function initSystem() {
+      // 1. Seed deterministic PRNGs
+      randomSeed(params.seed);
+      noiseSeed(params.seed);
+
+      // 2. Set Canvas Background
+      const pal = PALETTES[params.paletteKey];
+      const bgHex = params.groundTone === 'light' ? pal.lightBg : pal.darkBg;
+      background(bgHex);
+
+      // 3. Populate Tracers across phase space
+      tracers = [];
+      const palColors = pal.colors;
+
+      // Seed positions with subtle density bias towards harmonic centers
+      for (let i = 0; i < params.tracerCount; i++) {
+        let x, y;
+        if (random() < 0.4) {
+          // Central vortex cluster
+          const angle = random(TWO_PI);
+          const rad = random(width * 0.05, width * 0.42);
+          x = width / 2 + cos(angle) * rad;
+          y = height / 2 + sin(angle) * rad;
+        } else {
+          // Distributed field
+          x = random(-20, width + 20);
+          y = random(-20, height + 20);
+        }
+        tracers.push(new FilamentTracer(x, y, palColors));
+      }
+
+      currentStep = 0;
+      updateUIStatus();
+    }
+
+    function draw() {
+      if (!isRunning) return;
+
+      // Sub-stepping for ultra-smooth filament continuity
+      const SUB_STEPS = 2;
+      for (let s = 0; s < SUB_STEPS; s++) {
+        if (currentStep >= params.maxSteps) {
+          isRunning = false;
+          document.getElementById('engine-status').innerText = 'Equilibrium Achieved';
+          document.getElementById('toggle-play-btn').innerText = '▶ Resume';
+          break;
+        }
+
+        const isDark = params.groundTone === 'dark';
+
+        for (let i = 0; i < tracers.length; i++) {
+          const tracer = tracers[i];
+          if (!tracer.dead) {
+            tracer.update(params.warpStrength, params.vorticity, params.noiseFreq, params.stepSize);
+            tracer.display(params.alphaBase, isDark);
+          }
+        }
+        currentStep++;
+      }
+
+      // UI Counter update every 10 frames
+      if (frameCount % 10 === 0) {
+        document.getElementById('step-counter').innerText = `Step: ${currentStep} / ${params.maxSteps}`;
+        document.getElementById('canvas-status-fps').innerText = `${round(frameRate())} fps`;
+      }
+    }
+
+    /* -----------------------------------------------------------------------
+       INTERACTIVE CONTROLS & SEED LOGIC
+       ----------------------------------------------------------------------- */
+    function updateParam(key, val, displayId, decimals) {
+      params[key] = parseFloat(val);
+      if (displayId) {
+        document.getElementById(displayId).innerText = parseFloat(val).toFixed(decimals);
+      }
+      restartSimulation();
+    }
+
+    function selectPalette(key, el) {
+      params.paletteKey = key;
+      document.querySelectorAll('.palette-card').forEach(c => c.classList.remove('active'));
+      if (el) el.classList.add('active');
+      restartSimulation();
+    }
+
+    function setGroundTone(tone) {
+      params.groundTone = tone;
+      document.getElementById('bg-light-btn').classList.toggle('active', tone === 'light');
+      document.getElementById('bg-dark-btn').classList.toggle('active', tone === 'dark');
+      restartSimulation();
+    }
+
+    function prevSeed() {
+      params.seed = max(1, params.seed - 1);
+      syncSeedUI();
+      restartSimulation();
+    }
+
+    function nextSeed() {
+      params.seed = params.seed + 1;
+      syncSeedUI();
+      restartSimulation();
+    }
+
+    function randomSeedJump() {
+      params.seed = floor(random(1000, 999999));
+      syncSeedUI();
+      restartSimulation();
+    }
+
+    function jumpToSeed() {
+      const inputVal = parseInt(document.getElementById('seed-input').value, 10);
+      if (!isNaN(inputVal) && inputVal > 0) {
+        params.seed = inputVal;
+        syncSeedUI();
+        restartSimulation();
+      }
+    }
+
+    function loadSeedPreset(s) {
+      params.seed = s;
+      syncSeedUI();
+      restartSimulation();
+    }
+
+    function syncSeedUI() {
+      document.getElementById('current-seed-display').innerText = `#${params.seed}`;
+      document.getElementById('seed-input').value = params.seed;
+      document.getElementById('canvas-status-seed').innerText = `Seed: #${params.seed}`;
+    }
+
+    function restartSimulation() {
+      isRunning = true;
+      document.getElementById('engine-status').innerText = 'Iterating Phase Geodesics';
+      document.getElementById('toggle-play-btn').innerText = '⏸ Pause';
+      initSystem();
+    }
+
+    function togglePlayState() {
+      isRunning = !isRunning;
+      const btn = document.getElementById('toggle-play-btn');
+      if (isRunning) {
+        btn.innerText = '⏸ Pause';
+        document.getElementById('engine-status').innerText = 'Iterating Phase Geodesics';
+      } else {
+        btn.innerText = '▶ Resume';
+        document.getElementById('engine-status').innerText = 'Paused';
+      }
+    }
+
+    function resetToDefaults() {
+      params = JSON.parse(JSON.stringify(DEFAULT_PARAMS));
+      
+      // Update UI input sliders
+      document.getElementById('param-warp').value = params.warpStrength;
+      document.getElementById('warp-value').innerText = params.warpStrength.toFixed(2);
+
+      document.getElementById('param-vorticity').value = params.vorticity;
+      document.getElementById('vorticity-value').innerText = params.vorticity.toFixed(2);
+
+      document.getElementById('param-density').value = params.tracerCount;
+      document.getElementById('density-value').innerText = params.tracerCount;
+
+      document.getElementById('param-step').value = params.stepSize;
+      document.getElementById('step-value').innerText = params.stepSize.toFixed(2);
+
+      document.getElementById('param-alpha').value = params.alphaBase;
+      document.getElementById('alpha-value').innerText = params.alphaBase.toFixed(3);
+
+      document.getElementById('param-freq').value = params.noiseFreq;
+      document.getElementById('freq-value').innerText = params.noiseFreq.toFixed(4);
+
+      syncSeedUI();
+      selectPalette('terracotta', document.querySelector('.palette-card'));
+      setGroundTone('light');
+    }
+
+    function exportArtworkPNG() {
+      const fileName = `syntropic-filamentation-seed-${params.seed}.png`;
+      saveCanvas(fileName, 'png');
+    }
+
+    function updateUIStatus() {
+      syncSeedUI();
+      document.getElementById('step-counter').innerText = `Step: 0 / ${params.maxSteps}`;
+    }
+
+    // Keyboard shortcuts for generative exploration
+    window.addEventListener('keydown', (e) => {
+      if (document.activeElement.tagName === 'INPUT') return;
+      if (e.key === ' ' || e.code === 'Space') {
+        e.preventDefault();
+        togglePlayState();
+      } else if (e.key === 'r' || e.key === 'R') {
+        restartSimulation();
+      } else if (e.key === 'ArrowRight') {
+        nextSeed();
+      } else if (e.key === 'ArrowLeft') {
+        prevSeed();
+      }
+    });
+  </script>
+</body>
+</html>

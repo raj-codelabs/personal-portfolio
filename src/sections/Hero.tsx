@@ -7,42 +7,30 @@ import { SketchReveal } from '../components/SketchReveal';
 import { ArrowDown, ExternalLink, Terminal } from 'lucide-react';
 import { motion } from 'motion/react';
 import { spring, distance } from '../motion/motion-tokens';
-import { useIntroAnimation } from '../motion/useIntroAnimation';
+import { useReducedMotionGlobal } from '../motion/useReducedMotionGlobal';
 
 export const Hero: React.FC = () => {
   const { theme } = useTheme();
   const { profile } = useCms();
   const [showCli, setShowCli] = useState(false);
   const [cursorBlinking, setCursorBlinking] = useState(true);
-  const [typedWhoami, setTypedWhoami] = useState('whoami');
-
-  const { isIntroComplete, reducedMotion } = useIntroAnimation();
+  const reducedMotion = useReducedMotionGlobal();
   const isStdout = theme === 'stdout';
 
   const name = profile?.name || 'Raj Golder';
   const github = profile?.contact?.github || 'https://github.com/raj-codelabs';
 
-  // Section 3.1: Terminal whoami typing sequence (0–280ms, ~40ms/char)
-  useEffect(() => {
-    if (isIntroComplete || reducedMotion) {
-      setTypedWhoami('whoami');
-      return;
+  // Section 1.8: Check whether cover was skipped on initial load (same session, hash, etc.)
+  const [coverSkippedOnLoad] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return true;
+    if (window.location.hash && window.location.hash.length > 1) return true;
+    if (document.documentElement.classList.contains('skip-cover')) return true;
+    try {
+      return sessionStorage.getItem('coverSeen') === '1';
+    } catch {
+      return false;
     }
-
-    const text = 'whoami';
-    let idx = 0;
-    setTypedWhoami('');
-
-    const interval = setInterval(() => {
-      idx++;
-      setTypedWhoami(text.slice(0, idx));
-      if (idx >= text.length) {
-        clearInterval(interval);
-      }
-    }, 45);
-
-    return () => clearInterval(interval);
-  }, [isIntroComplete, reducedMotion]);
+  });
 
   // Section 3.1: Blinking cursor stops blinking after ~3s, stays solid
   useEffect(() => {
@@ -56,12 +44,43 @@ export const Hero: React.FC = () => {
     return () => clearTimeout(timer);
   }, [reducedMotion]);
 
+  // Section 1.8: Entrance animation props
+  // If cover skipped on load -> runs on load with delays (max 1.1s)
+  // If cover exists -> runs once when hero enters viewport (standard reveal)
+  const getRevealProps = (delayOnLoad: number) => {
+    if (reducedMotion) {
+      return {
+        initial: false,
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0 },
+      };
+    }
+
+    if (coverSkippedOnLoad) {
+      return {
+        initial: { opacity: 0, y: distance.reveal },
+        animate: { opacity: 1, y: 0 },
+        transition: { ...spring.settle, delay: delayOnLoad },
+      };
+    }
+
+    return {
+      initial: { opacity: 0, y: distance.reveal },
+      whileInView: { opacity: 1, y: 0 },
+      viewport: { once: true, amount: 0.15, margin: '0px 0px -10% 0px' },
+      transition: { ...spring.settle, delay: Math.min(delayOnLoad * 0.5, 0.2) },
+    };
+  };
+
   return (
     <section
-      id="home"
+      id="hero"
       aria-label="Engineering Introduction"
-      className="py-10 sm:py-16 space-y-10 text-left scroll-mt-16"
+      className="relative py-10 sm:py-16 space-y-10 text-left scroll-mt-16"
     >
+      {/* Anchor for #home navigation compatibility */}
+      <div id="home" className="absolute -top-16 pointer-events-none" aria-hidden="true" />
+
       {/* ========================================================================= */}
       {/* THEME 1: DARK MODE (stdout) — Developer Terminal                          */}
       {/* ========================================================================= */}
@@ -69,16 +88,14 @@ export const Hero: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           {/* Left Column: Terminal Introduction */}
           <div className="lg:col-span-7 space-y-5">
-            {/* 1. 0ms: Eyebrow fades in & header whoami command */}
+            {/* 1. Static whoami subtitle (Section 1.8: Terminal header subtitle whoami is static) */}
             <motion.div
-              initial={isIntroComplete || reducedMotion ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.2 }}
+              {...getRevealProps(0.0)}
               className="space-y-1"
             >
               <div className="text-xs font-mono text-[#64748b] flex items-center gap-1.5 pb-0.5">
                 <span className="text-[#00e5c0] font-bold">$</span>
-                <span className="text-[#94a3b8]">{typedWhoami}</span>
+                <span className="text-[#94a3b8]">whoami</span>
                 <span
                   className={`text-[#00e5c0] ${
                     cursorBlinking && !reducedMotion ? 'animate-pulse' : 'opacity-100'
@@ -93,29 +110,23 @@ export const Hero: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* 3. 150ms: H1 lines rise 12px + fade, 60ms stagger (Text in DOM from first paint) */}
+            {/* 2. H1 lines rise 12px + fade, 60ms stagger (Text in DOM from first paint) */}
             <h1 className="text-3xl sm:text-5xl font-mono font-bold tracking-tight text-[#f1f5f9] leading-[1.15]">
               <motion.span
                 className="block"
-                initial={isIntroComplete || reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={isIntroComplete || reducedMotion ? { duration: 0 } : { ...spring.settle, delay: 0.15 }}
+                {...getRevealProps(0.15)}
               >
                 I build small,
               </motion.span>
               <motion.span
                 className="block"
-                initial={isIntroComplete || reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={isIntroComplete || reducedMotion ? { duration: 0 } : { ...spring.settle, delay: 0.21 }}
+                {...getRevealProps(0.21)}
               >
                 useful tools in
               </motion.span>
               <motion.span
                 className="block"
-                initial={isIntroComplete || reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={isIntroComplete || reducedMotion ? { duration: 0 } : { ...spring.settle, delay: 0.27 }}
+                {...getRevealProps(0.27)}
               >
                 Python
                 <span
@@ -129,11 +140,9 @@ export const Hero: React.FC = () => {
               </motion.span>
             </h1>
 
-            {/* 4. 450ms: Subhead, NOW status, CTAs fade/rise (settle) */}
+            {/* 3. Subhead, NOW status, CTAs fade/rise (settle) */}
             <motion.div
-              initial={isIntroComplete || reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={isIntroComplete || reducedMotion ? { duration: 0 } : { ...spring.settle, delay: 0.45 }}
+              {...getRevealProps(0.45)}
               className="space-y-4"
             >
               <p className="text-base sm:text-lg text-[#94a3b8] font-body leading-relaxed max-w-2xl">
@@ -200,11 +209,29 @@ export const Hero: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* 5. 550ms: Badge scales 0.96 to 1 + fades (soft spring, Section 3.1) */}
+          {/* Badge: Scale-in starts on hero enter or on load (Section 1.8 & 3.1) */}
           <motion.div
-            initial={isIntroComplete || reducedMotion ? false : { opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={isIntroComplete || reducedMotion ? { duration: 0 } : { ...spring.soft, delay: 0.55 }}
+            initial={reducedMotion ? false : { opacity: 0, scale: 0.96 }}
+            animate={
+              reducedMotion
+                ? { opacity: 1, scale: 1 }
+                : coverSkippedOnLoad
+                ? { opacity: 1, scale: 1 }
+                : undefined
+            }
+            whileInView={
+              !reducedMotion && !coverSkippedOnLoad
+                ? { opacity: 1, scale: 1 }
+                : undefined
+            }
+            viewport={{ once: true, amount: 0.2 }}
+            transition={
+              reducedMotion
+                ? { duration: 0 }
+                : coverSkippedOnLoad
+                ? { ...spring.soft, delay: 0.55 }
+                : spring.soft
+            }
             className="lg:col-span-5 flex flex-col items-center justify-start w-full"
           >
             <DeveloperIdCard />
@@ -217,49 +244,39 @@ export const Hero: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start font-serif">
           {/* Left Column: Notebook Journal Introduction */}
           <div className="lg:col-span-7 space-y-6">
-            {/* 1. 0ms: Script eyebrow fades in */}
+            {/* 1. Script eyebrow fades in */}
             <motion.div
-              initial={isIntroComplete || reducedMotion ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.2 }}
+              {...getRevealProps(0.0)}
               className="text-xs font-serif uppercase tracking-wider text-[#c25e38] font-bold"
             >
               B.TECH CSE (AI/ML) · CLASS OF 2030
             </motion.div>
 
-            {/* 2. 100ms: H1 lines rise 12px + fade, 60ms stagger */}
+            {/* 2. H1 lines rise 12px + fade, 60ms stagger */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-normal tracking-tight text-[#1c1917] leading-[1.12]">
               <motion.span
                 className="block"
-                initial={isIntroComplete || reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={isIntroComplete || reducedMotion ? { duration: 0 } : { ...spring.settle, delay: 0.1 }}
+                {...getRevealProps(0.1)}
               >
                 I build small,
               </motion.span>
               <motion.span
                 className="block"
-                initial={isIntroComplete || reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={isIntroComplete || reducedMotion ? { duration: 0 } : { ...spring.settle, delay: 0.16 }}
+                {...getRevealProps(0.16)}
               >
                 useful tools in
               </motion.span>
               <motion.span
                 className="block"
-                initial={isIntroComplete || reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={isIntroComplete || reducedMotion ? { duration: 0 } : { ...spring.settle, delay: 0.22 }}
+                {...getRevealProps(0.22)}
               >
                 Python.
               </motion.span>
             </h1>
 
-            {/* 4. 500ms: Subhead, CTAs fade/rise */}
+            {/* 3. Subhead, CTAs fade/rise */}
             <motion.div
-              initial={isIntroComplete || reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={isIntroComplete || reducedMotion ? { duration: 0 } : { ...spring.settle, delay: 0.5 }}
+              {...getRevealProps(0.5)}
               className="space-y-4"
             >
               <p className="text-base sm:text-lg text-[#44403c] font-serif leading-relaxed max-w-2xl">
@@ -319,11 +336,29 @@ export const Hero: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* 3. 150ms: Portrait draw-in: fade from graphite layer over 600ms (Section 3.2) */}
+          {/* Portrait draw-in: Starts on hero enter or on load (Section 1.8 & 3.2) */}
           <motion.div
-            initial={isIntroComplete || reducedMotion ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={isIntroComplete || reducedMotion ? { duration: 0 } : { duration: 0.6, delay: 0.15, ease: 'easeOut' }}
+            initial={reducedMotion ? false : { opacity: 0 }}
+            animate={
+              reducedMotion
+                ? { opacity: 1 }
+                : coverSkippedOnLoad
+                ? { opacity: 1 }
+                : undefined
+            }
+            whileInView={
+              !reducedMotion && !coverSkippedOnLoad
+                ? { opacity: 1 }
+                : undefined
+            }
+            viewport={{ once: true, amount: 0.2 }}
+            transition={
+              reducedMotion
+                ? { duration: 0 }
+                : coverSkippedOnLoad
+                ? { duration: 0.6, delay: 0.15, ease: 'easeOut' }
+                : { duration: 0.6, ease: 'easeOut' }
+            }
             className="lg:col-span-5 flex flex-col items-center justify-start w-full"
           >
             <SketchReveal />
