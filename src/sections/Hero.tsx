@@ -119,7 +119,7 @@ export const Hero: React.FC = () => {
                 <span className="text-[#94a3b8]">whoami</span>
                 <span
                   className={`text-[#00e5c0] ${
-                    cursorBlinking && !reducedMotion ? 'animate-pulse' : 'opacity-100'
+                    cursorBlinking && !reducedMotion ? 'animate-pulse motion-reduce:animate-none' : 'opacity-100'
                   }`}
                   aria-hidden="true"
                 >

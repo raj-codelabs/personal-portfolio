@@ -10,10 +10,13 @@ import { useReducedMotionGlobal } from '../motion/useReducedMotionGlobal';
 
 import { ScrollExpandMedia } from '../components/ScrollExpandMedia';
 import { WorksWheel3D } from '../components/WorksWheel3D';
+import { ProjectCard } from '../components/ProjectCard';
+import { LayoutGrid, Layers } from 'lucide-react';
 
 export const Projects: React.FC = () => {
   const { theme } = useTheme();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [viewMode, setViewMode] = useState<'grid' | 'wheel'>('grid');
   const triggerRef = useRef<HTMLButtonElement>(null);
   const isStdout = theme === 'stdout';
   const reducedMotion = useReducedMotionGlobal();
@@ -42,7 +45,7 @@ export const Projects: React.FC = () => {
         >
           {isStdout ? (
             <div className="text-xs font-mono text-[#00e5c0] mb-1">
-              FEATURED CASE STUDY &amp; 3D WORKSWHEEL
+              FEATURED CASE STUDY &amp; BUILDS
             </div>
           ) : (
             <div className="text-sm font-handwriting text-[#1d4ed8] font-bold mb-1">
@@ -95,13 +98,71 @@ export const Projects: React.FC = () => {
         triggerRef={triggerRef}
       />
 
-      {/* 2. WorksWheel 3D Drum Reel (stdout mode only to preserve paper notebook feel in margin-notes) */}
-      {isStdout && (
-        <div className="pt-6">
+      {/* 2. All Builds Header & View Controls */}
+      <div className="pt-4 flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border-subtle)] pb-3">
+        <div>
+          <h3 className={`text-lg font-bold text-[var(--text-primary)] ${isStdout ? 'font-mono' : 'font-serif'}`}>
+            {isStdout ? 'DIRECTORY // ALL_BUILDS' : 'All Projects & Prototypes'}
+          </h3>
+          <p className="text-xs text-[var(--text-secondary)] font-body mt-0.5">
+            Compare project scopes, architectural designs, and source repositories.
+          </p>
+        </div>
+
+        {/* View mode toggle in stdout mode */}
+        {isStdout && (
+          <div className="flex items-center gap-1 border border-[#242e40] rounded p-1 bg-[#0d121c] text-xs font-mono">
+            <button
+              type="button"
+              onClick={() => setViewMode('grid')}
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded transition-colors cursor-pointer ${
+                viewMode === 'grid'
+                  ? 'bg-[#1a2332] text-[#00e5c0] font-semibold'
+                  : 'text-[#94a3b8] hover:text-[#f1f5f9]'
+              }`}
+              aria-pressed={viewMode === 'grid'}
+            >
+              <LayoutGrid className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>Grid View</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode('wheel')}
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded transition-colors cursor-pointer ${
+                viewMode === 'wheel'
+                  ? 'bg-[#1a2332] text-[#00e5c0] font-semibold'
+                  : 'text-[#94a3b8] hover:text-[#f1f5f9]'
+              }`}
+              aria-pressed={viewMode === 'wheel'}
+            >
+              <Layers className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>3D Reel</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* 3. Render either 3D Wheel or Clean Project Cards Grid */}
+      {isStdout && viewMode === 'wheel' ? (
+        <div className="pt-2">
           <WorksWheel3D
             projects={projectsData}
             onSelectProject={(proj) => handleOpenCaseStudy(proj)}
           />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
+          {projectsData.map((project, idx) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={idx}
+              onOpenDetails={(p, ref) => {
+                if (ref?.current) triggerRef.current = ref.current;
+                handleOpenCaseStudy(p);
+              }}
+            />
+          ))}
         </div>
       )}
 

@@ -1,6 +1,6 @@
 {
-  "summary":  "Implementation plan for integrating the ECHO editorial and interactive architecture into Raj Golder's portfolio. Outlines sequential phases for the Orbital Preloader, Metallic Typography Shaders, Horizontal Spatial Canvas timeline, ScrollExpandMedia Kinetic Canvas, WorksWheel 3D Drum Reel, and WebGL Liquid displacement (restricted to stdout mode), with complete fallbacks for margin-notes and reduced motion.",
-  "updatedAt":  "2026-10-22T17:17:16.592981778Z",
+  "summary":  "Opinionated design plan for Raj Golder's portfolio crafted by a bespoke design studio: defining distinct Terminal (stdout) and Laboratory Notebook (margin-notes) physical metaphors, an authentic palette of deep graphite, oxidized copper, chalk white, and signal cobalt, disciplined typography, and a signature interactive Token & Pipeline Inspector risk.",
+  "updatedAt":  "2026-11-07T17:31:19.545398913Z",
   "requestFeedback":  true,
   "userFacing":  true
 }

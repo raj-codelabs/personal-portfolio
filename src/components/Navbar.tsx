@@ -157,7 +157,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
                 <span className="font-bold">raj-golder</span>
                 <span
                   className={`text-[#00e5c0] ${
-                    cursorBlinking && !reducedMotion ? 'animate-pulse' : 'opacity-100'
+                    cursorBlinking && !reducedMotion ? 'animate-pulse motion-reduce:animate-none' : 'opacity-100'
                   }`}
                   aria-hidden="true"
                 >
