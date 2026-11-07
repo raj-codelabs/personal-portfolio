@@ -475,9 +475,11 @@ export const Contact: React.FC = () => {
               Thank you for reaching out. Your message has been routed to my direct inbox at contact@rajgolder.dev.
             </p>
             <div className="pt-2">
-              <button
+              <motion.button
                 type="button"
                 onClick={() => setSubmitSuccess(false)}
+                whileTap={reducedMotion ? undefined : { scale: 0.97 }}
+                transition={spring.snap}
                 className={`px-4 py-2 text-xs font-semibold rounded cursor-pointer transition-colors ${
                   isStdout
                     ? 'border border-[#242e40] text-[#00e5c0] hover:border-[#00e5c0]'
@@ -485,7 +487,7 @@ export const Contact: React.FC = () => {
                 }`}
               >
                 Send another message
-              </button>
+              </motion.button>
             </div>
           </motion.div>
         ) : (
@@ -503,7 +505,7 @@ export const Contact: React.FC = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
-                  className={`w-full px-3 py-2 rounded border focus:outline-none transition-shadow duration-150 focus:shadow-[0_0_0_2px_var(--focus-ring)] ${
+                  className={`w-full px-3 py-2 rounded border focus:outline-none transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)] ${
                     isStdout
                       ? 'border-[#242e40] bg-[#0b0e14] text-[#f1f5f9] focus:border-[#00e5c0]'
                       : 'border-[#e2dbce] bg-[#faf8f5] text-[#1c1917] focus:border-[#1d4ed8]'
@@ -522,7 +524,7 @@ export const Contact: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
-                  className={`w-full px-3 py-2 rounded border focus:outline-none transition-shadow duration-150 focus:shadow-[0_0_0_2px_var(--focus-ring)] ${
+                  className={`w-full px-3 py-2 rounded border focus:outline-none transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)] ${
                     isStdout
                       ? 'border-[#242e40] bg-[#0b0e14] text-[#f1f5f9] focus:border-[#00e5c0]'
                       : 'border-[#e2dbce] bg-[#faf8f5] text-[#1c1917] focus:border-[#1d4ed8]'
@@ -540,7 +542,7 @@ export const Contact: React.FC = () => {
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                   placeholder="What's this about?"
-                  className={`w-full px-3 py-2 rounded border focus:outline-none transition-shadow duration-150 focus:shadow-[0_0_0_2px_var(--focus-ring)] ${
+                  className={`w-full px-3 py-2 rounded border focus:outline-none transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)] ${
                     isStdout
                       ? 'border-[#242e40] bg-[#0b0e14] text-[#f1f5f9] focus:border-[#00e5c0]'
                       : 'border-[#e2dbce] bg-[#faf8f5] text-[#1c1917] focus:border-[#1d4ed8]'
@@ -559,7 +561,7 @@ export const Contact: React.FC = () => {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="How can I help?"
-                  className={`w-full px-3 py-2 rounded border focus:outline-none text-xs leading-relaxed transition-shadow duration-150 focus:shadow-[0_0_0_2px_var(--focus-ring)] ${
+                  className={`w-full px-3 py-2 rounded border focus:outline-none text-xs leading-relaxed transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)] ${
                     isStdout
                       ? 'border-[#242e40] bg-[#0b0e14] text-[#f1f5f9] focus:border-[#00e5c0]'
                       : 'border-[#e2dbce] bg-[#faf8f5] text-[#1c1917] focus:border-[#1d4ed8]'

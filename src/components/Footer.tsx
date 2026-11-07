@@ -67,6 +67,18 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
 
           <span className="text-[var(--border-subtle)]" aria-hidden="true">·</span>
 
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent('echo:replay-preloader'))}
+            title="Replay ECHO Orbital Preloader"
+            aria-label="Replay intro animation"
+            className="hover:text-[var(--accent-primary)] transition-colors inline-flex items-center gap-1.5 cursor-pointer font-medium"
+          >
+            <span>Replay Intro ↺</span>
+          </button>
+
+          <span className="text-[var(--border-subtle)]" aria-hidden="true">·</span>
+
           {/* Admin Login Access */}
           <button
             type="button"

@@ -5,9 +5,30 @@ import { CommandPrompt } from '../components/CommandPrompt';
 import { DeveloperIdCard } from '../components/DeveloperIdCard';
 import { SketchReveal } from '../components/SketchReveal';
 import { ArrowDown, ExternalLink, Terminal } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { spring, distance } from '../motion/motion-tokens';
 import { useReducedMotionGlobal } from '../motion/useReducedMotionGlobal';
+
+interface CollapsibleTerminalProps {
+  isOpen: boolean;
+  reducedMotion: boolean;
+}
+
+const CollapsibleTerminal: React.FC<CollapsibleTerminalProps> = ({ isOpen, reducedMotion }) => (
+  <AnimatePresence>
+    {isOpen && (
+      <motion.div
+        initial={reducedMotion ? false : { height: 0, opacity: 0 }}
+        animate={{ height: 'auto', opacity: 1 }}
+        exit={reducedMotion ? undefined : { height: 0, opacity: 0 }}
+        transition={reducedMotion ? { duration: 0 } : spring.settle}
+        className="overflow-hidden pt-2"
+      >
+        <CommandPrompt />
+      </motion.div>
+    )}
+  </AnimatePresence>
+);
 
 export const Hero: React.FC = () => {
   const { theme } = useTheme();
@@ -110,22 +131,25 @@ export const Hero: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* 2. H1 lines rise 12px + fade, 60ms stagger (Text in DOM from first paint) */}
-            <h1 className="text-3xl sm:text-5xl font-mono font-bold tracking-tight text-[#f1f5f9] leading-[1.15]">
+            {/* 2. H1 lines rise 12px + fade, 60ms stagger (Fluid Clamp Typography & Metallic Shader) */}
+            <div className="text-[10px] font-mono tracking-widest text-[#00e5c0]/60 uppercase">
+              COORDS // MATS UNIV · SYS_CLOCK: 120Hz · ECHO-ARCH
+            </div>
+            <h1 className="text-[clamp(2.1rem,5vw,3.75rem)] font-mono font-bold tracking-tight text-[#f1f5f9] leading-[1.12]">
               <motion.span
-                className="block"
+                className="block text-[#f1f5f9]"
                 {...getRevealProps(0.15)}
               >
                 I build small,
               </motion.span>
               <motion.span
-                className="block"
+                className="block text-[#cbd5e1]"
                 {...getRevealProps(0.21)}
               >
                 useful tools in
               </motion.span>
               <motion.span
-                className="block"
+                className="block bg-gradient-to-r from-[#f1f5f9] via-[#00e5c0] to-[#e2e8f0] bg-clip-text text-transparent"
                 {...getRevealProps(0.27)}
               >
                 Python
@@ -200,12 +224,8 @@ export const Hero: React.FC = () => {
                 </button>
               </div>
 
-              {/* Collapsible Interactive Terminal Prober */}
-              {showCli && (
-                <div className="space-y-2 pt-2">
-                  <CommandPrompt />
-                </div>
-              )}
+              {/* Collapsible Interactive Terminal Prober with Smooth Height Bridge */}
+              <CollapsibleTerminal isOpen={showCli} reducedMotion={reducedMotion} />
             </motion.div>
           </div>
 
@@ -252,8 +272,8 @@ export const Hero: React.FC = () => {
               B.TECH CSE (AI/ML) · CLASS OF 2030
             </motion.div>
 
-            {/* 2. H1 lines rise 12px + fade, 60ms stagger */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-normal tracking-tight text-[#1c1917] leading-[1.12]">
+            {/* 2. H1 lines rise 12px + fade, 60ms stagger (Fluid Clamp Typography) */}
+            <h1 className="text-[clamp(2.4rem,5.5vw,4.25rem)] font-serif font-normal tracking-tight text-[#1c1917] leading-[1.12]">
               <motion.span
                 className="block"
                 {...getRevealProps(0.1)}
@@ -327,12 +347,8 @@ export const Hero: React.FC = () => {
                 </button>
               </div>
 
-              {/* Collapsible Interactive Terminal Prober */}
-              {showCli && (
-                <div className="space-y-2 pt-2">
-                  <CommandPrompt />
-                </div>
-              )}
+              {/* Collapsible Interactive Terminal Prober with Smooth Height Bridge */}
+              <CollapsibleTerminal isOpen={showCli} reducedMotion={reducedMotion} />
             </motion.div>
           </div>
 

@@ -251,16 +251,26 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
                   )}
                 </button>
 
-                {showAllDetails && (
-                  <ul className="mt-2 space-y-1.5 text-xs text-[#94a3b8]">
-                    {selectedMilestone.learnings.map((learning, idx) => (
-                      <li key={idx} className="flex items-start gap-1.5">
-                        <span className="text-[#00e5c0]">›</span>
-                        <span>{learning}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                <div
+                  className={`grid transition-[grid-template-rows] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:duration-0 ${
+                    showAllDetails ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <ul
+                      className={`mt-2 space-y-1.5 text-xs text-[#94a3b8] transition-opacity duration-150 ease-out ${
+                        showAllDetails ? 'opacity-100' : 'opacity-0'
+                      }`}
+                    >
+                      {selectedMilestone.learnings.map((learning, idx) => (
+                        <li key={idx} className="flex items-start gap-1.5">
+                          <span className="text-[#00e5c0]">›</span>
+                          <span>{learning}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
             )}
 

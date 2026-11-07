@@ -19,6 +19,7 @@ import { Contact } from './sections/Contact';
 import { Footer } from './components/Footer';
 import { AdminLogin } from './admin/AdminLogin';
 import { AdminDashboard } from './admin/AdminDashboard';
+import { EchoOrbitalPreloader } from './components/EchoOrbitalPreloader';
 import { RefreshCw } from 'lucide-react';
 
 function PortfolioMain() {
@@ -99,6 +100,7 @@ function PortfolioMain() {
 
   return (
     <div className="min-h-screen flex flex-col transition-colors selection:bg-[var(--accent-subtle)] selection:text-[var(--accent-primary)]">
+      <EchoOrbitalPreloader />
       <SkipLink />
       <Navbar />
 
