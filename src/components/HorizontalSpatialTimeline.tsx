@@ -41,10 +41,10 @@ export const HorizontalSpatialTimeline: React.FC<HorizontalSpatialTimelineProps>
 
   // Branch colors
   const branchColors: Record<string, string> = {
-    main: isStdout ? '#00e5c0' : '#1d4ed8',
-    foundations: isStdout ? '#00e5c0' : '#1d4ed8',
-    python: isStdout ? '#58a6ff' : '#2563eb',
-    projects: isStdout ? '#e27d60' : '#c25e38',
+    main: isStdout ? '#3b82f6' : '#1d4ed8',
+    foundations: isStdout ? '#3b82f6' : '#1d4ed8',
+    python: isStdout ? '#5da399' : '#1d4ed8',
+    projects: isStdout ? '#b87333' : '#b87333',
   };
 
   return (
@@ -60,12 +60,12 @@ export const HorizontalSpatialTimeline: React.FC<HorizontalSpatialTimelineProps>
         <div className="flex items-center justify-between pb-4 mb-4 border-b border-[var(--border-subtle)] text-xs">
           <div className="flex items-center gap-2">
             {isStdout ? (
-              <div className="flex items-center gap-2 font-mono text-[#00e5c0]">
+              <div className="flex items-center gap-2 font-mono text-[var(--accent-primary)]">
                 <Activity className="w-4 h-4 animate-pulse" />
                 <span className="font-bold">SPATIAL_TIMELINE_CANVAS // SCRUB_BUS</span>
               </div>
             ) : (
-              <div className="flex items-center gap-2 font-serif text-[#1d4ed8]">
+              <div className="flex items-center gap-2 font-serif text-[var(--accent-primary)]">
                 <BookOpen className="w-4 h-4" />
                 <span className="font-bold">Horizontal Curriculum Ledger</span>
               </div>
@@ -93,7 +93,7 @@ export const HorizontalSpatialTimeline: React.FC<HorizontalSpatialTimelineProps>
                 scaleX: smoothProgress,
                 transformOrigin: 'left center',
               }}
-              className="absolute top-1/2 left-0 right-0 h-[2px] bg-gradient-to-r from-[#00e5c0] via-[#58a6ff] to-[#00e5c0] shadow-[0_0_12px_rgba(0,229,192,0.6)]"
+              className="absolute top-1/2 left-0 right-0 h-[2px] bg-gradient-to-r from-[#3b82f6] via-[#b87333] to-[#3b82f6] shadow-[0_0_12px_rgba(59,130,246,0.5)]"
             />
           </div>
         )}
@@ -106,7 +106,7 @@ export const HorizontalSpatialTimeline: React.FC<HorizontalSpatialTimelineProps>
           >
             {milestones.map((m, idx) => {
               const isCurrent = m.id === activeMilestoneId;
-              const branchColor = branchColors[m.branch] || (isStdout ? '#00e5c0' : '#1d4ed8');
+              const branchColor = branchColors[m.branch] || (isStdout ? '#3b82f6' : '#1d4ed8');
 
               return (
                 <div
@@ -115,7 +115,7 @@ export const HorizontalSpatialTimeline: React.FC<HorizontalSpatialTimelineProps>
                   className={`w-[360px] sm:w-[420px] shrink-0 rounded-xl border p-6 sm:p-7 flex flex-col justify-between transition-[border-color,background-color,box-shadow] duration-200 ease-out cursor-pointer ${
                     isStdout
                       ? isCurrent
-                        ? 'border-[#00e5c0] bg-[#121722] shadow-[0_0_24px_rgba(0,229,192,0.15)] font-mono text-[#f1f5f9]'
+                        ? 'border-[#3b82f6] bg-[#121722] shadow-[0_0_24px_rgba(59,130,246,0.15)] font-mono text-[#f1f5f9]'
                         : 'border-[#242e40] bg-[#0d121c]/90 text-[#94a3b8] hover:border-[#384660] font-mono'
                       : isCurrent
                       ? 'border-[#1d4ed8] bg-[#ffffff] shadow-lg font-serif text-[#1c1917]'

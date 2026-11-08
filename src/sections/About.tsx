@@ -38,7 +38,7 @@ export const About: React.FC = () => {
           transition={spring.settle}
         >
           {isStdout ? (
-            <div className="text-xs font-mono text-[#00e5c0] mb-1">
+            <div className="text-xs font-mono text-[var(--accent-copper)] font-semibold mb-1">
               ABOUT ME &amp; APPROACH
             </div>
           ) : (
@@ -111,7 +111,7 @@ export const About: React.FC = () => {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, ease: 'easeOut' }}
               className={`absolute left-0 top-0 bottom-0 w-[3px] origin-top rounded-full ${
-                isStdout ? 'bg-[#00e5c0]' : 'bg-[#1d4ed8]'
+                isStdout ? 'bg-[var(--accent-primary)]' : 'bg-[#1d4ed8]'
               }`}
               aria-hidden="true"
             />
@@ -127,14 +127,14 @@ export const About: React.FC = () => {
             >
               <div
                 className={`text-xs uppercase tracking-wider font-bold ${
-                  isStdout ? 'font-mono text-[#00e5c0]' : 'font-handwriting text-[#1d4ed8] text-sm'
+                  isStdout ? 'font-mono text-[var(--accent-copper)]' : 'font-handwriting text-[#1d4ed8] text-sm'
                 }`}
               >
                 My Approach:
               </div>
               <p
                 className={`italic text-base sm:text-lg font-semibold leading-relaxed ${
-                  isStdout ? 'text-[#f1f5f9] font-mono' : 'text-[#1c1917]'
+                  isStdout ? 'text-[#f6f5f1] font-mono' : 'text-[#1c1917]'
                 }`}
               >
                 "{philosophy}"
@@ -155,25 +155,25 @@ export const About: React.FC = () => {
           transition={spring.settle}
           className={`lg:col-span-5 p-6 rounded-lg border shadow-xs space-y-5 text-xs sm:text-sm ${
             isStdout
-              ? 'border-[#242e40] bg-[#121722] font-mono text-[#94a3b8]'
+              ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] font-mono text-[var(--text-secondary)]'
               : 'border-[#e2dbce] bg-[#ffffff] font-serif text-[#44403c]'
           }`}
         >
           <div
             className={`flex items-center justify-between pb-3 border-b ${
-              isStdout ? 'border-[#242e40]' : 'border-[#e2dbce]'
+              isStdout ? 'border-[var(--border-subtle)]' : 'border-[#e2dbce]'
             }`}
           >
             <span
               className={`font-bold text-sm ${
-                isStdout ? 'font-mono text-[#f1f5f9]' : 'font-serif text-[#1c1917]'
+                isStdout ? 'font-mono text-[var(--text-primary)]' : 'font-serif text-[#1c1917]'
               }`}
             >
               Education &amp; Credentials
             </span>
             <GraduationCap
               className={`w-4 h-4 ${
-                isStdout ? 'text-[#00e5c0]' : 'text-[#1d4ed8]'
+                isStdout ? 'text-[var(--accent-primary)]' : 'text-[#1d4ed8]'
               }`}
             />
           </div>
@@ -219,22 +219,22 @@ export const About: React.FC = () => {
               </span>
               <span
                 className={`font-semibold ${
-                  isStdout ? 'text-[#00e5c0] font-mono' : 'text-[#1d4ed8] font-serif'
+                  isStdout ? 'text-[var(--accent-primary)] font-mono' : 'text-[#1d4ed8] font-serif'
                 }`}
               >
                 MATS University · Class of 2030
               </span>
             </div>
 
-            {/* Completed Certifications (Section 5: Check icon draws stroke-dashoffset, 250ms, 60ms stagger) */}
+            {/* Completed Certifications */}
             <div
               className={`pt-3 border-t ${
-                isStdout ? 'border-[#242e40]' : 'border-[#e2dbce]'
+                isStdout ? 'border-[var(--border-subtle)]' : 'border-[#e2dbce]'
               }`}
             >
               <span
                 className={`text-[11px] uppercase tracking-wider block mb-2 font-bold ${
-                  isStdout ? 'text-[#f1f5f9] font-mono' : 'text-[#1c1917] font-serif'
+                  isStdout ? 'text-[var(--text-primary)] font-mono' : 'text-[#1c1917] font-serif'
                 }`}
               >
                 Completed Certifications:
@@ -242,10 +242,9 @@ export const About: React.FC = () => {
               <ul className="space-y-2">
                 {certifications.map((cert, idx) => (
                   <li key={cert.name} className="flex items-start gap-2">
-                    {/* Check icon draws stroke-dashoffset over 250ms with 60ms stagger */}
                     <svg
                       className={`w-4 h-4 shrink-0 mt-0.5 ${
-                        isStdout ? 'text-[#00e5c0]' : 'text-[#1d4ed8]'
+                        isStdout ? 'text-[var(--accent-primary)]' : 'text-[#1d4ed8]'
                       }`}
                       viewBox="0 0 24 24"
                       fill="none"

@@ -480,10 +480,10 @@ export const Cover: React.FC = () => {
           {/* Terminal Command Prompt line */}
           {isStdout && (
             <div className="text-xs sm:text-sm font-mono text-[#64748b] flex items-center gap-2 pb-2">
-              <span className="text-[#00e5c0] font-bold">$</span>
+              <span className="text-[var(--accent-copper)] font-bold">$</span>
               <span className="text-[#94a3b8]">{cmdText || (isComplete ? 'intro' : '')}</span>
               {step === 1 && !isComplete && (
-                <span className="text-[#00e5c0] animate-pulse" aria-hidden="true">
+                <span className="text-[var(--accent-primary)] animate-pulse" aria-hidden="true">
                   ▌
                 </span>
               )}
@@ -529,7 +529,7 @@ export const Cover: React.FC = () => {
 
             {/* Cursor for Terminal */}
             {isStdout && step === 2 && !isComplete && (
-              <span className="text-[#00e5c0]" aria-hidden="true">
+              <span className="text-[var(--accent-primary)]" aria-hidden="true">
                 ▌
               </span>
             )}
@@ -574,7 +574,7 @@ export const Cover: React.FC = () => {
 
             {/* Cursor for Terminal */}
             {isStdout && step === 3 && !isComplete && (
-              <span className="text-[#00e5c0]" aria-hidden="true">
+              <span className="text-[var(--accent-primary)]" aria-hidden="true">
                 ▌
               </span>
             )}
@@ -585,7 +585,7 @@ export const Cover: React.FC = () => {
             <p
               className={`cover__line cover__name font-bold tracking-tight ${
                 isStdout
-                  ? 'text-3xl sm:text-6xl font-mono text-[#00e5c0]'
+                  ? 'text-3xl sm:text-6xl font-mono text-[var(--accent-primary)]'
                   : 'text-4xl sm:text-7xl font-serif text-[#1c1917]'
               }`}
               data-line="3"
@@ -605,13 +605,13 @@ export const Cover: React.FC = () => {
 
             {/* Pencil Indicator for Notebook */}
             {!isStdout && !isComplete && step === 5 && line3Progress < 100 && (
-              <Pencil className="w-5 h-5 text-[#1d4ed8] inline-block animate-bounce" aria-hidden="true" />
+              <Pencil className="w-5 h-5 text-[var(--accent-primary)] inline-block animate-bounce" aria-hidden="true" />
             )}
 
             {/* Cursor for Terminal */}
             {isStdout && (step === 4 || (!cursorSolid && !reducedMotion)) && (
               <span
-                className={`text-[#00e5c0] ${
+                className={`text-[var(--accent-primary)] ${
                   isComplete ? 'opacity-100' : 'animate-pulse'
                 }`}
                 aria-hidden="true"
@@ -648,8 +648,8 @@ export const Cover: React.FC = () => {
           }}
           className={`cover__cue px-4 py-2 rounded focus-visible:outline-2 ${
             isStdout
-              ? 'font-mono text-xs text-[#64748b] hover:text-[#00e5c0]'
-              : 'font-handwriting text-base text-[#78716c] hover:text-[#1d4ed8]'
+              ? 'font-mono text-xs text-[#64748b] hover:text-[var(--accent-primary)]'
+              : 'font-handwriting text-base text-[#78716c] hover:text-[var(--accent-primary)]'
           }`}
           aria-label={isComplete ? 'Scroll to main content' : 'Skip welcome intro'}
         >

@@ -65,8 +65,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onOpenDetails
       whileTap={reducedMotion ? undefined : { scale: 0.99 }}
       className={`group relative flex flex-col justify-between p-6 text-left transition-colors duration-200 cursor-default select-none ${
         isStdout
-          ? 'rounded-lg border border-[#242e40] bg-[#121722] hover:border-[#00e5c0] hover:shadow-[0_0_16px_rgba(0,229,192,0.2)] font-mono'
-          : 'rounded-md border border-[#e2dbce] bg-[#ffffff] shadow-xs hover:border-[#1d4ed8] hover:shadow-md font-serif'
+          ? 'rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] font-mono'
+          : 'rounded-md border border-[var(--border-subtle)] bg-[var(--bg-surface)] shadow-xs hover:border-[var(--accent-primary)] hover:shadow-md font-serif'
       }`}
       style={
         {
@@ -75,13 +75,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onOpenDetails
         } as React.CSSProperties
       }
     >
-      {/* Subtle radial spotlight (Section 7.1) */}
+      {/* Subtle radial spotlight */}
       {!reducedMotion && !isTouch && (
         <div
           className="absolute inset-0 pointer-events-none rounded-[inherit] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           style={{
             background: isStdout
-              ? 'radial-gradient(circle 220px at var(--mx) var(--my), rgba(0, 229, 192, 0.07), transparent 80%)'
+              ? 'radial-gradient(circle 220px at var(--mx) var(--my), rgba(59, 130, 246, 0.08), transparent 80%)'
               : 'radial-gradient(circle 220px at var(--mx) var(--my), rgba(29, 78, 216, 0.05), transparent 80%)',
           }}
           aria-hidden="true"
@@ -91,24 +91,24 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onOpenDetails
       <div>
         {/* Header: Terminal Register vs Notebook Entry */}
         {isStdout ? (
-          <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-[#242e40] text-xs font-mono text-[#94a3b8]">
+          <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-[var(--border-subtle)] text-xs font-mono text-[var(--text-secondary)]">
             <div className="flex items-center gap-2">
-              <span className="text-[#e27d60] font-bold">SYS-0{index + 1}</span>
-              <span className="text-[#64748b]" aria-hidden="true">/</span>
-              <span className="text-[#f1f5f9] font-semibold truncate">{project.id}</span>
+              <span className="text-[var(--accent-copper)] font-bold">SYS-0{index + 1}</span>
+              <span className="text-[var(--text-muted)]" aria-hidden="true">/</span>
+              <span className="text-[var(--text-primary)] font-semibold truncate">{project.id}</span>
             </div>
-            <span className="text-[#00e5c0] text-[11px] font-mono font-semibold">
+            <span className="text-[var(--accent-primary)] text-[11px] font-mono font-semibold">
               [{project.status.toUpperCase()}]
             </span>
           </div>
         ) : (
-          <div className="flex items-center justify-between gap-2 pb-2 mb-3 border-b border-[#e2dbce] text-xs text-[#78716c]">
-            <div className="flex items-center gap-1.5 font-handwriting text-base text-[#1d4ed8]">
+          <div className="flex items-center justify-between gap-2 pb-2 mb-3 border-b border-[var(--border-subtle)] text-xs text-[var(--text-secondary)]">
+            <div className="flex items-center gap-1.5 font-handwriting text-base text-[var(--accent-primary)]">
               <span>Notebook Entry #{index + 1}</span>
-              <span className="text-[#c2b8a3]">·</span>
-              <span className="font-serif italic text-xs text-[#78716c]">{project.id}</span>
+              <span className="text-[var(--border-strong)]">·</span>
+              <span className="font-serif italic text-xs text-[var(--text-muted)]">{project.id}</span>
             </div>
-            <span className="font-serif italic text-xs text-[#c25e38]">
+            <span className="font-serif italic text-xs text-[var(--accent-copper)] font-bold">
               {project.status}
             </span>
           </div>
@@ -118,8 +118,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onOpenDetails
         <h3
           className={`mb-2 font-bold transition-colors ${
             isStdout
-              ? 'text-lg font-mono text-[#f1f5f9] group-hover:text-[#00e5c0]'
-              : 'text-xl font-serif text-[#1c1917] group-hover:text-[#1d4ed8]'
+              ? 'text-lg font-mono text-[var(--text-primary)] group-hover:text-[var(--accent-primary)]'
+              : 'text-xl font-serif text-[var(--text-primary)] group-hover:text-[var(--accent-primary)]'
           }`}
         >
           {project.title}
@@ -156,9 +156,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onOpenDetails
           }`}
         >
           {isStdout ? (
-            <span className="text-[#00e5c0] mr-1.5 font-bold">›</span>
+            <span className="text-[var(--accent-primary)] mr-1.5 font-bold">›</span>
           ) : (
-            <span className="text-[#1d4ed8] font-bold mr-1.5">§</span>
+            <span className="text-[var(--accent-primary)] font-bold mr-1.5">§</span>
           )}
           {project.built}
         </p>
@@ -195,7 +195,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onOpenDetails
             transition={spring.snap}
             className={`group/btn inline-flex items-center gap-1.5 py-1 cursor-pointer font-semibold focus-visible:outline-2 ${
               isStdout
-                ? 'text-[#00e5c0] hover:underline font-mono'
+                ? 'text-[var(--accent-primary)] hover:underline font-mono'
                 : 'text-[#1d4ed8] hover:text-[#1e40af] underline underline-offset-4 decoration-[#93c5fd] font-serif'
             }`}
           >

@@ -71,7 +71,7 @@ export const Skills: React.FC = () => {
           transition={spring.settle}
         >
           {isStdout ? (
-            <div className="text-xs font-mono text-[#00e5c0] mb-1 uppercase tracking-wider">
+            <div className="text-xs font-mono text-[var(--accent-copper)] mb-1 uppercase tracking-wider font-semibold">
               TECHNICAL TOOLING &amp; EVIDENCE
             </div>
           ) : (
@@ -127,7 +127,7 @@ export const Skills: React.FC = () => {
         transition={spring.settle}
         className={`rounded-xl border divide-y transition-colors overflow-hidden ${
           isStdout
-            ? 'border-[#242e40] bg-[#121722] divide-[#242e40] font-mono'
+            ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] divide-[var(--border-subtle)] font-mono'
             : 'border-[#e2dbce] bg-[#ffffff] divide-[#e2dbce] font-serif shadow-xs'
         }`}
       >
@@ -143,7 +143,7 @@ export const Skills: React.FC = () => {
                 <div
                   className={`p-1.5 rounded ${
                     isStdout
-                      ? 'bg-[#00e5c0]/15 text-[#00e5c0] border border-[#00e5c0]/30'
+                      ? 'bg-[var(--accent-primary)]/15 text-[var(--accent-primary)] border border-[var(--accent-primary)]/30'
                       : 'bg-[#1d4ed8]/10 text-[#1d4ed8] border border-[#1d4ed8]/20'
                   }`}
                 >
@@ -152,7 +152,7 @@ export const Skills: React.FC = () => {
                 <div>
                   <h3
                     className={`text-base font-bold ${
-                      isStdout ? 'text-[#f1f5f9]' : 'text-[#1c1917]'
+                      isStdout ? 'text-[var(--text-primary)]' : 'text-[#1c1917]'
                     }`}
                   >
                     {group.group}
@@ -177,7 +177,7 @@ export const Skills: React.FC = () => {
                   >
                     <span
                       className={`font-semibold shrink-0 sm:w-44 ${
-                        isStdout ? 'text-[#00e5c0]' : 'text-[#1d4ed8]'
+                        isStdout ? 'text-[var(--accent-primary)]' : 'text-[#1d4ed8]'
                       }`}
                     >
                       {item.name}

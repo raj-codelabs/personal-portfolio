@@ -18,24 +18,24 @@
     --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   }
 
-  /* stdout - VS Code Dark Workspace / Terminal Mode */
+  /* stdout - Unix Terminal Workstation Mode (Deep Graphite, Oxidized Copper, Signal Cobalt) */
   [data-theme="stdout"] {
-    --bg-page: #0b0e14;
-    --bg-surface: #121722;
-    --bg-surface-hover: #19202e;
-    --bg-surface-elevated: #1e2636;
-    --border-subtle: #242e40;
-    --border-strong: #384660;
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
-    --accent-primary: #00e5c0;
-    --accent-primary-hover: #33ebd0;
-    --accent-copper: #e27d60;
+    --bg-page: #11151c;
+    --bg-surface: #1a202c;
+    --bg-surface-hover: #222b3b;
+    --bg-surface-elevated: #283346;
+    --border-subtle: #273142;
+    --border-strong: #3b4960;
+    --text-primary: #f6f5f1;
+    --text-secondary: #9aa2b1;
+    --text-muted: #6b7586;
+    --accent-primary: #3b82f6;
+    --accent-primary-hover: #60a5fa;
+    --accent-copper: #b87333;
     --accent-success: #10b981;
-    --accent-subtle: rgba(0, 229, 192, 0.12);
-    --focus-ring: #00e5c0;
-    --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.6);
+    --accent-subtle: rgba(59, 130, 246, 0.12);
+    --focus-ring: #3b82f6;
+    --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.5);
 
     color-scheme: dark;
     background-color: var(--bg-page);
@@ -44,20 +44,20 @@
     font-family: var(--font-body);
   }
 
-  /* margin-notes - Real Engineering Notebook Mode */
+  /* margin-notes - Academic Laboratory Notebook Mode (Chalk White, Cobalt, Oxidized Copper) */
   [data-theme="margin-notes"] {
-    --bg-page: #faf8f5;
+    --bg-page: #f6f5f1;
     --bg-surface: #ffffff;
-    --bg-surface-hover: #f4efe6;
-    --bg-surface-elevated: #ece4d6;
-    --border-subtle: #e2dbce;
+    --bg-surface-hover: #edeae2;
+    --bg-surface-elevated: #e5e0d4;
+    --border-subtle: #e0d9cd;
     --border-strong: #c2b8a3;
     --text-primary: #1c1917;
     --text-secondary: #44403c;
     --text-muted: #78716c;
     --accent-primary: #1d4ed8;
     --accent-primary-hover: #1e40af;
-    --accent-copper: #c25e38;
+    --accent-copper: #b87333;
     --accent-success: #15803d;
     --accent-subtle: rgba(29, 78, 216, 0.08);
     --focus-ring: #1d4ed8;

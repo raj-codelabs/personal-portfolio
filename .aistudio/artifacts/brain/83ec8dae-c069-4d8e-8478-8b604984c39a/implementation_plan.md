@@ -1,151 +1,79 @@
-# Bespoke Visual Identity: The Systems Explorer
+# Frontend Performance Optimization & Codebase Simplification
 
-An opinionated, handcrafted visual identity for Raj Golder's portfolio, rejecting generic developer templates in favor of two authentic physical metaphors: a tactile Unix terminal workstation (`stdout`) and a computational laboratory notebook (`margin-notes`), anchored by an oxidized copper and signal cobalt palette and a signature interactive pipeline inspector.
-
----
-
-## Grounding in the Subject
-
-- **Subject**: Raj Golder, a first-year Computer Science & Engineering (AI/ML) student at MATS University who completed Harvard's CS50x and CS50P and builds practical Python command-line utilities and algorithmic tools from scratch.
-- **Audience**: Technical recruiters, engineering managers, and senior software architects seeking evidence of foundational systems thinking, command-line discipline, and algorithmic curiosity over superficial framework hype.
-- **The Page's Single Job**: In 60 seconds, definitively convince the viewer that Raj is a disciplined, fundamentals-first computer scientist who understands software at the memory, logic, and token pipeline level.
-
----
+Streamline Raj Golder's engineering portfolio by stripping out heavy, unrequested WebGL/canvas simulation leftovers, eliminating blocking preloader delays, removing pseudo-technical clutter, and establishing an instant, clean, and highly responsive user experience.
 
 ## User Review & Critical Decisions
 
 > [!IMPORTANT]
-> - **Dual Physical Metaphors Confirmed**:
->   - **Dark Mode (`stdout`)**: High-density, utilitarian Unix workstation inspired by DEC VT220 and Silicon Graphics terminals. Not a Hollywood hacker trope, but a real engineer's console.
->   - **Light Mode (`margin-notes`)**: Academic laboratory record book inspired by Donald Knuth's *The Art of Computer Programming* and scientific monographs. Not a generic warm-cream blog, but a structured field notebook with marginalia and theorem proofs.
-> - **Deliberate Color System**: Completely departs from generic black/acid-green and cream/terracotta templates:
->   - **Deep Graphite** (`#11151c`): Heavy carbon base.
->   - **Chalk White** (`#f6f5f1`): Clean drafted stock.
->   - **Oxidized Copper** (`#b87333`): Warm metallic hardware accents and register tags.
->   - **Signal Cobalt** (`#1d4ed8`): High-intent interactive focus and primary action points.
-> - **The Single Aesthetic Risk**: An interactive **Live Pipeline Inspector** for his featured build (*AI Study Notes Summarizer*), allowing visitors to step through text ingestion, token boundary clamping, and ANSI terminal rendering in real time. Surrounding sections remain strictly disciplined and restrained.
+> The primary objective is code simplification and frontend performance optimization under the "Lazy Senior Developer" ethos (minimal diffs, deletion over addition, zero unrequested abstractions).
+
+- **Confirmed Decision 1 (Preloader Removal)**: Completely remove `EchoOrbitalPreloader` (400 lines of canvas simulation with artificial 2.4-second boot latency). The portfolio will render directly upon initial visit with zero layout shifts or modal blocking.
+- **Confirmed Decision 2 (Generative Shader Cleanup)**: Delete `LiquidMeshCanvas` (WebGL fragment shader) and streamline `Projects.tsx` to focus on the high-clarity project grid and featured case study, retiring the redundant 3D reel abstraction.
+- **Confirmed Decision 3 (Anti-Slop Restoration)**: Remove mechanical pseudo-technical tags (e.g. `COORDS // MATS UNIV · SYS_CLOCK: 120Hz · COMPILED`) in favor of authentic, human academic credentials.
 
 ---
 
-## 1. Design Plan & Token System
+## 1. Overview & Core Concept
 
-### A. Color Palette (Named Hex Tokens)
-
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        CORE PALETTE SYSTEM                             │
-├──────────────┬──────────────┬──────────────┬──────────────┬────────────┤
-│ Deep Graphite│ Chalk White  │OxidizedCopper│ Signal Cobalt│ Slate Card │
-│   #11151C    │   #F6F5F1    │   #B87333    │   #1D4ED8    │  #1A202C   │
-│ (stdout bg)  │ (notes bg)   │ (traces/tags)│(focus/action)│(dark card) │
-└──────────────┴──────────────┴──────────────┴──────────────┴────────────┘
-```
-
-- **Graphite Dark Canvas (`#11151c`)**: Carbon matte surface with zero saturated neon tinting.
-- **Chalk White Canvas (`#f6f5f1`)**: Crisp drafting paper with light absorption, preventing eye fatigue.
-- **Oxidized Copper (`#b87333`)**: Warm metallic trace lines, architectural log stamps (`SYS-01`), and milestone spine accents.
-- **Signal Cobalt (`#1d4ed8` / dark `#3b82f6`)**: High-contrast focal point reserved for primary actions, active tabs, and link underlines.
-- **Slate Structural Surface (`#1a202c` / light `#ffffff`)**: Clean card boundaries with hairline dividers (`1px solid rgba(255,255,255,0.08)` or `#e2dbce`).
-
-### B. Typography Roles (Max 3 Families)
-
-1. **Display & Architectural Lead**: `Outfit` (Geometric, mechanical sans).
-   - *Treatment*: Tight negative tracking (`-0.025em`), bold geometric presence on section titles and hero statements.
-2. **Editorial Monograph Serif**: `Newsreader` (Literary, editorial serif with optical sizing).
-   - *Treatment*: Used exclusively in `margin-notes` mode for milestone journal narratives, field observations, and thesis quotes.
-3. **Primary Body Prose**: `Plus Jakarta Sans` (Clean, highly legible neo-grotesque).
-   - *Treatment*: 15px–16px responsive body text, 1.62 line-height, neutral letter spacing.
-4. **Data, Memory & Code**: `JetBrains Mono` with `font-variant-numeric: tabular-nums`.
-   - *Treatment*: Command line flags, token counts, execution timestamps, and pipeline diagrams.
-
-### C. Layout Concepts & Section Rhythm
-
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│ 1. TOP BAR: [Brand Wordmark] ──── [Nav Anchor Links] ─── [Theme Toggle]│
-├────────────────────────────────────────────────────────────────────────┤
-│ 2. HERO: Split Thesis Layout                                           │
-│    Left (60%): "I build small, useful tools in Python & C"             │
-│    Right (40%): Developer ID / Lab Specimen Card with CS50 seals       │
-├────────────────────────────────────────────────────────────────────────┤
-│ 3. FEATURED BUILD & SIGNATURE RISK:                                    │
-│    Interactive Token & Pipeline Inspector (3-stage live architecture)  │
-│    Followed by All Builds Directory Grid (with toggle to 3D reel)      │
-├────────────────────────────────────────────────────────────────────────┤
-│ 4. JOURNEY: Dual Presentation Timeline                                 │
-│    Terminal Mode: Chronological Syslog with exit codes                 │
-│    Notebook Mode: Spine-ruled marginalia with field notes & learnings  │
-├────────────────────────────────────────────────────────────────────────┤
-│ 5. SKILLS MATRIX: Categorized by computational layer                   │
-│    Languages · Tooling & CLI · Fundamentals (Data Structures & Algos)  │
-├────────────────────────────────────────────────────────────────────────┤
-│ 6. ABOUT & CONTACT: Genuine philosophy + direct interactive dispatch   │
-└────────────────────────────────────────────────────────────────────────┘
-```
-
-- **Pacing**: Heavy, high-density intellectual work (Pipeline Inspector) followed by airy, breathable milestones and a calm two-column contact dispatch.
-- **Zero Pill Discipline**: Tags and statuses are rendered as raw text with typographic separators (`·` or `/`) and copper bracketed labels (`[OPEN SOURCE]`).
+- **What It Does**: Transforms the portfolio from a heavy, animation-strained bundle into a lightning-fast, accessible showcase of Raj Golder's first-year CSE achievements, Python tools, and academic journey.
+- **Target Audience / Persona**: Recruiters, professors, engineering peers, and technical collaborators who value clarity, direct access to code repositories, and fast page loads without gimmicks.
+- **Key Value**: 0ms blocking latency, zero background WebGL draw calls, reduced memory footprint, and crystal-clear presentation of real engineering projects.
 
 ---
 
-## 2. The Signature Risk: Live Pipeline Inspector
+## 2. User Experience & Visual Design
 
-### Rationale
-Most student portfolios show static mockups or generic GitHub links. Raj's signature piece is an **interactive 3-step pipeline simulator** embedded directly into the featured project (*AI Study Notes Summarizer*):
-1. **Input Stage**: The visitor sees raw unformatted lecture text.
-2. **Normalization & Prompt Stage**: Live token count estimation, prompt boundary clamping, and structure enforcement.
-3. **Terminal Output Stage**: ANSI-styled Rich terminal output with highlighted definitions and key formulas.
-
-This takes the aesthetic risk of showing real computational mechanics inside the portfolio, proving Raj's systems proficiency without words.
-
----
-
-## 3. Self-Critique & Anti-Cliché Verification
-
-| Generic AI Slop Cliché | Studio Revised Decision | Rationale |
-| :--- | :--- | :--- |
-| **Warm cream + terracotta + serif** | Chalk white (`#f6f5f1`) + oxidized copper (`#b87333`) + cobalt | Retains warmth and paper tactility without copying the generic editorial boutique template. |
-| **Near-black + neon acid green** | Deep graphite (`#11151c`) + copper + cobalt | Replaces juvenile cyberpunk tropes with a serious Unix workstation aesthetic. |
-| **Broadsheet hairline rules everywhere** | Hairline borders used strictly for structural separation | Content has room to breathe; whitespace establishes hierarchy instead of mechanical gridlines. |
-| **Numbered markers on static content** | Sequential numbering used strictly on real sequences (timelines, logs) | Numbers represent true chronology (`SYS-01`, `LOG-001`), never arbitrary decorative headers. |
-| **Universal animation & sound effects** | Restrained 120ms transitions; zero sound | Quiet, reliable, fast, and respectful of user attention. |
+- **Key User Flows**:
+  1. **Instant First Paint**: The user lands on the portfolio and immediately sees Raj's hero section, developer identity, and core mission without waiting for simulated terminal loading screens.
+  2. **Direct Project Exploration**: The Projects section presents the featured AI Study Notes Summarizer case study followed by a responsive 3-column grid of Python and C tools, complete with tags, architecture summaries, and live GitHub repo links.
+  3. **Seamless Dual Theme**: Clean contrast in both Light ("Margin Notes" paper aesthetic) and Dark ("stdout" terminal aesthetic) modes without jank or dropped frames.
+- **Visual Identity & Theme**:
+  - *Typography*: Monospace accents for code and terminal elements (`JetBrains Mono`), warm editorial serif for notes (`Newsreader`), and clean geometric sans for UI prose (`Plus Jakarta Sans`).
+  - *Color Palette*: 60% neutral canvas (`#0d1117` in dark, `#fbf7ee` in light), 30% structural surfaces and hairline borders, 10% high-contrast accents (signal cobalt `#1d4ed8` / terminal emerald `#00e5c0`).
+  - *Anti-Slop Restraint*: Clean unboxed metadata (`·` separators), no fake telemetry tickers, no artificial status dots, and no redundant view-switcher modes.
 
 ---
 
-## 4. Technical Architecture & Integration Strategy
+## 3. Key Product Decisions & Trade-Offs
+
+- **Decision 1: Direct Canvas Deletion over Pausing**
+  - *Chosen Approach*: Fully remove `EchoOrbitalPreloader` and `LiquidMeshCanvas` instead of adding flags or toggles.
+  - *Why*: The best code is code never written or executed. Removing 600+ lines of unused canvas and WebGL shaders permanently prevents frame drops and memory leaks on mobile devices.
+  - *Alternatives Considered*: Retaining the preloader behind an admin toggle was rejected as unnecessary cognitive overhead.
+- **Decision 2: Standard Grid View as Canonical Showcase**
+  - *Chosen Approach*: Render projects exclusively in a structured, accessible CSS grid with full keyboard navigation and dialog details.
+  - *Why*: The 3D reel mode added CSS perspective complexity and depended on the WebGL liquid canvas. A clean grid ensures all projects are visible at a glance without pagination or rotation.
+- **Decision 3: Marking Simplifications with Ponytail Comments**
+  - *Chosen Approach*: Add `// ponytail: ...` comments on intentionally simple data lookups and local states for clean documentation.
+
+---
+
+## 4. Technical Architecture & Data Strategy
 
 ```
-┌────────────────────────────────────────────────────────────────────────┐
-│                             APP.TSX                                    │
-│          (ThemeProvider · CmsProvider · AdminAuthProvider)             │
-└──────────────────┬──────────────────────────────────┬──────────────────┘
-                   │                                  │
-                   ▼                                  ▼
-┌────────────────────────────────────┐ ┌─────────────────────────────────┐
-│          STDOUT THEME              │ │       MARGIN-NOTES THEME        │
-│  - Deep graphite matte canvas      │ │  - Chalk white drafting canvas  │
-│  - Monospace telemetry headers     │ │  - Editorial serif chapter notes│
-│  - Oxidized copper status stamps   │ │  - Ruled spine with marginalia  │
-│  - Terminal prompt wordmark        │ │  - Warm handwritten annotations │
-└──────────────────┬─────────────────┘ └──────────────┬──────────────────┘
-                   │                                  │
-                   └─────────────────┬────────────────┘
-                                     │
-                                     ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                   FEATURED INTERACTIVE SIGNATURE                       │
-│  src/components/ScrollExpandMedia.tsx & LivePipelineStage.tsx          │
-│  - 3-Stage Pipeline: Ingestion ──▶ Token Clamping ──▶ Rich Terminal    │
-│  - Step-by-step interactive toggle with real architectural insights    │
-│  - Instant case study deep-dive modal with focus trapping & Esc exit   │
-└────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                       Browser Client                        │
+│                                                             │
+│  ┌──────────────────┐  ┌─────────────────┐  ┌────────────┐  │
+│  │   Hero Section   │  │ Projects (Grid) │  │  Journey   │  │
+│  │  (Identity & Bio)│  │ (Direct Cards)  │  │ & Skills   │  │
+│  └─────────┬────────┘  └────────┬────────┘  └─────┬──────┘  │
+│            │                    │                 │         │
+│            ▼                    ▼                 ▼         │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │          CMS Context / Static Fallback Data           │  │
+│  └──────────────────────────┬────────────────────────────┘  │
+└─────────────────────────────┼───────────────────────────────┘
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                      Express Server                         │
+│   • /api/health (Instant JSON prober)                       │
+│   • /api/cms (Fast SQLite read-through)                     │
+└─────────────────────────────────────────────────────────────┘
 ```
 
----
-
-## 5. Implementation Roadmap
-
-1. **Token System Refinement**: Apply the deep graphite, oxidized copper, chalk white, and cobalt tokens across global CSS variables and theme providers.
-2. **Signature Pipeline Feature**: Enhance the featured project view with the interactive 3-stage computational pipeline walkthrough.
-3. **Dual-Theme Harmonization**: Polish both the `stdout` terminal workstation and `margin-notes` laboratory notebook layouts to ensure crisp, unmistakable identities.
-4. **Verification & Audit**: Run automated compilation, type checking (`tsc --noEmit`), keyboard navigation checks, and responsive layout audits.
+- **Execution Steps**:
+  1. Remove `EchoOrbitalPreloader` reference and DOM node from `src/App.tsx`, and delete `src/components/EchoOrbitalPreloader.tsx`.
+  2. Simplify `src/sections/Projects.tsx`: remove `WorksWheel3D` and `viewMode` toggle; render the featured case study followed by the clean `ProjectCard` grid. Delete `LiquidMeshCanvas.tsx` and `WorksWheel3D.tsx`.
+  3. Clean `src/sections/Hero.tsx`: remove mock hardware/clock metadata lines.
+  4. Verify with `compile_applet` and `lint_applet` to guarantee zero errors and clean build output.

@@ -50,12 +50,12 @@ export const Journey: React.FC = () => {
           transition={spring.settle}
         >
           {isStdout ? (
-            <div className="text-xs font-mono text-[#00e5c0] mb-1 uppercase tracking-wider flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#00e5c0]" />
+            <div className="text-xs font-mono text-[var(--accent-copper)] mb-1 uppercase tracking-wider flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-copper)]" />
               TIMELINE · ACADEMIC &amp; SOFTWARE MILESTONES
             </div>
           ) : (
-            <div className="text-sm font-handwriting text-[#1d4ed8] font-bold mb-1">
+            <div className="text-sm font-serif italic text-[var(--accent-copper)] font-semibold mb-1">
               Field Chronicle &amp; Coursework Notes
             </div>
           )}

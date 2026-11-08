@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { type Request, type Response } from 'express';
 import cookieParser from 'cookie-parser';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -21,8 +21,17 @@ initDatabase();
 // Clean up expired sessions periodically every hour
 setInterval(purgeExpiredSessions, 60 * 60 * 1000);
 
+// Parse CLI arguments (--port 3000 --host 0.0.0.0)
+const args = process.argv.slice(2);
+const portIdx = args.indexOf('--port');
+const hostIdx = args.indexOf('--host');
+const cliPort = portIdx !== -1 && args[portIdx + 1] ? Number(args[portIdx + 1]) : null;
+const cliHost = hostIdx !== -1 && args[hostIdx + 1] ? args[hostIdx + 1] : null;
+
+const PORT = cliPort || Number(process.env.PORT) || 3000;
+const HOST = cliHost || process.env.HOST || '0.0.0.0';
+
 const app = express();
-const PORT = Number(process.env.PORT) || 3000;
 
 // Middleware
 app.use(express.json({ limit: '10mb' }));
@@ -42,7 +51,7 @@ app.use('/api', cmsRouter);
 app.use('/api', mediaRouter);
 
 // Health check endpoint
-app.get('/api/health', (req, res) => {
+app.get('/api/health', (req: Request, res: Response) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
@@ -51,7 +60,7 @@ async function startServer() {
     // Production static serving
     const distPath = path.resolve(__dirname, 'dist');
     app.use(express.static(distPath));
-    app.get('*', (req, res) => {
+    app.get('*', (req: Request, res: Response) => {
       res.sendFile(path.resolve(distPath, 'index.html'));
     });
   } else {
@@ -64,8 +73,12 @@ async function startServer() {
     app.use(vite.middlewares);
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`[Full-Stack Server] Server listening on http://0.0.0.0:${PORT}`);
+  const server = app.listen(PORT, HOST, () => {
+    console.log(`[Full-Stack Server] Server listening on http://${HOST}:${PORT}`);
+  });
+
+  server.on('error', (err: any) => {
+    console.error('[Server Error]', err);
   });
 }
 

@@ -27,10 +27,10 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
   };
 
   const laneColors: Record<string, string> = {
-    'main': '#00e5c0',       // cyan (academics)
-    'foundations': '#00e5c0',  // cyan
-    'python': '#58a6ff',       // blue (python track)
-    'projects': '#e27d60',     // copper (practical builds)
+    'main': '#3b82f6',       // signal cobalt (academics)
+    'foundations': '#3b82f6',  // signal cobalt
+    'python': '#5da399',       // verdigris patina (python track)
+    'projects': '#b87333',     // oxidized copper (practical builds)
   };
 
   const branchDisplayMap: Record<string, string> = {
@@ -51,12 +51,12 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
   return (
     <div className="space-y-6 text-left font-mono">
       {/* Informative Header */}
-      <div className="p-3 rounded border border-[#242e40] bg-[#121722] text-xs font-mono text-[#94a3b8] flex flex-wrap items-center justify-between gap-3">
+      <div className="p-3 rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-xs font-mono text-[var(--text-secondary)] flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <MilestoneIcon className="w-4 h-4 text-[#00e5c0]" aria-hidden="true" />
-          <span className="text-[#f1f5f9] font-bold">Chronological Learning Milestones</span>
+          <MilestoneIcon className="w-4 h-4 text-[var(--accent-copper)]" aria-hidden="true" />
+          <span className="text-[var(--text-primary)] font-bold">Chronological Learning Milestones</span>
         </div>
-        <div className="text-[11px] text-[#64748b]">
+        <div className="text-[11px] text-[var(--text-muted)]">
           Foundational coursework &amp; verified self-directed builds
         </div>
       </div>
@@ -64,18 +64,18 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
       {/* Main Container: SVG DAG + Details Panel */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left Column: Interactive Milestone Graph & Node List */}
-        <div className="lg:col-span-7 rounded-md border border-[#242e40] bg-[#121722] p-4 sm:p-5">
-          <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#242e40] text-xs font-mono text-[#8b949e]">
+        <div className="lg:col-span-7 rounded-md border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-4 sm:p-5">
+          <div className="flex items-center justify-between pb-3 mb-4 border-b border-[var(--border-subtle)] text-xs font-mono text-[var(--text-muted)]">
             <span>Milestone Track</span>
             <div className="flex items-center gap-3 text-[11px]">
               <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-[#00e5c0]" /> Academics
+                <span className="w-2 h-2 rounded-full bg-[#3b82f6]" /> Academics
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-[#58a6ff]" /> Python
+                <span className="w-2 h-2 rounded-full bg-[#5da399]" /> Python
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-[#e27d60]" /> Projects
+                <span className="w-2 h-2 rounded-full bg-[#b87333]" /> Projects
               </span>
             </div>
           </div>
@@ -99,7 +99,7 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
                   const y1 = startY + (idx - 1) * stepY;
                   const x2 = laneMap[m.branch] || 60;
                   const y2 = startY + idx * stepY;
-                  const strokeColor = laneColors[m.branch] || '#00e5c0';
+                  const strokeColor = laneColors[m.branch] || '#3b82f6';
 
                   const pathData =
                     x1 === x2
@@ -123,7 +123,7 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
                   const x = laneMap[m.branch] || 60;
                   const y = startY + idx * stepY;
                   const isSelected = m.id === selectedMilestoneId;
-                  const color = laneColors[m.branch] || '#00e5c0';
+                  const color = laneColors[m.branch] || '#3b82f6';
                   const shortName = m.branch === 'projects' ? 'Projects' : m.branch === 'python' ? 'CS50P' : idx === 1 ? 'CS50x' : 'Academics';
 
                   return (
@@ -146,7 +146,7 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
                       <text
                         x={x + 14}
                         y={y + 4}
-                        fill={isSelected ? '#00e5c0' : '#8b949e'}
+                        fill={isSelected ? '#3b82f6' : '#8b949e'}
                         fontSize="11"
                         fontFamily="monospace"
                         fontWeight={isSelected ? 'bold' : 'normal'}
@@ -162,7 +162,7 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
               <div className="mt-4 space-y-2">
                 {milestones.map((m, idx) => {
                   const isSelected = m.id === selectedMilestoneId;
-                  const branchColor = laneColors[m.branch] || '#00e5c0';
+                  const branchColor = laneColors[m.branch] || '#3b82f6';
                   const displayBranch = branchDisplayMap[m.branch.toLowerCase()] || branchDisplayMap[(m.branchLabel || '').toLowerCase()] || m.branch;
 
                   return (
@@ -173,7 +173,7 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
                       transition={spring.snap}
                       className={`w-full text-left p-3 rounded border transition-colors text-xs font-mono cursor-pointer flex items-center justify-between gap-3 ${
                         isSelected
-                          ? 'border-[#00e5c0] bg-[#1a2332] text-[#f1f5f9]'
+                          ? 'border-[#3b82f6] bg-[#1a2332] text-[#f1f5f9]'
                           : 'border-[#242e40] bg-[#0d121c] text-[#8b949e] hover:border-[#384660] hover:text-[#f1f5f9]'
                       }`}
                     >
@@ -183,7 +183,7 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
                           style={{ backgroundColor: branchColor }}
                           aria-hidden="true"
                         />
-                        <span className="text-[#00e5c0] font-bold shrink-0">{m.logNumber || `0${idx + 1}`}</span>
+                        <span className="text-[#3b82f6] font-bold shrink-0">{m.logNumber || `0${idx + 1}`}</span>
                         <span className="truncate">{m.title}</span>
                       </div>
                       <span className="text-[11px] text-[#64748b] shrink-0">{displayBranch} · {m.date}</span>
@@ -199,8 +199,8 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
         <div className="lg:col-span-5 rounded-md border border-[#242e40] bg-[#121722] p-5 font-mono text-xs text-[#f1f5f9] sticky top-20">
           <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#242e40]">
             <div className="flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-[#00e5c0]" aria-hidden="true" />
-              <span className="font-bold text-[#00e5c0]">Milestone #{selectedMilestone.logNumber}</span>
+              <BookOpen className="w-4 h-4 text-[#3b82f6]" aria-hidden="true" />
+              <span className="font-bold text-[#3b82f6]">Milestone #{selectedMilestone.logNumber}</span>
             </div>
             <span className="text-[11px] text-[#94a3b8]">{selectedMilestone.date}</span>
           </div>
@@ -215,7 +215,7 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
 
             <div>
               <div className="text-[#64748b] text-[11px] uppercase tracking-wider mb-1">Focus Area</div>
-              <div className="flex items-center gap-2 text-[#00e5c0]">
+              <div className="flex items-center gap-2 text-[#3b82f6]">
                 <span>{branchDisplayMap[(selectedMilestone.branchLabel || selectedMilestone.branch).toLowerCase()] || selectedMilestone.branch}</span>
               </div>
             </div>
@@ -241,7 +241,7 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
                 <button
                   type="button"
                   onClick={() => setShowAllDetails(!showAllDetails)}
-                  className="flex items-center justify-between w-full text-[11px] text-[#00e5c0] font-semibold pt-2 border-t border-[#242e40] cursor-pointer"
+                  className="flex items-center justify-between w-full text-[11px] text-[#3b82f6] font-semibold pt-2 border-t border-[#242e40] cursor-pointer"
                 >
                   <span>Key Concepts &amp; Takeaways</span>
                   {showAllDetails ? (
@@ -264,7 +264,7 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
                     >
                       {selectedMilestone.learnings.map((learning, idx) => (
                         <li key={idx} className="flex items-start gap-1.5">
-                          <span className="text-[#00e5c0]">›</span>
+                          <span className="text-[#3b82f6]">›</span>
                           <span>{learning}</span>
                         </li>
                       ))}
@@ -281,7 +281,7 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
                     key={t}
                     className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] bg-[#1a2332] text-[#94a3b8]"
                   >
-                    <Tag className="w-2.5 h-2.5 text-[#00e5c0]" />
+                    <Tag className="w-2.5 h-2.5 text-[#3b82f6]" />
                     <span>{t}</span>
                   </span>
                 ))}

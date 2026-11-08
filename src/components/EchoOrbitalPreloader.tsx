@@ -188,14 +188,14 @@ export const EchoOrbitalPreloader: React.FC<EchoOrbitalPreloaderProps> = ({
 
           // Connect leading satellite nodes with faint lines
           if (i % 8 === 0) {
-            ctx.strokeStyle = 'rgba(0, 229, 192, 0.35)';
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.35)';
             ctx.beginPath();
             ctx.moveTo(centerX, centerY);
             ctx.lineTo(x, y);
             ctx.stroke();
 
             // Outer satellite dot
-            ctx.fillStyle = '#00e5c0';
+            ctx.fillStyle = '#3b82f6';
             ctx.beginPath();
             ctx.arc(x, y, dotSize + 1.2, 0, Math.PI * 2);
             ctx.fill();
@@ -203,12 +203,12 @@ export const EchoOrbitalPreloader: React.FC<EchoOrbitalPreloaderProps> = ({
         }
 
         // 4. Central pulsing coordinate core
-        ctx.fillStyle = 'rgba(0, 229, 192, 0.2)';
+        ctx.fillStyle = 'rgba(59, 130, 246, 0.2)';
         ctx.beginPath();
         ctx.arc(centerX, centerY, 8 + Math.sin(time * 0.006) * 3, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.fillStyle = '#00e5c0';
+        ctx.fillStyle = '#3b82f6';
         ctx.beginPath();
         ctx.arc(centerX, centerY, 3, 0, Math.PI * 2);
         ctx.fill();
@@ -310,13 +310,13 @@ export const EchoOrbitalPreloader: React.FC<EchoOrbitalPreloaderProps> = ({
         <div className="relative z-10 w-full flex items-center justify-between">
           <div className="flex items-center gap-2 text-xs">
             {isStdout ? (
-              <div className="flex items-center gap-2 font-mono text-[#00e5c0]">
+              <div className="flex items-center gap-2 font-mono text-[#3b82f6]">
                 <Terminal className="w-3.5 h-3.5 animate-pulse" />
                 <span className="font-bold tracking-wider">ECHO_SYSTEM // ORBITAL_RESOLVER</span>
               </div>
             ) : (
               <div className="flex items-center gap-2 font-serif text-[#1d4ed8]">
-                <Compass className="w-4 h-4 animate-spin text-[#c25e38]" />
+                <Compass className="w-4 h-4 animate-spin text-[#b87333]" />
                 <span className="font-bold tracking-wide">Archival Draftsman / Baseline Init</span>
               </div>
             )}
@@ -327,7 +327,7 @@ export const EchoOrbitalPreloader: React.FC<EchoOrbitalPreloaderProps> = ({
             type="button"
             className={`px-3 py-1.5 text-xs rounded border transition-colors inline-flex items-center gap-1.5 cursor-pointer ${
               isStdout
-                ? 'border-[#242e40] bg-[#121722]/80 text-[#94a3b8] hover:text-[#00e5c0] hover:border-[#00e5c0] font-mono'
+                ? 'border-[#242e40] bg-[#121722]/80 text-[#94a3b8] hover:text-[#3b82f6] hover:border-[#3b82f6] font-mono'
                 : 'border-[#e2dbce] bg-[#ffffff]/80 text-[#78716c] hover:text-[#1d4ed8] hover:border-[#1d4ed8] font-serif'
             }`}
             aria-label="Skip intro animation"
@@ -346,7 +346,7 @@ export const EchoOrbitalPreloader: React.FC<EchoOrbitalPreloaderProps> = ({
           >
             {isStdout ? (
               <span className="inline-block">
-                $ raj-golder<span className="text-[#00e5c0] animate-pulse">_</span>
+                $ raj-golder<span className="text-[#3b82f6] animate-pulse">_</span>
               </span>
             ) : (
               <span>Raj Golder</span>
@@ -354,7 +354,7 @@ export const EchoOrbitalPreloader: React.FC<EchoOrbitalPreloaderProps> = ({
           </div>
           <p
             className={`text-xs sm:text-sm font-medium tracking-wider uppercase ${
-              isStdout ? 'font-mono text-[#00e5c0]' : 'font-serif text-[#c25e38]'
+              isStdout ? 'font-mono text-[#b87333]' : 'font-serif text-[#b87333]'
             }`}
           >
             First-Principles Learning · Practical Software
@@ -366,7 +366,7 @@ export const EchoOrbitalPreloader: React.FC<EchoOrbitalPreloaderProps> = ({
           <div className="flex items-center gap-3">
             <span
               className={`font-mono font-bold text-sm ${
-                isStdout ? 'text-[#00e5c0]' : 'text-[#1d4ed8]'
+                isStdout ? 'text-[#3b82f6]' : 'text-[#1d4ed8]'
               }`}
             >
               {progress.toString().padStart(3, '0')}%
@@ -378,7 +378,7 @@ export const EchoOrbitalPreloader: React.FC<EchoOrbitalPreloaderProps> = ({
             >
               <div
                 className={`h-full transition-all duration-75 ${
-                  isStdout ? 'bg-[#00e5c0]' : 'bg-[#1d4ed8]'
+                  isStdout ? 'bg-[#3b82f6]' : 'bg-[#1d4ed8]'
                 }`}
                 style={{ width: `${progress}%` }}
               />

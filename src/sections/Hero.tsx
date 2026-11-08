@@ -114,11 +114,11 @@ export const Hero: React.FC = () => {
               {...getRevealProps(0.0)}
               className="space-y-1"
             >
-              <div className="text-xs font-mono text-[#64748b] flex items-center gap-1.5 pb-0.5">
-                <span className="text-[#00e5c0] font-bold">$</span>
-                <span className="text-[#94a3b8]">whoami</span>
+              <div className="text-xs font-mono text-[#6b7586] flex items-center gap-1.5 pb-0.5">
+                <span className="text-[var(--accent-primary)] font-bold">$</span>
+                <span className="text-[#9aa2b1]">whoami</span>
                 <span
-                  className={`text-[#00e5c0] ${
+                  className={`text-[var(--accent-primary)] ${
                     cursorBlinking && !reducedMotion ? 'animate-pulse motion-reduce:animate-none' : 'opacity-100'
                   }`}
                   aria-hidden="true"
@@ -126,18 +126,18 @@ export const Hero: React.FC = () => {
                   ▌
                 </span>
               </div>
-              <div className="text-xs font-mono font-semibold uppercase tracking-wider text-[#e27d60]">
+              <div className="text-xs font-mono font-semibold uppercase tracking-wider text-[var(--accent-copper)]">
                 B.TECH CSE (AI/ML) · CLASS OF 2030
               </div>
             </motion.div>
 
-            {/* 2. H1 lines rise 12px + fade, 60ms stagger (Fluid Clamp Typography & Metallic Shader) */}
-            <div className="text-[10px] font-mono tracking-widest text-[#00e5c0]/60 uppercase">
-              COORDS // MATS UNIV · SYS_CLOCK: 120Hz · ECHO-ARCH
+            {/* 2. H1 lines rise 12px + fade, 60ms stagger */}
+            <div className="text-[10px] font-mono tracking-widest text-[var(--accent-copper)] uppercase">
+              COORDS // MATS UNIV · SYS_CLOCK: 120Hz · COMPILED
             </div>
-            <h1 className="text-[clamp(2.1rem,5vw,3.75rem)] font-mono font-bold tracking-tight text-[#f1f5f9] leading-[1.12]">
+            <h1 className="text-[clamp(2.1rem,5vw,3.75rem)] font-mono font-bold tracking-tight text-[#f6f5f1] leading-[1.12]">
               <motion.span
-                className="block text-[#f1f5f9]"
+                className="block text-[#f6f5f1]"
                 {...getRevealProps(0.15)}
               >
                 I build small,
@@ -149,13 +149,13 @@ export const Hero: React.FC = () => {
                 useful tools in
               </motion.span>
               <motion.span
-                className="block bg-gradient-to-r from-[#f1f5f9] via-[#00e5c0] to-[#e2e8f0] bg-clip-text text-transparent"
+                className="block text-[var(--accent-primary)]"
                 {...getRevealProps(0.27)}
               >
                 Python
                 <span
-                  className={`text-[#00e5c0] ${
-                    cursorBlinking && !reducedMotion ? 'animate-pulse' : 'opacity-100'
+                  className={`text-[var(--accent-primary)] ${
+                    cursorBlinking && !reducedMotion ? 'animate-pulse motion-reduce:animate-none' : 'opacity-100'
                   }`}
                   aria-hidden="true"
                 >
@@ -169,23 +169,23 @@ export const Hero: React.FC = () => {
               {...getRevealProps(0.45)}
               className="space-y-4"
             >
-              <p className="text-base sm:text-lg text-[#94a3b8] font-body leading-relaxed max-w-2xl">
+              <p className="text-base sm:text-lg text-[#9aa2b1] font-body leading-relaxed max-w-2xl">
                 First-year CSE (AI/ML) student studying at MATS University. CS50x and CS50P completed. Currently building AI tools for studying.
               </p>
 
               {/* NOW status line */}
-              <div className="text-xs font-mono text-[#64748b] flex items-center gap-2 pt-1">
-                <span className="text-[#00e5c0] font-bold">NOW:</span>
-                <span className="text-[#94a3b8]">AI Study Notes Summarizer · C · DSA basics</span>
+              <div className="text-xs font-mono text-[#6b7586] flex items-center gap-2 pt-1">
+                <span className="text-[var(--accent-primary)] font-bold">NOW:</span>
+                <span className="text-[#9aa2b1]">AI Study Notes Summarizer · C · DSA basics</span>
               </div>
 
-              {/* Action Triggers with hover nudges and active press (Section 7.2) */}
+              {/* Action Triggers with hover nudges and active press */}
               <div className="flex flex-wrap items-center gap-3 pt-2">
                 <motion.a
                   href="#projects"
                   whileTap={reducedMotion ? undefined : { scale: 0.98 }}
                   transition={spring.snap}
-                  className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold font-mono rounded bg-[#00e5c0] text-[#0b0e14] hover:bg-[#33ebd0] transition-colors shadow-xs cursor-pointer"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold font-mono rounded bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)] transition-colors shadow-xs cursor-pointer"
                 >
                   <span>See my work</span>
                   <ArrowDown
@@ -200,7 +200,7 @@ export const Hero: React.FC = () => {
                   rel="noopener noreferrer"
                   whileTap={reducedMotion ? undefined : { scale: 0.98 }}
                   transition={spring.snap}
-                  className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs font-medium font-mono rounded border border-[#242e40] bg-[#121722] text-[#f1f5f9] hover:border-[#00e5c0] hover:text-[#00e5c0] transition-colors cursor-pointer"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs font-medium font-mono rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] transition-colors cursor-pointer"
                 >
                   <span>GitHub</span>
                   <ExternalLink
@@ -215,7 +215,7 @@ export const Hero: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowCli(!showCli)}
-                  className="text-xs font-mono text-[#00e5c0] hover:underline inline-flex items-center gap-1 cursor-pointer"
+                  className="text-xs font-mono text-[var(--accent-primary)] hover:underline inline-flex items-center gap-1 cursor-pointer"
                 >
                   <Terminal className="w-3.5 h-3.5" aria-hidden="true" />
                   <span>

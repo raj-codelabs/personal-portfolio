@@ -44,7 +44,7 @@ export const Projects: React.FC = () => {
           transition={spring.settle}
         >
           {isStdout ? (
-            <div className="text-xs font-mono text-[#00e5c0] mb-1">
+            <div className="text-xs font-mono text-[var(--accent-copper)] font-semibold mb-1">
               FEATURED CASE STUDY &amp; BUILDS
             </div>
           ) : (
@@ -111,14 +111,14 @@ export const Projects: React.FC = () => {
 
         {/* View mode toggle in stdout mode */}
         {isStdout && (
-          <div className="flex items-center gap-1 border border-[#242e40] rounded p-1 bg-[#0d121c] text-xs font-mono">
+          <div className="flex items-center gap-1 border border-[var(--border-subtle)] rounded p-1 bg-[var(--bg-page)] text-xs font-mono">
             <button
               type="button"
               onClick={() => setViewMode('grid')}
               className={`flex items-center gap-1.5 px-2.5 py-1 rounded transition-colors cursor-pointer ${
                 viewMode === 'grid'
-                  ? 'bg-[#1a2332] text-[#00e5c0] font-semibold'
-                  : 'text-[#94a3b8] hover:text-[#f1f5f9]'
+                  ? 'bg-[var(--bg-surface-elevated)] text-[var(--accent-primary)] font-semibold'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
               }`}
               aria-pressed={viewMode === 'grid'}
             >
@@ -130,8 +130,8 @@ export const Projects: React.FC = () => {
               onClick={() => setViewMode('wheel')}
               className={`flex items-center gap-1.5 px-2.5 py-1 rounded transition-colors cursor-pointer ${
                 viewMode === 'wheel'
-                  ? 'bg-[#1a2332] text-[#00e5c0] font-semibold'
-                  : 'text-[#94a3b8] hover:text-[#f1f5f9]'
+                  ? 'bg-[var(--bg-surface-elevated)] text-[var(--accent-primary)] font-semibold'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
               }`}
               aria-pressed={viewMode === 'wheel'}
             >

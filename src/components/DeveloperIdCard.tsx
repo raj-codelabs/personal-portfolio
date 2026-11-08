@@ -124,7 +124,7 @@ export const DeveloperIdCard: React.FC = () => {
         onKeyDown={handleKeyDown}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
-        className="relative w-full h-[560px] rounded-2xl cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#00e5c0] focus-visible:ring-offset-4 focus-visible:ring-offset-[#0b0e14] transition-shadow duration-300"
+        className="relative w-full h-[560px] rounded-2xl cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#3b82f6] focus-visible:ring-offset-4 focus-visible:ring-offset-[#0b0e14] transition-shadow duration-300"
         style={{
           transformStyle: 'preserve-3d',
           transform: transformStyle,
@@ -158,7 +158,7 @@ export const DeveloperIdCard: React.FC = () => {
             className="absolute inset-0 pointer-events-none opacity-10"
             style={{
               backgroundImage:
-                'linear-gradient(to right, #00e5c0 1px, transparent 1px), linear-gradient(to bottom, #00e5c0 1px, transparent 1px)',
+                'linear-gradient(to right, #3b82f6 1px, transparent 1px), linear-gradient(to bottom, #3b82f6 1px, transparent 1px)',
               backgroundSize: '24px 24px',
             }}
           />
@@ -167,29 +167,29 @@ export const DeveloperIdCard: React.FC = () => {
           <div className="relative z-10 flex items-center justify-between border-b border-[#1c2738] pb-2.5">
             <div className="flex items-center gap-2">
               <div
-                className="w-6 h-6 rounded bg-[#00e5c0]/15 border border-[#00e5c0]/40 flex items-center justify-center transition-transform duration-100 ease-out"
+                className="w-6 h-6 rounded bg-[#3b82f6]/15 border border-[#3b82f6]/40 flex items-center justify-center transition-transform duration-100 ease-out"
                 style={{
                   transform: reducedMotion ? 'none' : `translate3d(${tilt.y * 0.5}px, ${-tilt.x * 0.5}px, 8px)`,
                 }}
               >
-                <Cpu className="w-3.5 h-3.5 text-[#00e5c0]" />
+                <Cpu className="w-3.5 h-3.5 text-[#3b82f6]" />
               </div>
               <div className="leading-tight">
-                <div className="text-[10px] tracking-wider text-[#00e5c0] font-bold">ENGINEERING ID</div>
+                <div className="text-[10px] tracking-wider text-[#3b82f6] font-bold">ENGINEERING ID</div>
                 <div className="text-[10px] text-[#94a3b8]">B.TECH CSE (AI/ML)</div>
               </div>
             </div>
 
             <div className="text-right leading-tight">
               <div className="text-[10px] font-bold text-[#f1f5f9] tracking-wider">MATS UNIVERSITY</div>
-              <div className="text-[10px] text-[#e27d60] font-mono font-medium">CLASS OF 2030</div>
+              <div className="text-[10px] text-[#b87333] font-mono font-medium">CLASS OF 2030</div>
             </div>
           </div>
 
           {/* UPPER HALF: ID Photo occupying the upper half space of the ID card */}
           <div className="relative z-10 my-1">
             <div
-              className="relative w-full h-[225px] rounded-xl bg-[#141b27] border border-[#00e5c0]/45 overflow-hidden shadow-lg group/photo cursor-pointer"
+              className="relative w-full h-[225px] rounded-xl bg-[#141b27] border border-[#3b82f6]/45 overflow-hidden shadow-lg group/photo cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation();
                 setIsPhotoModalOpen(true);
@@ -204,13 +204,13 @@ export const DeveloperIdCard: React.FC = () => {
                 />
               ) : (
                 <div className="w-full h-full rounded-xl bg-gradient-to-b from-[#111a28] via-[#0d1420] to-[#080d14] flex flex-col items-center justify-center text-center p-4">
-                  <div className="relative w-16 h-16 rounded-full bg-[#162030] border-2 border-[#00e5c0]/50 flex items-center justify-center mb-2 shadow-inner group-hover/photo:border-[#00e5c0] transition-colors">
-                    <Cpu className="w-8 h-8 text-[#00e5c0]" />
+                  <div className="relative w-16 h-16 rounded-full bg-[#162030] border-2 border-[#3b82f6]/50 flex items-center justify-center mb-2 shadow-inner group-hover/photo:border-[#3b82f6] transition-colors">
+                    <Cpu className="w-8 h-8 text-[#3b82f6]" />
                   </div>
                   <div className="relative text-xs font-bold text-[#f1f5f9] tracking-wider font-mono">
                     {name}
                   </div>
-                  <div className="relative text-[10px] text-[#00e5c0] font-mono mt-0.5">
+                  <div className="relative text-[10px] text-[#3b82f6] font-mono mt-0.5">
                     STUDENT CREDENTIAL
                   </div>
                   <div className="relative text-[9px] text-[#94a3b8] font-mono mt-1">
@@ -220,19 +220,19 @@ export const DeveloperIdCard: React.FC = () => {
               )}
 
               {/* Holographic Scanline Overlay on Photo */}
-              <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-[#00e5c0]/5 to-transparent opacity-40 mix-blend-screen" />
+              <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-[#3b82f6]/5 to-transparent opacity-40 mix-blend-screen" />
 
               {/* Top Badge Tag */}
-              <div className="absolute top-2.5 left-2.5 z-20 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#0b0f19]/80 backdrop-blur-md border border-[#00e5c0]/40 text-[9px] text-[#00e5c0] font-mono font-bold tracking-wider">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#00e5c0] animate-pulse" />
+              <div className="absolute top-2.5 left-2.5 z-20 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#0b0f19]/80 backdrop-blur-md border border-[#3b82f6]/40 text-[9px] text-[#3b82f6] font-mono font-bold tracking-wider">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#3b82f6] animate-pulse" />
                 <span>STUDENT ID</span>
               </div>
 
               {/* Cyber Corner Marks */}
-              <div className="absolute top-1.5 left-1.5 w-2.5 h-2.5 border-t-2 border-l-2 border-[#00e5c0] pointer-events-none" />
-              <div className="absolute top-1.5 right-1.5 w-2.5 h-2.5 border-t-2 border-r-2 border-[#00e5c0] pointer-events-none" />
-              <div className="absolute bottom-1.5 left-1.5 w-2.5 h-2.5 border-b-2 border-l-2 border-[#00e5c0] pointer-events-none" />
-              <div className="absolute bottom-1.5 right-1.5 w-2.5 h-2.5 border-b-2 border-r-2 border-[#00e5c0] pointer-events-none" />
+              <div className="absolute top-1.5 left-1.5 w-2.5 h-2.5 border-t-2 border-l-2 border-[#3b82f6] pointer-events-none" />
+              <div className="absolute top-1.5 right-1.5 w-2.5 h-2.5 border-t-2 border-r-2 border-[#3b82f6] pointer-events-none" />
+              <div className="absolute bottom-1.5 left-1.5 w-2.5 h-2.5 border-b-2 border-l-2 border-[#3b82f6] pointer-events-none" />
+              <div className="absolute bottom-1.5 right-1.5 w-2.5 h-2.5 border-b-2 border-r-2 border-[#3b82f6] pointer-events-none" />
 
               {/* Prominent Change Photo Floating Button */}
               <div className="absolute bottom-2.5 right-2.5 z-20">
@@ -242,7 +242,7 @@ export const DeveloperIdCard: React.FC = () => {
                     e.stopPropagation();
                     setIsPhotoModalOpen(true);
                   }}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#0b0f19]/85 hover:bg-[#00e5c0] text-[#00e5c0] hover:text-[#0a0e14] border border-[#00e5c0]/60 text-[10px] font-mono font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#0b0f19]/85 hover:bg-[#3b82f6] text-[#3b82f6] hover:text-[#0a0e14] border border-[#3b82f6]/60 text-[10px] font-mono font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer"
                   title="Change ID photo"
                 >
                   <Camera className="w-3 h-3" />
@@ -251,7 +251,7 @@ export const DeveloperIdCard: React.FC = () => {
               </div>
 
               {/* Hover Hint Overlay */}
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/photo:opacity-100 flex flex-col items-center justify-center text-[#00e5c0] transition-opacity duration-200 pointer-events-none">
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/photo:opacity-100 flex flex-col items-center justify-center text-[#3b82f6] transition-opacity duration-200 pointer-events-none">
                 <Camera className="w-6 h-6 mb-1" />
                 <span className="text-[11px] font-mono font-bold tracking-wider">CHANGE PHOTO</span>
                 <span className="text-[9px] text-slate-300 font-mono mt-0.5">Upload file or paste URL</span>
@@ -267,13 +267,13 @@ export const DeveloperIdCard: React.FC = () => {
                 <h3 className="text-xl font-bold text-[#f8fafc] tracking-tight truncate">
                   {name}
                 </h3>
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#00e5c0]/10 border border-[#00e5c0]/30 text-[10px] text-[#00e5c0] font-semibold shrink-0">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#b87333]/15 border border-[#b87333]/40 text-[10px] text-[#b87333] font-semibold shrink-0">
                   UNDERGRAD
                 </span>
               </div>
               <div className="flex items-center justify-between text-xs text-[#94a3b8] font-mono mt-0.5">
                 <span>{role}</span>
-                <span className="text-[#e27d60] font-medium">MATS University</span>
+                <span className="text-[#b87333] font-medium">MATS University</span>
               </div>
             </div>
 
@@ -281,7 +281,7 @@ export const DeveloperIdCard: React.FC = () => {
             <div className="space-y-1">
               <div className="text-[10px] text-[#94a3b8] uppercase tracking-wider flex items-center justify-between">
                 <span>Verified Foundations:</span>
-                <span className="text-[#00e5c0] font-mono text-[10px]">CS50x &amp; CS50P</span>
+                <span className="text-[#3b82f6] font-mono text-[10px]">CS50x &amp; CS50P</span>
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {primarySkills.map((skill, idx) => (
@@ -298,7 +298,7 @@ export const DeveloperIdCard: React.FC = () => {
             {/* Barcode & Credential Serial */}
             <div className="flex items-center justify-between pt-1 border-t border-[#1c2738] text-[10px] text-[#64748b] font-mono">
               <div className="flex items-center gap-1">
-                <span className="text-[#00e5c0]">ID:</span>
+                <span className="text-[#b87333]">ID:</span>
                 <span className="text-[#cbd5e1] tracking-wider">RG-2026-MATS-8472</span>
               </div>
               {/* Micro barcode decoration with depth shift */}
@@ -329,7 +329,7 @@ export const DeveloperIdCard: React.FC = () => {
                 e.stopPropagation();
                 toggleFlip();
               }}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#162233] border border-[#00e5c0]/40 text-[11px] font-semibold text-[#00e5c0] hover:bg-[#00e5c0] hover:text-[#0b0e14] transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#162233] border border-[#3b82f6]/40 text-[11px] font-semibold text-[#3b82f6] hover:bg-[#3b82f6] hover:text-[#0b0e14] transition-colors cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>PROFILE DETAILS</span>
@@ -351,13 +351,13 @@ export const DeveloperIdCard: React.FC = () => {
           {/* Top Header */}
           <div className="relative z-10 border-b border-[#1c2738] pb-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Terminal className="w-4 h-4 text-[#00e5c0]" />
+              <Terminal className="w-4 h-4 text-[#3b82f6]" />
               <div>
-                <div className="text-[11px] text-[#00e5c0] font-bold tracking-wider">STUDENT PROFILE</div>
+                <div className="text-[11px] text-[#3b82f6] font-bold tracking-wider">STUDENT PROFILE</div>
                 <div className="text-[11px] text-[#94a3b8]">ACADEMIC VERIFICATION</div>
               </div>
             </div>
-            <div className="text-[11px] text-[#e27d60] font-mono">B.TECH CSE</div>
+            <div className="text-[11px] text-[#b87333] font-mono">B.TECH CSE</div>
           </div>
 
           {/* Body */}
@@ -373,7 +373,7 @@ export const DeveloperIdCard: React.FC = () => {
               </div>
               <div>
                 <span className="text-[#64748b] block text-[10px]">CERTIFICATES</span>
-                <span className="text-[#00e5c0] font-semibold">CS50x &amp; CS50P</span>
+                <span className="text-[#3b82f6] font-semibold">CS50x &amp; CS50P</span>
               </div>
               <div>
                 <span className="text-[#64748b] block text-[10px]">GRADUATION</span>
@@ -389,10 +389,10 @@ export const DeveloperIdCard: React.FC = () => {
                 <a
                   href={`mailto:${email}`}
                   tabIndex={isFlipped ? 0 : -1}
-                  className="flex items-center justify-between p-2 rounded bg-[#121926] border border-[#212f45] text-[#cbd5e1] hover:text-[#00e5c0] hover:border-[#00e5c0] transition-colors"
+                  className="flex items-center justify-between p-2 rounded bg-[#121926] border border-[#212f45] text-[#cbd5e1] hover:text-[#3b82f6] hover:border-[#3b82f6] transition-colors"
                 >
                   <span className="flex items-center gap-2 truncate">
-                    <Mail className="w-3.5 h-3.5 text-[#00e5c0] shrink-0" />
+                    <Mail className="w-3.5 h-3.5 text-[#3b82f6] shrink-0" />
                     <span className="truncate">{email}</span>
                   </span>
                   <ExternalLink className="w-3 h-3 shrink-0 opacity-70" />
@@ -404,10 +404,10 @@ export const DeveloperIdCard: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     tabIndex={isFlipped ? 0 : -1}
-                    className="flex items-center justify-between p-2 rounded bg-[#121926] border border-[#212f45] text-[#cbd5e1] hover:text-[#00e5c0] hover:border-[#00e5c0] transition-colors"
+                    className="flex items-center justify-between p-2 rounded bg-[#121926] border border-[#212f45] text-[#cbd5e1] hover:text-[#3b82f6] hover:border-[#3b82f6] transition-colors"
                   >
                     <span className="flex items-center gap-2 truncate">
-                      <Github className="w-3.5 h-3.5 text-[#00e5c0] shrink-0" />
+                      <Github className="w-3.5 h-3.5 text-[#3b82f6] shrink-0" />
                       <span className="truncate">github.com/raj-codelabs</span>
                     </span>
                     <ExternalLink className="w-3 h-3 shrink-0 opacity-70" />
@@ -420,10 +420,10 @@ export const DeveloperIdCard: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     tabIndex={isFlipped ? 0 : -1}
-                    className="flex items-center justify-between p-2 rounded bg-[#121926] border border-[#212f45] text-[#cbd5e1] hover:text-[#00e5c0] hover:border-[#00e5c0] transition-colors"
+                    className="flex items-center justify-between p-2 rounded bg-[#121926] border border-[#212f45] text-[#cbd5e1] hover:text-[#3b82f6] hover:border-[#3b82f6] transition-colors"
                   >
                     <span className="flex items-center gap-2 truncate">
-                      <Linkedin className="w-3.5 h-3.5 text-[#00e5c0] shrink-0" />
+                      <Linkedin className="w-3.5 h-3.5 text-[#3b82f6] shrink-0" />
                       <span className="truncate">linkedin.com/in/rajgolder</span>
                     </span>
                     <ExternalLink className="w-3 h-3 shrink-0 opacity-70" />
@@ -438,7 +438,7 @@ export const DeveloperIdCard: React.FC = () => {
             <a
               href="#projects"
               tabIndex={isFlipped ? 0 : -1}
-              className="text-[11px] text-[#94a3b8] hover:text-[#00e5c0] flex items-center gap-1 transition-colors"
+              className="text-[11px] text-[#94a3b8] hover:text-[#3b82f6] flex items-center gap-1 transition-colors"
             >
               <span>See my work</span>
               <ArrowRight className="w-3 h-3" />
@@ -451,7 +451,7 @@ export const DeveloperIdCard: React.FC = () => {
                 e.stopPropagation();
                 toggleFlip();
               }}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#162233] border border-[#00e5c0]/40 text-[11px] font-semibold text-[#00e5c0] hover:bg-[#00e5c0] hover:text-[#0b0e14] transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#162233] border border-[#3b82f6]/40 text-[11px] font-semibold text-[#3b82f6] hover:bg-[#3b82f6] hover:text-[#0b0e14] transition-colors cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>FRONT VIEW</span>

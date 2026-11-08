@@ -147,16 +147,16 @@ export const Navbar: React.FC<NavbarProps> = () => {
             onClick={() => handleNavClick('home')}
             className={`text-sm md:text-base font-semibold transition-colors focus-visible:outline-none ${
               isStdout
-                ? 'font-mono text-[#f1f5f9] hover:text-[#00e5c0]'
+                ? 'font-mono text-[var(--text-primary)] hover:text-[var(--accent-primary)]'
                 : 'font-serif text-[#1c1917] hover:text-[#1d4ed8] tracking-tight'
             }`}
           >
             {isStdout ? (
               <span className="flex items-center gap-1.5">
-                <span className="text-[#00e5c0] font-bold">$</span>
+                <span className="text-[var(--accent-primary)] font-bold">$</span>
                 <span className="font-bold">raj-golder</span>
                 <span
-                  className={`text-[#00e5c0] ${
+                  className={`text-[var(--accent-primary)] ${
                     cursorBlinking && !reducedMotion ? 'animate-pulse motion-reduce:animate-none' : 'opacity-100'
                   }`}
                   aria-hidden="true"
@@ -190,11 +190,11 @@ export const Navbar: React.FC<NavbarProps> = () => {
                 className={`relative py-1 transition-colors whitespace-nowrap shrink-0 group ${
                   isStdout
                     ? isActive
-                      ? 'text-[#00e5c0] font-mono'
+                      ? 'text-[var(--accent-primary)] font-mono'
                       : 'text-[#94a3b8] hover:text-[#f1f5f9] font-mono'
                     : isActive
-                    ? 'text-[#1d4ed8] font-sans font-semibold'
-                    : 'text-[#686158] hover:text-[#1d4ed8] font-sans'
+                    ? 'text-[var(--accent-primary)] font-sans font-semibold'
+                    : 'text-[#686158] hover:text-[var(--accent-primary)] font-sans'
                 }`}
               >
                 <span>{link.label}</span>
@@ -204,9 +204,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
                   <motion.div
                     layoutId={`nav-underline-${theme}`}
                     transition={reducedMotion ? { duration: 0 } : spring.settle}
-                    className={`absolute bottom-0 left-0 right-0 h-[2px] ${
-                      isStdout ? 'bg-[#00e5c0]' : 'bg-[#1d4ed8]'
-                    }`}
+                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--accent-primary)]"
                     aria-hidden="true"
                   />
                 )}
@@ -227,8 +225,8 @@ export const Navbar: React.FC<NavbarProps> = () => {
             transition={spring.snap}
             className={`group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded border transition-colors cursor-pointer ${
               isStdout
-                ? 'border-[#242e40] text-[#f1f5f9] hover:border-[#00e5c0] hover:text-[#00e5c0] bg-[#121722] font-mono'
-                : 'border-[#e2dbce] text-[#1c1917] hover:border-[#1d4ed8] hover:text-[#1d4ed8] bg-[#ffffff] font-serif'
+                ? 'border-[var(--border-subtle)] text-[#f1f5f9] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] bg-[var(--bg-surface)] font-mono'
+                : 'border-[var(--border-subtle)] text-[#1c1917] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] bg-[#ffffff] font-serif'
             }`}
           >
             <span>GitHub</span>
@@ -295,11 +293,11 @@ export const Navbar: React.FC<NavbarProps> = () => {
                 className={`block px-3 py-2 text-sm rounded transition-colors ${
                   isStdout
                     ? activeId === link.id
-                      ? 'text-[#00e5c0] bg-[#21262d] font-mono'
+                      ? 'text-[var(--accent-primary)] bg-[#21262d] font-mono'
                       : 'text-[#8b949e] hover:text-[#e6edf3] hover:bg-[#21262d] font-mono'
                     : activeId === link.id
-                    ? 'text-[#1d4ed8] bg-[#fbf7ee] font-sans font-semibold'
-                    : 'text-[#686158] hover:text-[#0d5c6e] hover:bg-[#fbf7ee] font-sans'
+                    ? 'text-[var(--accent-primary)] bg-[#fbf7ee] font-sans font-semibold'
+                    : 'text-[#686158] hover:text-[var(--accent-primary)] hover:bg-[#fbf7ee] font-sans'
                 }`}
               >
                 {link.label}

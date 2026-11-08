@@ -130,11 +130,11 @@ export const Contact: React.FC = () => {
           transition={spring.settle}
         >
           {isStdout ? (
-            <div className="text-xs font-mono text-[#00e5c0] mb-1 uppercase tracking-wider">
+            <div className="text-xs font-mono text-[var(--accent-copper)] mb-1 uppercase tracking-wider">
               GET IN TOUCH
             </div>
           ) : (
-            <div className="text-sm font-handwriting text-[#1d4ed8] font-bold mb-1">
+            <div className="text-sm font-serif italic text-[var(--accent-copper)] font-semibold mb-1">
               Correspondence &amp; Contact
             </div>
           )}
@@ -197,14 +197,14 @@ export const Contact: React.FC = () => {
           whileTap={reducedMotion ? undefined : { scale: 0.99 }}
           className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-colors select-none ${
             isStdout
-              ? 'border-[#242e40] bg-[#121722] hover:border-[#00e5c0] hover:shadow-[0_0_16px_rgba(0,229,192,0.2)] font-mono'
+              ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] font-mono'
               : 'border-[#e2dbce] bg-[#ffffff] hover:border-[#1d4ed8] hover:shadow-md font-serif'
           }`}
         >
           <div>
             <div
               className={`flex items-center gap-2 pb-2 mb-2 border-b text-xs ${
-                isStdout ? 'border-[#242e40] text-[#00e5c0]' : 'border-[#e2dbce] text-[#1d4ed8]'
+                isStdout ? 'border-[var(--border-subtle)] text-[var(--accent-primary)]' : 'border-[#e2dbce] text-[#1d4ed8]'
               }`}
             >
               <Mail className="w-4 h-4" />
@@ -220,14 +220,14 @@ export const Contact: React.FC = () => {
 
           <div
             className={`flex items-center gap-2 pt-4 mt-4 border-t ${
-              isStdout ? 'border-[#242e40]' : 'border-[#e2dbce]'
+              isStdout ? 'border-[var(--border-subtle)]' : 'border-[#e2dbce]'
             }`}
           >
             <a
               href={`mailto:${contactData.email}`}
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-colors ${
                 isStdout
-                  ? 'bg-[#00e5c0] text-[#0b0e14] hover:bg-[#33ebd0] font-mono'
+                  ? 'bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)] font-mono'
                   : 'bg-[#1d4ed8] text-white hover:bg-[#1e40af] font-serif'
               }`}
             >
@@ -235,7 +235,7 @@ export const Contact: React.FC = () => {
               <Send className="w-3 h-3" />
             </a>
 
-            {/* Section 7.3: Copy button label swaps to Copied with check icon (scale 0.8 to 1 with snap), reverts after 1.8s, aria-live */}
+            {/* Copy button label swaps to Copied with check icon */}
             <motion.button
               type="button"
               onClick={copyEmail}
@@ -243,7 +243,7 @@ export const Contact: React.FC = () => {
               aria-label={copied ? 'Email address copied' : 'Copy email address'}
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded border transition-colors cursor-pointer ${
                 isStdout
-                  ? 'border-[#242e40] text-[#f1f5f9] hover:border-[#00e5c0] hover:text-[#00e5c0] bg-[#0d121c] font-mono'
+                  ? 'border-[var(--border-subtle)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] bg-[var(--bg-page)] font-mono'
                   : 'border-[#e2dbce] text-[#1c1917] hover:border-[#1d4ed8] hover:text-[#1d4ed8] bg-[#fbf9f6] font-serif'
               }`}
             >
@@ -287,14 +287,14 @@ export const Contact: React.FC = () => {
           whileTap={reducedMotion ? undefined : { scale: 0.99 }}
           className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-colors select-none ${
             isStdout
-              ? 'border-[#242e40] bg-[#121722] hover:border-[#00e5c0] hover:shadow-[0_0_16px_rgba(0,229,192,0.2)] font-mono'
+              ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] font-mono'
               : 'border-[#e2dbce] bg-[#ffffff] hover:border-[#1d4ed8] hover:shadow-md font-serif'
           }`}
         >
           <div>
             <div
               className={`flex items-center gap-2 pb-2 mb-2 border-b text-xs ${
-                isStdout ? 'border-[#242e40] text-[#00e5c0]' : 'border-[#e2dbce] text-[#1d4ed8]'
+                isStdout ? 'border-[var(--border-subtle)] text-[var(--accent-primary)]' : 'border-[#e2dbce] text-[#1d4ed8]'
               }`}
             >
               <GitFork className="w-4 h-4" />
@@ -310,7 +310,7 @@ export const Contact: React.FC = () => {
 
           <div
             className={`pt-4 mt-4 border-t ${
-              isStdout ? 'border-[#242e40]' : 'border-[#e2dbce]'
+              isStdout ? 'border-[var(--border-subtle)]' : 'border-[#e2dbce]'
             }`}
           >
             <motion.a
@@ -320,11 +320,11 @@ export const Contact: React.FC = () => {
               whileTap={reducedMotion ? undefined : { scale: 0.98 }}
               className={`group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-colors ${
                 isStdout
-                  ? 'border border-[#242e40] text-[#00e5c0] hover:border-[#00e5c0] bg-[#0d121c] font-mono'
+                  ? 'border border-[var(--border-subtle)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] bg-[var(--bg-page)] font-mono'
                   : 'border border-[#e2dbce] text-[#1d4ed8] hover:border-[#1d4ed8] bg-[#fbf9f6] font-serif'
               }`}
             >
-              <span>Explore GitHub</span>
+              <span>Explore Code</span>
               <ExternalLink className="w-3 h-3 transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </motion.a>
           </div>
@@ -348,14 +348,14 @@ export const Contact: React.FC = () => {
           whileTap={reducedMotion ? undefined : { scale: 0.99 }}
           className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-colors select-none ${
             isStdout
-              ? 'border-[#242e40] bg-[#121722] hover:border-[#00e5c0] hover:shadow-[0_0_16px_rgba(0,229,192,0.2)] font-mono'
+              ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] font-mono'
               : 'border-[#e2dbce] bg-[#ffffff] hover:border-[#1d4ed8] hover:shadow-md font-serif'
           }`}
         >
           <div>
             <div
               className={`flex items-center gap-2 pb-2 mb-2 border-b text-xs ${
-                isStdout ? 'border-[#242e40] text-[#00e5c0]' : 'border-[#e2dbce] text-[#1d4ed8]'
+                isStdout ? 'border-[var(--border-subtle)] text-[var(--accent-primary)]' : 'border-[#e2dbce] text-[#1d4ed8]'
               }`}
             >
               <Linkedin className="w-4 h-4" />
@@ -371,7 +371,7 @@ export const Contact: React.FC = () => {
 
           <div
             className={`pt-4 mt-4 border-t ${
-              isStdout ? 'border-[#242e40]' : 'border-[#e2dbce]'
+              isStdout ? 'border-[var(--border-subtle)]' : 'border-[#e2dbce]'
             }`}
           >
             <motion.a
@@ -381,7 +381,7 @@ export const Contact: React.FC = () => {
               whileTap={reducedMotion ? undefined : { scale: 0.98 }}
               className={`group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-colors ${
                 isStdout
-                  ? 'border border-[#242e40] text-[#00e5c0] hover:border-[#00e5c0] bg-[#0d121c] font-mono'
+                  ? 'border border-[var(--border-subtle)] text-[var(--accent-primary)] hover:border-[var(--accent-primary)] bg-[var(--bg-page)] font-mono'
                   : 'border border-[#e2dbce] text-[#1d4ed8] hover:border-[#1d4ed8] bg-[#fbf9f6] font-serif'
               }`}
             >
@@ -403,26 +403,26 @@ export const Contact: React.FC = () => {
         style={{ minHeight: containerHeight }}
         className={`p-6 sm:p-8 rounded-lg border shadow-xs space-y-6 ${
           isStdout
-            ? 'border-[#242e40] bg-[#121722] font-mono'
+            ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] font-mono'
             : 'border-[#e2dbce] bg-[#ffffff] font-serif'
         }`}
       >
         <div
           className={`border-b pb-4 space-y-1 ${
-            isStdout ? 'border-[#242e40]' : 'border-[#e2dbce]'
+            isStdout ? 'border-[var(--border-subtle)]' : 'border-[#e2dbce]'
           }`}
         >
           <div
             className={`flex items-center gap-2 text-xs font-bold ${
-              isStdout ? 'text-[#00e5c0]' : 'text-[#1d4ed8]'
+              isStdout ? 'text-[var(--accent-copper)]' : 'text-[#1d4ed8]'
             }`}
           >
             <MessageSquare className="w-4 h-4" />
-            <span>SEND A MESSAGE</span>
+            <span>DIRECT INQUIRY</span>
           </div>
           <h3
             className={`text-lg font-bold ${
-              isStdout ? 'text-[#f1f5f9]' : 'text-[#1c1917]'
+              isStdout ? 'text-[var(--text-primary)]' : 'text-[#1c1917]'
             }`}
           >
             Send a Direct Message
@@ -480,11 +480,7 @@ export const Contact: React.FC = () => {
                 onClick={() => setSubmitSuccess(false)}
                 whileTap={reducedMotion ? undefined : { scale: 0.97 }}
                 transition={spring.snap}
-                className={`px-4 py-2 text-xs font-semibold rounded cursor-pointer transition-colors ${
-                  isStdout
-                    ? 'border border-[#242e40] text-[#00e5c0] hover:border-[#00e5c0]'
-                    : 'border border-[#e2dbce] text-[#1d4ed8] hover:border-[#1d4ed8]'
-                }`}
+                className="px-4 py-2 text-xs font-semibold rounded cursor-pointer transition-colors border border-[var(--border-subtle)] text-[var(--accent-primary)] hover:border-[var(--accent-primary)] bg-[var(--bg-page)]"
               >
                 Send another message
               </motion.button>
@@ -505,88 +501,68 @@ export const Contact: React.FC = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
-                  className={`w-full px-3 py-2 rounded border focus:outline-none transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)] ${
-                    isStdout
-                      ? 'border-[#242e40] bg-[#0b0e14] text-[#f1f5f9] focus:border-[#00e5c0]'
-                      : 'border-[#e2dbce] bg-[#faf8f5] text-[#1c1917] focus:border-[#1d4ed8]'
-                  }`}
-                />
+                    className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)]"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label htmlFor="contact-sender-email" className="text-[var(--text-secondary)]">
+                    Your Email Address *
+                  </label>
+                  <input
+                    id="contact-sender-email"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)]"
+                  />
+                </div>
+
+                <div className="space-y-1.5 sm:col-span-2">
+                  <label htmlFor="contact-subject" className="text-[var(--text-secondary)]">
+                    Subject
+                  </label>
+                  <input
+                    id="contact-subject"
+                    type="text"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    placeholder="What's this about?"
+                    className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)]"
+                  />
+                </div>
+
+                <div className="space-y-1.5 sm:col-span-2">
+                  <label htmlFor="contact-message-body" className="text-[var(--text-secondary)]">
+                    Message *
+                  </label>
+                  <textarea
+                    id="contact-message-body"
+                    rows={4}
+                    required
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="How can I help?"
+                    className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] text-xs leading-relaxed transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)]"
+                  />
+                </div>
               </div>
 
-              <div className="space-y-1.5">
-                <label htmlFor="contact-sender-email" className="text-[var(--text-secondary)]">
-                  Your Email Address *
-                </label>
-                <input
-                  id="contact-sender-email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
-                  className={`w-full px-3 py-2 rounded border focus:outline-none transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)] ${
-                    isStdout
-                      ? 'border-[#242e40] bg-[#0b0e14] text-[#f1f5f9] focus:border-[#00e5c0]'
-                      : 'border-[#e2dbce] bg-[#faf8f5] text-[#1c1917] focus:border-[#1d4ed8]'
-                  }`}
-                />
-              </div>
+              <div className="flex items-center justify-between pt-2">
+                <span className="text-[11px] text-[var(--text-muted)] font-sans">
+                  I reply promptly by email.
+                </span>
 
-              <div className="space-y-1.5 sm:col-span-2">
-                <label htmlFor="contact-subject" className="text-[var(--text-secondary)]">
-                  Subject
-                </label>
-                <input
-                  id="contact-subject"
-                  type="text"
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                  placeholder="What's this about?"
-                  className={`w-full px-3 py-2 rounded border focus:outline-none transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)] ${
-                    isStdout
-                      ? 'border-[#242e40] bg-[#0b0e14] text-[#f1f5f9] focus:border-[#00e5c0]'
-                      : 'border-[#e2dbce] bg-[#faf8f5] text-[#1c1917] focus:border-[#1d4ed8]'
-                  }`}
-                />
-              </div>
-
-              <div className="space-y-1.5 sm:col-span-2">
-                <label htmlFor="contact-message-body" className="text-[var(--text-secondary)]">
-                  Message *
-                </label>
-                <textarea
-                  id="contact-message-body"
-                  rows={4}
-                  required
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="How can I help?"
-                  className={`w-full px-3 py-2 rounded border focus:outline-none text-xs leading-relaxed transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)] ${
-                    isStdout
-                      ? 'border-[#242e40] bg-[#0b0e14] text-[#f1f5f9] focus:border-[#00e5c0]'
-                      : 'border-[#e2dbce] bg-[#faf8f5] text-[#1c1917] focus:border-[#1d4ed8]'
-                  }`}
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between pt-2">
-              <span className="text-[11px] text-[var(--text-muted)] font-sans">
-                I reply promptly by email.
-              </span>
-
-              {/* Submit: button label to spinner to check icon (opacity crossfade, Section 7.3) */}
-              <motion.button
-                type="submit"
-                disabled={submitting}
-                whileTap={reducedMotion || submitting ? undefined : { scale: 0.98 }}
-                transition={spring.snap}
-                className={`relative inline-flex items-center justify-center px-5 py-2.5 rounded font-bold transition-colors cursor-pointer shadow-xs disabled:opacity-50 min-w-[140px] focus-visible:outline-2 ${
-                  isStdout
-                    ? 'bg-[#00e5c0] text-[#0b0e14] hover:bg-[#33ebd0]'
-                    : 'bg-[#1d4ed8] text-white hover:bg-[#1e40af]'
-                }`}
-              >
+                {/* Submit: button label to spinner to check icon (opacity crossfade, Section 7.3) */}
+                <motion.button
+                  type="submit"
+                  disabled={submitting}
+                  whileTap={reducedMotion || submitting ? undefined : { scale: 0.98 }}
+                  transition={spring.snap}
+                  className="relative inline-flex items-center justify-center px-5 py-2.5 rounded font-bold transition-colors cursor-pointer shadow-xs disabled:opacity-50 min-w-[140px] focus-visible:outline-2 bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)]"
+                >
                 <AnimatePresence mode="wait">
                   {submitting ? (
                     <motion.div

@@ -146,9 +146,7 @@ export const ProjectDialog: React.FC<ProjectDialogProps> = ({ project, onClose, 
               onClick={() => setActiveTab(tab.id as any)}
               className={`px-3 py-1.5 rounded transition-colors whitespace-nowrap cursor-pointer ${
                 activeTab === tab.id
-                  ? isStdout
-                    ? 'bg-[#00e5c0] text-[#0b0e14] font-bold'
-                    : 'bg-[#1d4ed8] text-white font-bold'
+                  ? 'bg-[var(--accent-primary)] text-white font-bold'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--border-subtle)]'
               }`}
             >
@@ -257,11 +255,7 @@ export const ProjectDialog: React.FC<ProjectDialogProps> = ({ project, onClose, 
                   Example Invocation
                 </h3>
                 <pre
-                  className={`p-3 rounded border font-mono text-xs ${
-                    isStdout
-                      ? 'border-[#242e40] bg-[#0b0e14] text-[#00e5c0]'
-                      : 'border-[#e2dbce] bg-[#fbf9f6] text-[#1d4ed8]'
-                  }`}
+                  className="p-3 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--accent-primary)] font-mono text-xs"
                 >
                   $ python summarizer.py -i cs50-lecture-03.md -n 4 --format table
                 </pre>

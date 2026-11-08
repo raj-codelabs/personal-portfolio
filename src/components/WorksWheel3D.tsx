@@ -129,7 +129,7 @@ export const WorksWheel3D: React.FC<WorksWheel3DProps> = ({ projects, onSelectPr
     <div className="space-y-4 font-mono text-left">
       {/* 3D Drum Header Telemetry */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#242e40] text-xs text-[#94a3b8]">
-        <div className="flex items-center gap-2 text-[#00e5c0]">
+        <div className="flex items-center gap-2 text-[#3b82f6]">
           <Layers className="w-4 h-4 animate-spin" style={{ animationDuration: '8s' }} />
           <span className="font-bold tracking-wider">WORKSWHEEL_3D // DRUM_REEL</span>
         </div>
@@ -141,7 +141,7 @@ export const WorksWheel3D: React.FC<WorksWheel3DProps> = ({ projects, onSelectPr
               type="button"
               onClick={stepPrev}
               aria-label="Previous project"
-              className="p-1 hover:text-[#00e5c0] hover:bg-[#1a2332] rounded transition-colors cursor-pointer"
+              className="p-1 hover:text-[#3b82f6] hover:bg-[#1a2332] rounded transition-colors cursor-pointer"
             >
               <ChevronUp className="w-3.5 h-3.5" />
             </button>
@@ -149,7 +149,7 @@ export const WorksWheel3D: React.FC<WorksWheel3DProps> = ({ projects, onSelectPr
               type="button"
               onClick={stepNext}
               aria-label="Next project"
-              className="p-1 hover:text-[#00e5c0] hover:bg-[#1a2332] rounded transition-colors cursor-pointer"
+              className="p-1 hover:text-[#3b82f6] hover:bg-[#1a2332] rounded transition-colors cursor-pointer"
             >
               <ChevronDown className="w-3.5 h-3.5" />
             </button>
@@ -173,7 +173,7 @@ export const WorksWheel3D: React.FC<WorksWheel3DProps> = ({ projects, onSelectPr
         <div
           className="absolute inset-0 pointer-events-none opacity-20"
           style={{
-            backgroundImage: 'radial-gradient(#00e5c0 1px, transparent 1px)',
+            backgroundImage: 'radial-gradient(#3b82f6 1px, transparent 1px)',
             backgroundSize: '24px 24px',
           }}
         />
@@ -204,7 +204,7 @@ export const WorksWheel3D: React.FC<WorksWheel3DProps> = ({ projects, onSelectPr
                 }}
                 className={`rounded-xl border p-5 sm:p-6 transition-all duration-200 flex flex-col justify-between ${
                   isFacing
-                    ? 'border-[#00e5c0] bg-[#121722]/95 shadow-[0_0_24px_rgba(0,229,192,0.25)] text-[#f1f5f9]'
+                    ? 'border-[#3b82f6] bg-[#121722]/95 shadow-[0_0_24px_rgba(59,130,246,0.25)] text-[#f1f5f9]'
                     : 'border-[#242e40] bg-[#0d121c]/70 opacity-40 text-[#64748b]'
                 }`}
               >
@@ -214,7 +214,7 @@ export const WorksWheel3D: React.FC<WorksWheel3DProps> = ({ projects, onSelectPr
                 {/* Card Header */}
                 <div className="relative z-10 space-y-2">
                   <div className="flex items-center justify-between text-xs pb-1 border-b border-[#242e40]">
-                    <span className="text-[#00e5c0] font-bold">
+                    <span className="text-[#b87333] font-bold">
                       CYLINDER FACET #{idx + 1}
                     </span>
                     <span className="text-[11px] text-[#64748b]">
@@ -247,7 +247,7 @@ export const WorksWheel3D: React.FC<WorksWheel3DProps> = ({ projects, onSelectPr
                       e.stopPropagation();
                       onSelectProject(project);
                     }}
-                    className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold rounded bg-[#00e5c0] text-[#0b0e14] hover:bg-[#33ebd0] transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold rounded bg-[#3b82f6] text-white hover:bg-[#2563eb] transition-colors cursor-pointer"
                   >
                     <Terminal className="w-3 h-3" />
                     <span>Inspect</span>

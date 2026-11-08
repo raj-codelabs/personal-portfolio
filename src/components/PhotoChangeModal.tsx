@@ -276,7 +276,7 @@ export const PhotoChangeModal: React.FC<PhotoChangeModalProps> = ({
             className={`flex-1 py-3 px-4 text-center font-medium flex items-center justify-center gap-2 border-b-2 transition-colors cursor-pointer ${
               activeTab === 'id-card'
                 ? isStdout
-                  ? 'border-[#00e5c0] text-[#00e5c0] bg-[#141b27]'
+                  ? 'border-[#3b82f6] text-[#3b82f6] bg-[#141b27]'
                   : 'border-[#1d4ed8] text-[#1d4ed8] bg-white'
                 : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
@@ -291,7 +291,7 @@ export const PhotoChangeModal: React.FC<PhotoChangeModalProps> = ({
             className={`flex-1 py-3 px-4 text-center font-medium flex items-center justify-center gap-2 border-b-2 transition-colors cursor-pointer ${
               activeTab === 'white-mode'
                 ? isStdout
-                  ? 'border-[#00e5c0] text-[#00e5c0] bg-[#141b27]'
+                  ? 'border-[#3b82f6] text-[#3b82f6] bg-[#141b27]'
                   : 'border-[#1d4ed8] text-[#1d4ed8] bg-white'
                 : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
@@ -323,7 +323,7 @@ export const PhotoChangeModal: React.FC<PhotoChangeModalProps> = ({
                 }`}
               >
                 {/* ID Avatar Preview Box */}
-                <div className="relative w-24 h-24 rounded-xl bg-[#0a0e14] border-2 border-[#00e5c0] p-1 shrink-0 overflow-hidden shadow-lg flex items-center justify-center">
+                <div className="relative w-24 h-24 rounded-xl bg-[#0a0e14] border-2 border-[#3b82f6] p-1 shrink-0 overflow-hidden shadow-lg flex items-center justify-center">
                   {avatarUrl ? (
                     <img
                       src={avatarUrl}
@@ -333,14 +333,14 @@ export const PhotoChangeModal: React.FC<PhotoChangeModalProps> = ({
                     />
                   ) : (
                     <div className="flex flex-col items-center justify-center text-[#64748b]">
-                      <User className="w-8 h-8 text-[#00e5c0]" />
+                      <User className="w-8 h-8 text-[#3b82f6]" />
                       <span className="text-[10px] text-[#94a3b8] mt-1 font-mono">CHIP ICON</span>
                     </div>
                   )}
-                  <div className="absolute top-1 left-1 w-2 h-2 border-t-2 border-l-2 border-[#00e5c0]" />
-                  <div className="absolute top-1 right-1 w-2 h-2 border-t-2 border-r-2 border-[#00e5c0]" />
-                  <div className="absolute bottom-1 left-1 w-2 h-2 border-b-2 border-l-2 border-[#00e5c0]" />
-                  <div className="absolute bottom-1 right-1 w-2 h-2 border-b-2 border-r-2 border-[#00e5c0]" />
+                  <div className="absolute top-1 left-1 w-2 h-2 border-t-2 border-l-2 border-[#3b82f6]" />
+                  <div className="absolute top-1 right-1 w-2 h-2 border-t-2 border-r-2 border-[#3b82f6]" />
+                  <div className="absolute bottom-1 left-1 w-2 h-2 border-b-2 border-l-2 border-[#3b82f6]" />
+                  <div className="absolute bottom-1 right-1 w-2 h-2 border-b-2 border-r-2 border-[#3b82f6]" />
                 </div>
 
                 {/* Upload & Action Controls */}
@@ -435,7 +435,7 @@ export const PhotoChangeModal: React.FC<PhotoChangeModalProps> = ({
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <User className="w-6 h-6 text-[#00e5c0]" />
+                            <User className="w-6 h-6 text-[#3b82f6]" />
                           )}
                         </div>
                         <div className="text-[10px] font-semibold truncate text-[var(--text-primary)]">
