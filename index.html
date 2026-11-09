@@ -16,12 +16,6 @@
 
         var d = document.documentElement;
         d.classList.add('js');
-        try {
-          var skip = sessionStorage.getItem('coverSeen') || sessionStorage.getItem('coverDismissed') || location.hash;
-          if (skip) { d.classList.add('skip-cover'); return; }
-        } catch (e) {}
-        var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (!reduce) d.classList.add('cover-anim');
       })();
     </script>
     <title>Raj Golder | B.Tech CSE (AI/ML) Student, Python Projects</title>

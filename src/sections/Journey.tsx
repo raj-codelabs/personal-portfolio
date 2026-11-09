@@ -5,7 +5,6 @@ import { Milestone } from '../types';
 import { milestonesData } from '../data/journey';
 import { StdoutJourney } from '../themes/StdoutJourney';
 import { MarginNotesJourney } from '../themes/MarginNotesJourney';
-import { HorizontalSpatialTimeline } from '../components/HorizontalSpatialTimeline';
 import { motion } from 'motion/react';
 import { spring, distance } from '../motion/motion-tokens';
 import { useReducedMotionGlobal } from '../motion/useReducedMotionGlobal';
@@ -100,15 +99,9 @@ export const Journey: React.FC = () => {
         />
       </div>
 
-      {/* Spatial Horizontal Timeline Canvas */}
-      <HorizontalSpatialTimeline milestones={activeMilestones} />
-
-      {/* Detailed Node Inspector & Mobile Fallback */}
-      <div className="pt-8 border-t border-[var(--border-subtle)]">
-        <div className="text-xs font-mono text-[var(--text-muted)] pb-3 flex items-center justify-between">
-          <span className="uppercase tracking-wider">Detailed Milestone Register &amp; DAG Graph</span>
-          <span className="text-[11px] text-[var(--accent-primary)]">Interactive Inspector</span>
-        </div>
+      {/* Single-pass timeline with clean milestone register */}
+      {/* ponytail: Single-pass layout is optimal for <100 milestones; paginate or filter by branch/tag if entries expand */}
+      <div className="pt-2">
         {isStdout ? (
           <StdoutJourney milestones={activeMilestones} />
         ) : (

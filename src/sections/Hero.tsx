@@ -41,19 +41,7 @@ export const Hero: React.FC = () => {
   const name = profile?.name || 'Raj Golder';
   const github = profile?.contact?.github || 'https://github.com/raj-codelabs';
 
-  // Section 1.8: Check whether cover was skipped on initial load (same session, hash, etc.)
-  const [coverSkippedOnLoad] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return true;
-    if (window.location.hash && window.location.hash.length > 1) return true;
-    if (document.documentElement.classList.contains('skip-cover')) return true;
-    try {
-      return sessionStorage.getItem('coverSeen') === '1';
-    } catch {
-      return false;
-    }
-  });
-
-  // Section 3.1: Blinking cursor stops blinking after ~3s, stays solid
+  // Blinking cursor stops blinking after ~3s, stays solid
   useEffect(() => {
     if (reducedMotion) {
       setCursorBlinking(false);
@@ -65,10 +53,8 @@ export const Hero: React.FC = () => {
     return () => clearTimeout(timer);
   }, [reducedMotion]);
 
-  // Section 1.8: Entrance animation props
-  // If cover skipped on load -> runs on load with delays (max 1.1s)
-  // If cover exists -> runs once when hero enters viewport (standard reveal)
-  const getRevealProps = (delayOnLoad: number) => {
+  // ponytail: Direct entrance animations with staggered delay; reduced motion disables all movement
+  const getRevealProps = (delay: number) => {
     if (reducedMotion) {
       return {
         initial: false,
@@ -76,20 +62,10 @@ export const Hero: React.FC = () => {
         transition: { duration: 0 },
       };
     }
-
-    if (coverSkippedOnLoad) {
-      return {
-        initial: { opacity: 0, y: distance.reveal },
-        animate: { opacity: 1, y: 0 },
-        transition: { ...spring.settle, delay: delayOnLoad },
-      };
-    }
-
     return {
       initial: { opacity: 0, y: distance.reveal },
-      whileInView: { opacity: 1, y: 0 },
-      viewport: { once: true, amount: 0.15, margin: '0px 0px -10% 0px' },
-      transition: { ...spring.settle, delay: Math.min(delayOnLoad * 0.5, 0.2) },
+      animate: { opacity: 1, y: 0 },
+      transition: { ...spring.settle, delay },
     };
   };
 
@@ -132,9 +108,6 @@ export const Hero: React.FC = () => {
             </motion.div>
 
             {/* 2. H1 lines rise 12px + fade, 60ms stagger */}
-            <div className="text-[10px] font-mono tracking-widest text-[var(--accent-copper)] uppercase">
-              COORDS // MATS UNIV · SYS_CLOCK: 120Hz · COMPILED
-            </div>
             <h1 className="text-[clamp(2.1rem,5vw,3.75rem)] font-mono font-bold tracking-tight text-[#f6f5f1] leading-[1.12]">
               <motion.span
                 className="block text-[#f6f5f1]"
@@ -229,29 +202,11 @@ export const Hero: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* Badge: Scale-in starts on hero enter or on load (Section 1.8 & 3.1) */}
+          {/* Badge: Scale-in */}
           <motion.div
             initial={reducedMotion ? false : { opacity: 0, scale: 0.96 }}
-            animate={
-              reducedMotion
-                ? { opacity: 1, scale: 1 }
-                : coverSkippedOnLoad
-                ? { opacity: 1, scale: 1 }
-                : undefined
-            }
-            whileInView={
-              !reducedMotion && !coverSkippedOnLoad
-                ? { opacity: 1, scale: 1 }
-                : undefined
-            }
-            viewport={{ once: true, amount: 0.2 }}
-            transition={
-              reducedMotion
-                ? { duration: 0 }
-                : coverSkippedOnLoad
-                ? { ...spring.soft, delay: 0.55 }
-                : spring.soft
-            }
+            animate={{ opacity: 1, scale: 1 }}
+            transition={reducedMotion ? { duration: 0 } : { ...spring.soft, delay: 0.2 }}
             className="lg:col-span-5 flex flex-col items-center justify-start w-full"
           >
             <DeveloperIdCard />
@@ -352,29 +307,11 @@ export const Hero: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* Portrait draw-in: Starts on hero enter or on load (Section 1.8 & 3.2) */}
+          {/* Portrait draw-in */}
           <motion.div
             initial={reducedMotion ? false : { opacity: 0 }}
-            animate={
-              reducedMotion
-                ? { opacity: 1 }
-                : coverSkippedOnLoad
-                ? { opacity: 1 }
-                : undefined
-            }
-            whileInView={
-              !reducedMotion && !coverSkippedOnLoad
-                ? { opacity: 1 }
-                : undefined
-            }
-            viewport={{ once: true, amount: 0.2 }}
-            transition={
-              reducedMotion
-                ? { duration: 0 }
-                : coverSkippedOnLoad
-                ? { duration: 0.6, delay: 0.15, ease: 'easeOut' }
-                : { duration: 0.6, ease: 'easeOut' }
-            }
+            animate={{ opacity: 1 }}
+            transition={reducedMotion ? { duration: 0 } : { duration: 0.6, delay: 0.15, ease: 'easeOut' }}
             className="lg:col-span-5 flex flex-col items-center justify-start w-full"
           >
             <SketchReveal />

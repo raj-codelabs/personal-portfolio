@@ -9,14 +9,11 @@ import { spring, distance } from '../motion/motion-tokens';
 import { useReducedMotionGlobal } from '../motion/useReducedMotionGlobal';
 
 import { ScrollExpandMedia } from '../components/ScrollExpandMedia';
-import { WorksWheel3D } from '../components/WorksWheel3D';
 import { ProjectCard } from '../components/ProjectCard';
-import { LayoutGrid, Layers } from 'lucide-react';
 
 export const Projects: React.FC = () => {
   const { theme } = useTheme();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [viewMode, setViewMode] = useState<'grid' | 'wheel'>('grid');
   const triggerRef = useRef<HTMLButtonElement>(null);
   const isStdout = theme === 'stdout';
   const reducedMotion = useReducedMotionGlobal();
@@ -98,7 +95,7 @@ export const Projects: React.FC = () => {
         triggerRef={triggerRef}
       />
 
-      {/* 2. All Builds Header & View Controls */}
+      {/* 2. All Builds Header */}
       <div className="pt-4 flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border-subtle)] pb-3">
         <div>
           <h3 className={`text-lg font-bold text-[var(--text-primary)] ${isStdout ? 'font-mono' : 'font-serif'}`}>
@@ -108,63 +105,23 @@ export const Projects: React.FC = () => {
             Compare project scopes, architectural designs, and source repositories.
           </p>
         </div>
-
-        {/* View mode toggle in stdout mode */}
-        {isStdout && (
-          <div className="flex items-center gap-1 border border-[var(--border-subtle)] rounded p-1 bg-[var(--bg-page)] text-xs font-mono">
-            <button
-              type="button"
-              onClick={() => setViewMode('grid')}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded transition-colors cursor-pointer ${
-                viewMode === 'grid'
-                  ? 'bg-[var(--bg-surface-elevated)] text-[var(--accent-primary)] font-semibold'
-                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-              }`}
-              aria-pressed={viewMode === 'grid'}
-            >
-              <LayoutGrid className="w-3.5 h-3.5" aria-hidden="true" />
-              <span>Grid View</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setViewMode('wheel')}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded transition-colors cursor-pointer ${
-                viewMode === 'wheel'
-                  ? 'bg-[var(--bg-surface-elevated)] text-[var(--accent-primary)] font-semibold'
-                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-              }`}
-              aria-pressed={viewMode === 'wheel'}
-            >
-              <Layers className="w-3.5 h-3.5" aria-hidden="true" />
-              <span>3D Reel</span>
-            </button>
-          </div>
-        )}
       </div>
 
-      {/* 3. Render either 3D Wheel or Clean Project Cards Grid */}
-      {isStdout && viewMode === 'wheel' ? (
-        <div className="pt-2">
-          <WorksWheel3D
-            projects={projectsData}
-            onSelectProject={(proj) => handleOpenCaseStudy(proj)}
+      {/* 3. Clean Responsive Project Cards Grid */}
+      {/* ponytail: Direct CSS grid layout is optimal for <50 projects; add pagination/filters if catalog exceeds 100 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
+        {projectsData.map((project, idx) => (
+          <ProjectCard
+            key={project.id}
+            project={project}
+            index={idx}
+            onOpenDetails={(p, ref) => {
+              if (ref?.current) triggerRef.current = ref.current;
+              handleOpenCaseStudy(p);
+            }}
           />
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
-          {projectsData.map((project, idx) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              index={idx}
-              onOpenDetails={(p, ref) => {
-                if (ref?.current) triggerRef.current = ref.current;
-                handleOpenCaseStudy(p);
-              }}
-            />
-          ))}
-        </div>
-      )}
+        ))}
+      </div>
 
       {/* Ideas single text line */}
       <div className="pt-2 text-xs sm:text-sm text-[var(--text-muted)] font-mono">
