@@ -1,10 +1,15 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Theme } from '../types';
 
+export interface TransitionOrigin {
+  x: number;
+  y: number;
+}
+
 interface ThemeContextType {
   theme: Theme;
-  toggleTheme: () => void;
-  setTheme: (theme: Theme) => void;
+  toggleTheme: (origin?: TransitionOrigin) => void;
+  setTheme: (theme: Theme, origin?: TransitionOrigin) => void;
   isManualOverride: boolean;
 }
 
@@ -70,20 +75,49 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  const setTheme = (newTheme: Theme) => {
+  // ponytail: View transitions circular reveal runs at 400ms cubic-bezier; falls back to instant switch on reduced-motion or unsupported browsers
+  const setTheme = (newTheme: Theme, origin?: TransitionOrigin) => {
     try {
       localStorage.setItem(STORAGE_KEY, newTheme);
     } catch (err) {
       console.warn('Could not persist theme to localStorage:', err);
     }
 
-    const prefersReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prefersReduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (!prefersReduced && typeof document !== 'undefined' && 'startViewTransition' in document) {
       try {
-        (document as any).startViewTransition(() => {
+        const transition = (document as any).startViewTransition(() => {
           setThemeState({ theme: newTheme, isManual: true });
         });
+
+        const x = origin ? origin.x : window.innerWidth / 2;
+        const y = origin ? origin.y : window.innerHeight / 2;
+        const endRadius = Math.hypot(
+          Math.max(x, window.innerWidth - x),
+          Math.max(y, window.innerHeight - y)
+        );
+
+        if (transition && typeof transition.ready?.then === 'function') {
+          transition.ready.then(() => {
+            document.documentElement.animate(
+              {
+                clipPath: [
+                  `circle(0px at ${x}px ${y}px)`,
+                  `circle(${endRadius}px at ${x}px ${y}px)`,
+                ],
+              },
+              {
+                duration: 400,
+                easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                pseudoElement: '::view-transition-new(root)',
+              }
+            );
+          });
+        }
         return;
       } catch {
         // Fallback if view transition fails
@@ -93,9 +127,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setThemeState({ theme: newTheme, isManual: true });
   };
 
-  const toggleTheme = () => {
+  const toggleTheme = (origin?: TransitionOrigin) => {
     const nextTheme: Theme = currentTheme === 'stdout' ? 'margin-notes' : 'stdout';
-    setTheme(nextTheme);
+    setTheme(nextTheme, origin);
   };
 
   return (

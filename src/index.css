@@ -159,18 +159,18 @@
       animation: none !important;
     }
   }
-
-  /* Section 1.2: Cover progressive enhancement */
-  .skip-cover #cover {
-    display: none !important;
-  }
 }
 
-/* View Transitions crossfade (250ms, Section 4) */
-::view-transition-old(root),
+/* Circular Ripple View Transitions */
+::view-transition-old(root) {
+  animation: none;
+  z-index: 1;
+}
+
 ::view-transition-new(root) {
-  animation-duration: 250ms;
-  animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  animation: none;
+  z-index: 9999;
+  mix-blend-mode: normal;
 }
 
 /* Custom scrollbar matching active theme */
