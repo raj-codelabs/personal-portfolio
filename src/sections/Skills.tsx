@@ -1,55 +1,76 @@
 import React from 'react';
 import { useTheme } from '../context/ThemeContext';
-import { Code, Wrench, BookOpen } from 'lucide-react';
-import { motion } from 'motion/react';
-import { spring, distance } from '../motion/motion-tokens';
-import { useReducedMotionGlobal } from '../motion/useReducedMotionGlobal';
+import {
+  PythonIcon,
+  CIcon,
+  GitIcon,
+  VSCodeIcon,
+  GitHubIcon,
+  CS50Icon,
+  LinuxBashIcon,
+} from '../components/TechIcons';
+import { PipelineDiagram } from '../components/PipelineDiagram';
+
+interface ToolItem {
+  name: string;
+  evidence: string;
+  Icon: React.FC<{ className?: string; size?: number }>;
+  href?: string;
+}
 
 export const Skills: React.FC = () => {
   const { theme } = useTheme();
   const isStdout = theme === 'stdout';
-  const reducedMotion = useReducedMotionGlobal();
 
-  const skillGroups = [
+  const skillGroups: { group: string; items: ToolItem[] }[] = [
     {
-      group: 'Languages',
-      icon: Code,
+      group: 'Core Languages',
       items: [
         {
-          name: 'Python',
-          evidence: 'AI Study Notes Summarizer, CS50P certification',
+          name: 'Python 3.12',
+          evidence: 'CS50P certified, LLM study pipeline, AST parser tooling',
+          Icon: PythonIcon,
         },
         {
-          name: 'C',
-          evidence: 'CS50x problem sets, university programming coursework',
+          name: 'C (Systems)',
+          evidence: 'CS50x problem sets, pointer arithmetic, memory management',
+          Icon: CIcon,
         },
       ],
     },
     {
-      group: 'Tools',
-      icon: Wrench,
+      group: 'Engineering Toolchain',
       items: [
         {
-          name: 'Git · GitHub',
-          evidence: 'Version control, repositories, workflow hygiene',
+          name: 'Git & GitHub',
+          evidence: 'Trunk branch hygiene, atomic commits, pull request workflows',
+          Icon: GitIcon,
         },
         {
-          name: 'VS Code',
-          evidence: 'Primary development environment and debugging tools',
+          name: 'Visual Studio Code',
+          evidence: 'Configured debuggers, lint pipelines, terminal integration',
+          Icon: VSCodeIcon,
+        },
+        {
+          name: 'Linux & Bash',
+          evidence: 'CLI workflows, POSIX pipes, shell automation scripts',
+          Icon: LinuxBashIcon,
         },
       ],
     },
     {
-      group: 'Learning now',
-      icon: BookOpen,
+      group: 'Academic Foundations',
       items: [
         {
-          name: 'AI/ML Foundations',
-          evidence: 'Prompt engineering, token optimization, introductory models',
+          name: 'Harvard CS50x & CS50P',
+          evidence: 'Computer science fundamentals, algorithms, algorithms in Python',
+          Icon: CS50Icon,
         },
         {
-          name: 'Data Structures & Algorithms',
-          evidence: 'Algorithm analysis, memory layout, core data structures',
+          name: 'Open Source Repositories',
+          evidence: 'Public tools, documentation, test suites on GitHub',
+          Icon: GitHubIcon,
+          href: 'https://github.com/raj-codelabs',
         },
       ],
     },
@@ -59,17 +80,11 @@ export const Skills: React.FC = () => {
     <section
       id="skills"
       aria-labelledby="skills-heading"
-      className="py-12 sm:py-16 space-y-8 text-left scroll-mt-16"
+      className="py-12 sm:py-16 space-y-10 text-left scroll-mt-16"
     >
-      {/* Section Header with Section 5 reveals */}
+      {/* Section Header */}
       <div className="relative pb-4">
-        <motion.div
-          data-reveal
-          initial={reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2, margin: '0px 0px -10% 0px' }}
-          transition={spring.settle}
-        >
+        <div>
           {isStdout ? (
             <div className="text-xs font-mono text-[var(--accent-copper)] mb-1 uppercase tracking-wider font-semibold">
               TECHNICAL TOOLING &amp; EVIDENCE
@@ -79,123 +94,88 @@ export const Skills: React.FC = () => {
               Technical Tooling &amp; Practice
             </div>
           )}
-        </motion.div>
+        </div>
 
-        <motion.h2
+        <h2
           id="skills-heading"
-          data-reveal
-          initial={reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2, margin: '0px 0px -10% 0px' }}
-          transition={{ ...spring.settle, delay: 0.05 }}
           className={`text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)] ${
             isStdout ? 'font-mono' : 'font-serif'
           }`}
         >
-          Skills
-        </motion.h2>
+          Toolchain &amp; Engineering Disciplines
+        </h2>
 
-        <motion.p
-          data-reveal
-          initial={reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2, margin: '0px 0px -10% 0px' }}
-          transition={{ ...spring.settle, delay: 0.1 }}
-          className="text-sm sm:text-base text-[var(--text-secondary)] font-body mt-1 max-w-xl"
-        >
-          Core toolchain and verified programming disciplines backed by completed projects and coursework.
-        </motion.p>
+        <p className="text-sm sm:text-base text-[var(--text-secondary)] font-body mt-1 max-w-xl">
+          Verified tools and concrete systems engineering principles applied across open-source utilities.
+        </p>
 
-        {/* Section hairline rule: scaleX 0 to 1, origin left, soft spring (Section 5) */}
-        <motion.div
-          data-reveal
-          initial={reducedMotion ? false : { scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          viewport={{ once: true, amount: 0.2, margin: '0px 0px -10% 0px' }}
-          transition={spring.soft}
+        {/* Section hairline rule */}
+        <div
           className="absolute bottom-0 left-0 right-0 h-[1px] bg-[var(--border-subtle)] origin-left"
           aria-hidden="true"
         />
       </div>
 
-      {/* Non-interactive card: NO hover lift (Section 7.1) */}
-      <motion.div
-        data-reveal
-        initial={reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2, margin: '0px 0px -10% 0px' }}
-        transition={spring.settle}
-        className={`rounded-xl border divide-y transition-colors overflow-hidden ${
-          isStdout
-            ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] divide-[var(--border-subtle)] font-mono'
-            : 'border-[#e2dbce] bg-[#ffffff] divide-[#e2dbce] font-serif shadow-xs'
-        }`}
-      >
-        {skillGroups.map((group, groupIdx) => {
-          const GroupIcon = group.icon;
-          return (
-            <div
-              key={group.group}
-              className="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-12 gap-4 items-start"
-            >
-              {/* Category Column (4 cols) */}
-              <div className="md:col-span-4 flex items-center gap-2.5">
-                <div
-                  className={`p-1.5 rounded ${
-                    isStdout
-                      ? 'bg-[var(--accent-primary)]/15 text-[var(--accent-primary)] border border-[var(--accent-primary)]/30'
-                      : 'bg-[#1d4ed8]/10 text-[#1d4ed8] border border-[#1d4ed8]/20'
-                  }`}
-                >
-                  <GroupIcon className="w-4 h-4" />
-                </div>
-                <div>
-                  <h3
-                    className={`text-base font-bold ${
-                      isStdout ? 'text-[var(--text-primary)]' : 'text-[#1c1917]'
-                    }`}
-                  >
-                    {group.group}
-                  </h3>
-                </div>
-              </div>
+      {/* 1. Real Full-Color Tools Grid with 2px hover lift */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {skillGroups.map((group) => (
+          <div
+            key={group.group}
+            className={`p-6 rounded-xl border flex flex-col justify-between transition-all duration-200 ${
+              isStdout
+                ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] font-mono text-[var(--text-secondary)]'
+                : 'border-[#e0d9cd] bg-[#ffffff] font-serif text-[#44403c] shadow-xs'
+            }`}
+          >
+            <div>
+              <h3
+                className={`text-sm font-bold uppercase tracking-wider pb-3 mb-4 border-b ${
+                  isStdout
+                    ? 'text-[var(--text-primary)] border-[#273142]'
+                    : 'text-[#1c1917] border-[#e0d9cd]'
+                }`}
+              >
+                {group.group}
+              </h3>
 
-              {/* Items & Evidence Column (8 cols): 30ms stagger after the card appears (Section 5) */}
-              <div className="md:col-span-8 space-y-3">
-                {group.items.map((item, itemIdx) => (
-                  <motion.div
-                    key={item.name}
-                    initial={reducedMotion ? false : { opacity: 0, y: 4 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={
-                      reducedMotion
-                        ? { duration: 0 }
-                        : { ...spring.settle, delay: groupIdx * 0.06 + itemIdx * 0.03 }
-                    }
-                    className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 text-sm"
-                  >
-                    <span
-                      className={`font-semibold shrink-0 sm:w-44 ${
-                        isStdout ? 'text-[var(--accent-primary)]' : 'text-[#1d4ed8]'
-                      }`}
+              <div className="space-y-4">
+                {group.items.map((item) => {
+                  const ItemIcon = item.Icon;
+                  return (
+                    <div
+                      key={item.name}
+                      className="group/tool flex items-start gap-3 p-2.5 rounded-lg border border-transparent hover:border-[var(--border-subtle)] hover:bg-[var(--bg-page)] hover:-translate-y-[2px] transition-all duration-150 ease-out"
                     >
-                      {item.name}
-                    </span>
-                    <span
-                      className={`text-xs sm:text-sm leading-relaxed ${
-                        isStdout ? 'text-[#94a3b8]' : 'text-[#44403c] font-sans'
-                      }`}
-                    >
-                      {item.evidence}
-                    </span>
-                  </motion.div>
-                ))}
+                      <div className="shrink-0 p-1 rounded bg-[var(--bg-page)] border border-[var(--border-subtle)] group-hover/tool:border-[var(--accent-primary)]/40 transition-colors">
+                        <ItemIcon size={22} className="w-5 h-5" />
+                      </div>
+                      <div className="space-y-0.5">
+                        <div className="flex items-center gap-2">
+                          <span
+                            className={`font-semibold text-xs ${
+                              isStdout ? 'text-[var(--text-primary)]' : 'text-[#1c1917]'
+                            }`}
+                          >
+                            {item.name}
+                          </span>
+                        </div>
+                        <p className="text-[11px] leading-relaxed text-[var(--text-muted)] font-body">
+                          {item.evidence}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
-          );
-        })}
-      </motion.div>
+          </div>
+        ))}
+      </div>
+
+      {/* 2. Interactive Pipeline Visual Diagram (One input, main processor, three parallel lanes, pulses running along lines) */}
+      <div className="pt-2">
+        <PipelineDiagram />
+      </div>
     </section>
   );
 };

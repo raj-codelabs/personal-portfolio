@@ -18,10 +18,10 @@ export const profileData: Profile = {
   philosophy:
     'Learn the fundamentals, build small projects, and improve through experimentation.',
   contact: {
-    email: 'contact@rajgolder.dev',
+    email: 'contact@rajgolder.example',
     github: 'https://github.com/raj-codelabs',
     linkedin: 'https://linkedin.com/in/rajgolder',
-    location: 'Raipur, India',
+    location: 'Raipur District, India',
     statusLabel: 'OPEN TO INTERNSHIPS & COLLABORATIONS',
   },
 };

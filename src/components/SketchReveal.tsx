@@ -375,10 +375,7 @@ export const SketchReveal: React.FC<SketchRevealProps> = ({ brushRadius = 40 }) 
           </button>
         </div>
 
-        {/* Editorial Pencil Caption */}
-        <p className="font-serif italic text-xs text-[#78716c] leading-relaxed">
-          {editorialCaption}
-        </p>
+
       </div>
 
       {/* Photo Change Modal for White Mode */}

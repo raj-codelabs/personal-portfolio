@@ -14,9 +14,10 @@ import {
   CheckCircle2,
   RefreshCw,
   GitFork,
+  MapPin,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { spring, distance } from '../motion/motion-tokens';
+import { spring } from '../motion/motion-tokens';
 import { useReducedMotionGlobal } from '../motion/useReducedMotionGlobal';
 
 export const Contact: React.FC = () => {
@@ -24,7 +25,6 @@ export const Contact: React.FC = () => {
   const { profile } = useCms();
   const reducedMotion = useReducedMotionGlobal();
   const [copied, setCopied] = useState(false);
-  const [isTouch, setIsTouch] = useState(false);
   const isStdout = theme === 'stdout';
 
   // Form state
@@ -37,24 +37,12 @@ export const Contact: React.FC = () => {
   const [formFeedback, setFormFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const formContainerRef = useRef<HTMLDivElement>(null);
-  const [containerHeight, setContainerHeight] = useState<number | undefined>(undefined);
 
-  useEffect(() => {
-    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  }, []);
+  const contactEmail = 'contact@rajgolder.example';
+  const districtLocation = 'Raipur District, India';
 
-  const contactData = profile?.contact || {
-    email: 'contact@rajgolder.dev',
-    github: 'https://github.com/raj-codelabs',
-    linkedin: 'https://linkedin.com/in/rajgolder',
-    location: 'Raipur, India',
-    statusLabel: 'FIRST-YEAR CSE STUDENT · LEARNING & BUILDING',
-    customLinks: [],
-  };
-
-  // Section 7.3: Copy button reverts after 1.8s
   const copyEmail = () => {
-    navigator.clipboard.writeText(contactData.email).then(() => {
+    navigator.clipboard.writeText(contactEmail).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     });
@@ -64,7 +52,6 @@ export const Contact: React.FC = () => {
     e.preventDefault();
     setFormFeedback(null);
 
-    // Section 7.3: Inline validation errors slide down 6px + fade; no shake
     if (!name.trim()) {
       setFormFeedback({ type: 'error', text: 'Please enter your name.' });
       return;
@@ -76,13 +63,8 @@ export const Contact: React.FC = () => {
     }
 
     if (!message.trim() || message.trim().length < 5) {
-      setFormFeedback({ type: 'error', text: 'Please include a message (min 5 characters).' });
+      setFormFeedback({ type: 'error', text: 'Please include a message (minimum 5 characters).' });
       return;
-    }
-
-    // Capture height to avoid layout jump on success crossfade (Section 7.3)
-    if (formContainerRef.current) {
-      setContainerHeight(formContainerRef.current.offsetHeight);
     }
 
     try {
@@ -90,14 +72,14 @@ export const Contact: React.FC = () => {
       const res = await api.sendContactMessage({
         name: name.trim(),
         email: email.trim(),
-        subject: subject.trim() || 'Portfolio Inquiry',
+        subject: subject.trim() || 'Software Inquiry',
         message: message.trim(),
       });
 
       setSubmitSuccess(true);
       setFormFeedback({
         type: 'success',
-        text: res.message || 'Your message has been sent. Thank you for reaching out!',
+        text: res.message || 'Your inquiry has been transmitted successfully.',
       });
       setName('');
       setEmail('');
@@ -107,7 +89,7 @@ export const Contact: React.FC = () => {
       console.error('Failed to submit inquiry:', err);
       setFormFeedback({
         type: 'error',
-        text: 'Failed to send message. Please reach out directly to contact@rajgolder.dev',
+        text: 'Failed to transmit message. Please send an email directly to contact@rajgolder.example',
       });
     } finally {
       setSubmitting(false);
@@ -120,188 +102,128 @@ export const Contact: React.FC = () => {
       aria-labelledby="contact-heading"
       className="py-12 sm:py-16 space-y-8 text-left scroll-mt-16"
     >
-      {/* Section Header with Section 5 reveals */}
+      {/* Section Header */}
       <div className="relative pb-4">
-        <motion.div
-          data-reveal
-          initial={reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2, margin: '0px 0px -10% 0px' }}
-          transition={spring.settle}
-        >
+        <div>
           {isStdout ? (
             <div className="text-xs font-mono text-[var(--accent-copper)] mb-1 uppercase tracking-wider">
-              GET IN TOUCH
+              CORRESPONDENCE &amp; INQUIRY
             </div>
           ) : (
             <div className="text-sm font-serif italic text-[var(--accent-copper)] font-semibold mb-1">
               Correspondence &amp; Contact
             </div>
           )}
-        </motion.div>
+        </div>
 
-        <motion.h2
+        <h2
           id="contact-heading"
-          data-reveal
-          initial={reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2, margin: '0px 0px -10% 0px' }}
-          transition={{ ...spring.settle, delay: 0.05 }}
           className={`text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)] ${
             isStdout ? 'font-mono' : 'font-serif'
           }`}
         >
-          Get in Touch
-        </motion.h2>
+          Direct Inquiries &amp; Channels
+        </h2>
 
-        <motion.p
-          data-reveal
-          initial={reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2, margin: '0px 0px -10% 0px' }}
-          transition={{ ...spring.settle, delay: 0.1 }}
-          className="text-sm sm:text-base text-[var(--text-secondary)] font-body mt-1 max-w-xl"
-        >
-          Open to internships, freelance projects, and collaborations. I reply promptly by email.
-        </motion.p>
+        <p className="text-sm sm:text-base text-[var(--text-secondary)] font-body mt-1 max-w-xl">
+          Available for software engineering internships, technical collaborations, and open-source contributions.
+        </p>
 
-        {/* Section hairline rule: scaleX 0 to 1, origin left, soft spring (Section 5) */}
-        <motion.div
-          data-reveal
-          initial={reducedMotion ? false : { scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          viewport={{ once: true, amount: 0.2, margin: '0px 0px -10% 0px' }}
-          transition={spring.soft}
+        {/* Section hairline rule */}
+        <div
           className="absolute bottom-0 left-0 right-0 h-[1px] bg-[var(--border-subtle)] origin-left"
           aria-hidden="true"
         />
       </div>
 
-      {/* Interactive Contact Cards (Section 7.1: translateY(-3px) on hover, scale(0.99) on press) */}
+      {/* Interactive Contact Cards (Lift 2px on hover) */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Email Card */}
-        <motion.div
-          data-reveal
-          initial={reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2, margin: '0px 0px -10% 0px' }}
-          transition={{ ...spring.settle, delay: 0 }}
-          whileHover={
-            reducedMotion || isTouch
-              ? undefined
-              : {
-                  y: -2,
-                  transition: spring.snap,
-                }
-          }
-          whileTap={reducedMotion ? undefined : { scale: 0.99 }}
-          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-colors select-none ${
+        <div
+          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-all duration-150 ease-out select-none hover:-translate-y-[2px] ${
             isStdout
               ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] font-mono'
-              : 'border-[#e2dbce] bg-[#ffffff] hover:border-[#1d4ed8] hover:shadow-md font-serif'
+              : 'border-[#e0d9cd] bg-[#ffffff] hover:border-[#1d4ed8] hover:shadow-md font-serif'
           }`}
         >
           <div>
             <div
               className={`flex items-center gap-2 pb-2 mb-2 border-b text-xs ${
-                isStdout ? 'border-[var(--border-subtle)] text-[var(--accent-primary)]' : 'border-[#e2dbce] text-[#1d4ed8]'
+                isStdout ? 'border-[var(--border-subtle)] text-[var(--accent-primary)]' : 'border-[#e0d9cd] text-[#1d4ed8]'
               }`}
             >
               <Mail className="w-4 h-4" />
-              <span className="font-bold">Email</span>
+              <span className="font-bold">Direct Email</span>
             </div>
             <div className="text-xs text-[var(--text-secondary)] mb-3 font-sans">
-              Direct communication for projects, internships, and queries.
+              Direct inbox for technical opportunities and academic queries.
             </div>
             <div className="text-xs font-semibold text-[var(--text-primary)] break-all font-mono">
-              {contactData.email}
+              {contactEmail}
             </div>
           </div>
 
           <div
             className={`flex items-center gap-2 pt-4 mt-4 border-t ${
-              isStdout ? 'border-[var(--border-subtle)]' : 'border-[#e2dbce]'
+              isStdout ? 'border-[var(--border-subtle)]' : 'border-[#e0d9cd]'
             }`}
           >
             <a
-              href={`mailto:${contactData.email}`}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-colors ${
+              href={`mailto:${contactEmail}`}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-all hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
                 isStdout
                   ? 'bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)] font-mono'
                   : 'bg-[#1d4ed8] text-white hover:bg-[#1e40af] font-serif'
               }`}
             >
-              <span>Compose</span>
+              <span>Compose Message</span>
               <Send className="w-3 h-3" />
             </a>
 
-            {/* Copy button label swaps to Copied with check icon */}
-            <motion.button
+            <button
               type="button"
               onClick={copyEmail}
-              whileTap={reducedMotion ? undefined : { scale: 0.96 }}
               aria-label={copied ? 'Email address copied' : 'Copy email address'}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded border transition-colors cursor-pointer ${
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded border transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
                 isStdout
                   ? 'border-[var(--border-subtle)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] bg-[var(--bg-page)] font-mono'
-                  : 'border-[#e2dbce] text-[#1c1917] hover:border-[#1d4ed8] hover:text-[#1d4ed8] bg-[#fbf9f6] font-serif'
+                  : 'border-[#e0d9cd] text-[#1c1917] hover:border-[#1d4ed8] hover:text-[#1d4ed8] bg-[#fbf9f6] font-serif'
               }`}
             >
-              <span aria-live="polite" className="flex items-center gap-1.5">
-                {copied ? (
-                  <motion.span
-                    initial={reducedMotion ? false : { scale: 0.8 }}
-                    animate={{ scale: 1 }}
-                    transition={spring.snap}
-                    className="flex items-center gap-1.5 text-emerald-400 font-bold"
-                  >
-                    <Check className="w-3.5 h-3.5" />
-                    <span>Copied</span>
-                  </motion.span>
-                ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5" />
-                    <span>Copy</span>
-                  </>
-                )}
-              </span>
-            </motion.button>
+              {copied ? (
+                <span className="flex items-center gap-1 text-emerald-400 font-bold">
+                  <Check className="w-3 h-3" />
+                  <span>Copied</span>
+                </span>
+              ) : (
+                <span className="flex items-center gap-1">
+                  <Copy className="w-3 h-3" />
+                  <span>Copy Address</span>
+                </span>
+              )}
+            </button>
           </div>
-        </motion.div>
+        </div>
 
         {/* GitHub Card */}
-        <motion.div
-          data-reveal
-          initial={reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2, margin: '0px 0px -10% 0px' }}
-          transition={{ ...spring.settle, delay: 0.05 }}
-          whileHover={
-            reducedMotion || isTouch
-              ? undefined
-              : {
-                  y: -3,
-                  transition: spring.snap,
-                }
-          }
-          whileTap={reducedMotion ? undefined : { scale: 0.99 }}
-          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-colors select-none ${
+        <div
+          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-all duration-150 ease-out select-none hover:-translate-y-[2px] ${
             isStdout
               ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] font-mono'
-              : 'border-[#e2dbce] bg-[#ffffff] hover:border-[#1d4ed8] hover:shadow-md font-serif'
+              : 'border-[#e0d9cd] bg-[#ffffff] hover:border-[#1d4ed8] hover:shadow-md font-serif'
           }`}
         >
           <div>
             <div
               className={`flex items-center gap-2 pb-2 mb-2 border-b text-xs ${
-                isStdout ? 'border-[var(--border-subtle)] text-[var(--accent-primary)]' : 'border-[#e2dbce] text-[#1d4ed8]'
+                isStdout ? 'border-[var(--border-subtle)] text-[var(--accent-primary)]' : 'border-[#e0d9cd] text-[#1d4ed8]'
               }`}
             >
               <GitFork className="w-4 h-4" />
-              <span className="font-bold">GitHub</span>
+              <span className="font-bold">GitHub Repositories</span>
             </div>
             <div className="text-xs text-[var(--text-secondary)] mb-3 font-sans">
-              Explore public repositories, code experiments, and study notes.
+              Explore public utility commits, code reviews, and experiments.
             </div>
             <div className="text-xs font-semibold text-[var(--text-primary)] truncate font-mono">
               github.com/raj-codelabs
@@ -310,136 +232,117 @@ export const Contact: React.FC = () => {
 
           <div
             className={`pt-4 mt-4 border-t ${
-              isStdout ? 'border-[var(--border-subtle)]' : 'border-[#e2dbce]'
+              isStdout ? 'border-[var(--border-subtle)]' : 'border-[#e0d9cd]'
             }`}
           >
-            <motion.a
+            <a
               href="https://github.com/raj-codelabs"
               target="_blank"
               rel="noopener noreferrer"
-              whileTap={reducedMotion ? undefined : { scale: 0.98 }}
-              className={`group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-colors ${
+              className={`group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-all hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
                 isStdout
                   ? 'border border-[var(--border-subtle)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] bg-[var(--bg-page)] font-mono'
-                  : 'border border-[#e2dbce] text-[#1d4ed8] hover:border-[#1d4ed8] bg-[#fbf9f6] font-serif'
+                  : 'border border-[#e0d9cd] text-[#1d4ed8] hover:border-[#1d4ed8] bg-[#fbf9f6] font-serif'
               }`}
             >
-              <span>Explore Code</span>
+              <span>Explore Repositories</span>
               <ExternalLink className="w-3 h-3 transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </motion.a>
+            </a>
           </div>
-        </motion.div>
+        </div>
 
-        {/* LinkedIn Card */}
-        <motion.div
-          data-reveal
-          initial={reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2, margin: '0px 0px -10% 0px' }}
-          transition={{ ...spring.settle, delay: 0.1 }}
-          whileHover={
-            reducedMotion || isTouch
-              ? undefined
-              : {
-                  y: -3,
-                  transition: spring.snap,
-                }
-          }
-          whileTap={reducedMotion ? undefined : { scale: 0.99 }}
-          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-colors select-none ${
+        {/* Location & Professional Network */}
+        <div
+          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-all duration-150 ease-out select-none hover:-translate-y-[2px] ${
             isStdout
               ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] font-mono'
-              : 'border-[#e2dbce] bg-[#ffffff] hover:border-[#1d4ed8] hover:shadow-md font-serif'
+              : 'border-[#e0d9cd] bg-[#ffffff] hover:border-[#1d4ed8] hover:shadow-md font-serif'
           }`}
         >
           <div>
             <div
               className={`flex items-center gap-2 pb-2 mb-2 border-b text-xs ${
-                isStdout ? 'border-[var(--border-subtle)] text-[var(--accent-primary)]' : 'border-[#e2dbce] text-[#1d4ed8]'
+                isStdout ? 'border-[var(--border-subtle)] text-[var(--accent-primary)]' : 'border-[#e0d9cd] text-[#1d4ed8]'
               }`}
             >
-              <Linkedin className="w-4 h-4" />
-              <span className="font-bold">LinkedIn</span>
+              <MapPin className="w-4 h-4" />
+              <span className="font-bold">Location &amp; Network</span>
             </div>
-            <div className="text-xs text-[var(--text-secondary)] mb-3 font-sans">
-              Connect professionally and follow my undergraduate development.
+            <div className="text-xs text-[var(--text-secondary)] mb-2 font-sans">
+              District location as per house rules:
             </div>
-            <div className="text-xs font-semibold text-[var(--text-primary)] truncate font-mono">
-              linkedin.com/in/rajgolder
+            <div className="text-xs font-semibold text-[var(--text-primary)] font-mono mb-2">
+              {districtLocation}
+            </div>
+            <div className="text-[11px] text-[var(--text-muted)] font-mono">
+              MATS University Campus
             </div>
           </div>
 
           <div
             className={`pt-4 mt-4 border-t ${
-              isStdout ? 'border-[var(--border-subtle)]' : 'border-[#e2dbce]'
+              isStdout ? 'border-[var(--border-subtle)]' : 'border-[#e0d9cd]'
             }`}
           >
-            <motion.a
+            <a
               href="https://linkedin.com/in/rajgolder"
               target="_blank"
               rel="noopener noreferrer"
-              whileTap={reducedMotion ? undefined : { scale: 0.98 }}
-              className={`group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-colors ${
+              className={`group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-all hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
                 isStdout
                   ? 'border border-[var(--border-subtle)] text-[var(--accent-primary)] hover:border-[var(--accent-primary)] bg-[var(--bg-page)] font-mono'
-                  : 'border border-[#e2dbce] text-[#1d4ed8] hover:border-[#1d4ed8] bg-[#fbf9f6] font-serif'
+                  : 'border border-[#e0d9cd] text-[#1d4ed8] hover:border-[#1d4ed8] bg-[#fbf9f6] font-serif'
               }`}
             >
-              <span>Connect on LinkedIn</span>
+              <span>Connect On LinkedIn</span>
               <ExternalLink className="w-3 h-3 transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </motion.a>
+            </a>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Direct Transmission Form */}
-      <motion.div
+      <div
         ref={formContainerRef}
-        data-reveal
-        initial={reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2, margin: '0px 0px -10% 0px' }}
-        transition={spring.settle}
-        style={{ minHeight: containerHeight }}
         className={`p-6 sm:p-8 rounded-lg border shadow-xs space-y-6 ${
           isStdout
             ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] font-mono'
-            : 'border-[#e2dbce] bg-[#ffffff] font-serif'
+            : 'border-[#e0d9cd] bg-[#ffffff] font-serif'
         }`}
       >
         <div
           className={`border-b pb-4 space-y-1 ${
-            isStdout ? 'border-[var(--border-subtle)]' : 'border-[#e2dbce]'
+            isStdout ? 'border-[var(--border-subtle)]' : 'border-[#e0d9cd]'
           }`}
         >
           <div
-            className={`flex items-center gap-2 text-xs font-bold ${
+            className={`flex items-center gap-2 text-xs font-semibold ${
               isStdout ? 'text-[var(--accent-copper)]' : 'text-[#1d4ed8]'
             }`}
           >
             <MessageSquare className="w-4 h-4" />
-            <span>DIRECT INQUIRY</span>
+            <span>Direct Inquiry</span>
           </div>
           <h3
             className={`text-lg font-bold ${
               isStdout ? 'text-[var(--text-primary)]' : 'text-[#1c1917]'
             }`}
           >
-            Send a Direct Message
+            Transmit Direct Inquiry
           </h3>
           <p className="text-xs text-[var(--text-secondary)] font-sans">
-            I reply promptly by email.
+            Responses sent directly via verified email within 24 hours.
           </p>
         </div>
 
-        {/* Section 7.3: Inline validation error / feedback: slides down 6px + fades; no shake */}
+        {/* Inline validation error / feedback */}
         <AnimatePresence>
           {formFeedback && (
             <motion.div
               aria-live="polite"
-              initial={reducedMotion ? false : { opacity: 0, y: -6 }}
+              initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={reducedMotion ? undefined : { opacity: 0, y: -6 }}
+              exit={{ opacity: 0, y: -6 }}
               transition={spring.settle}
               className={`p-3.5 rounded text-xs flex items-center gap-2 ${
                 formFeedback.type === 'success'
@@ -458,13 +361,7 @@ export const Contact: React.FC = () => {
         </AnimatePresence>
 
         {submitSuccess ? (
-          /* Section 7.3: Success crossfade with container height held */
-          <motion.div
-            initial={reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={spring.settle}
-            className="py-8 text-center space-y-3"
-          >
+          <div className="py-8 text-center space-y-3">
             <div className="w-12 h-12 rounded-full bg-emerald-500/15 border border-emerald-500/40 flex items-center justify-center mx-auto text-emerald-400">
               <Check className="w-6 h-6" />
             </div>
@@ -472,20 +369,18 @@ export const Contact: React.FC = () => {
               Transmission Confirmed
             </h4>
             <p className="text-xs text-[var(--text-secondary)] max-w-md mx-auto leading-relaxed font-sans">
-              Thank you for reaching out. Your message has been routed to my direct inbox at contact@rajgolder.dev.
+              Thank you for reaching out. Your inquiry has been routed to contact@rajgolder.example.
             </p>
             <div className="pt-2">
-              <motion.button
+              <button
                 type="button"
                 onClick={() => setSubmitSuccess(false)}
-                whileTap={reducedMotion ? undefined : { scale: 0.97 }}
-                transition={spring.snap}
-                className="px-4 py-2 text-xs font-semibold rounded cursor-pointer transition-colors border border-[var(--border-subtle)] text-[var(--accent-primary)] hover:border-[var(--accent-primary)] bg-[var(--bg-page)]"
+                className="px-4 py-2 text-xs font-semibold rounded cursor-pointer transition-all border border-[var(--border-subtle)] text-[var(--accent-primary)] hover:border-[var(--accent-primary)] bg-[var(--bg-page)] hover:-translate-y-[1px] active:translate-y-[1px]"
               >
-                Send another message
-              </motion.button>
+                Send Another Inquiry
+              </button>
             </div>
-          </motion.div>
+          </div>
         ) : (
           <form onSubmit={handleSubmitInquiry} className="space-y-4 text-xs">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -493,108 +388,88 @@ export const Contact: React.FC = () => {
                 <label htmlFor="contact-sender-name" className="text-[var(--text-secondary)]">
                   Your Name *
                 </label>
-                {/* Section 7.3: Input focus ring fades in (~150ms) via box-shadow */}
                 <input
                   id="contact-sender-name"
                   type="text"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Your name"
-                    className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)]"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label htmlFor="contact-sender-email" className="text-[var(--text-secondary)]">
-                    Your Email Address *
-                  </label>
-                  <input
-                    id="contact-sender-email"
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com"
-                    className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)]"
-                  />
-                </div>
-
-                <div className="space-y-1.5 sm:col-span-2">
-                  <label htmlFor="contact-subject" className="text-[var(--text-secondary)]">
-                    Subject
-                  </label>
-                  <input
-                    id="contact-subject"
-                    type="text"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    placeholder="What's this about?"
-                    className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)]"
-                  />
-                </div>
-
-                <div className="space-y-1.5 sm:col-span-2">
-                  <label htmlFor="contact-message-body" className="text-[var(--text-secondary)]">
-                    Message *
-                  </label>
-                  <textarea
-                    id="contact-message-body"
-                    rows={4}
-                    required
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="How can I help?"
-                    className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] text-xs leading-relaxed transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)]"
-                  />
-                </div>
+                  placeholder="Full name"
+                  className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)]"
+                />
               </div>
 
-              <div className="flex items-center justify-between pt-2">
-                <span className="text-[11px] text-[var(--text-muted)] font-sans">
-                  I reply promptly by email.
-                </span>
+              <div className="space-y-1.5">
+                <label htmlFor="contact-sender-email" className="text-[var(--text-secondary)]">
+                  Your Email Address *
+                </label>
+                <input
+                  id="contact-sender-email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="user@domain.example"
+                  className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)]"
+                />
+              </div>
 
-                {/* Submit: button label to spinner to check icon (opacity crossfade, Section 7.3) */}
-                <motion.button
-                  type="submit"
-                  disabled={submitting}
-                  whileTap={reducedMotion || submitting ? undefined : { scale: 0.98 }}
-                  transition={spring.snap}
-                  className="relative inline-flex items-center justify-center px-5 py-2.5 rounded font-bold transition-colors cursor-pointer shadow-xs disabled:opacity-50 min-w-[140px] focus-visible:outline-2 bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)]"
-                >
-                <AnimatePresence mode="wait">
-                  {submitting ? (
-                    <motion.div
-                      key="submitting"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.15 }}
-                      className="flex items-center gap-2"
-                    >
-                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                      <span>Sending...</span>
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="idle"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.15 }}
-                      className="flex items-center gap-2"
-                    >
-                      <Send className="w-3.5 h-3.5" />
-                      <span>Send Message</span>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.button>
+              <div className="space-y-1.5 sm:col-span-2">
+                <label htmlFor="contact-subject" className="text-[var(--text-secondary)]">
+                  Subject Line
+                </label>
+                <input
+                  id="contact-subject"
+                  type="text"
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  placeholder="Software engineering inquiry"
+                  className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)]"
+                />
+              </div>
+
+              <div className="space-y-1.5 sm:col-span-2">
+                <label htmlFor="contact-message-body" className="text-[var(--text-secondary)]">
+                  Inquiry Details *
+                </label>
+                <textarea
+                  id="contact-message-body"
+                  rows={4}
+                  required
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Provide scope, timelines, or collaboration details..."
+                  className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] text-xs leading-relaxed transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)]"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between pt-2">
+              <span className="text-[11px] text-[var(--text-muted)] font-sans">
+                District: Raipur, India
+              </span>
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className="relative inline-flex items-center justify-center px-5 py-2.5 rounded font-bold transition-all cursor-pointer shadow-xs disabled:opacity-50 min-w-[140px] focus-visible:outline-2 bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)] hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
+              >
+                {submitting ? (
+                  <div className="flex items-center gap-2">
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>Transmitting...</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <Send className="w-3.5 h-3.5" />
+                    <span>Send Inquiry</span>
+                  </div>
+                )}
+              </button>
             </div>
           </form>
         )}
-      </motion.div>
+      </div>
     </section>
   );
 };

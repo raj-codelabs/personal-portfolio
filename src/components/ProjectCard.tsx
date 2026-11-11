@@ -1,10 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { Project } from '../types';
 import { useTheme } from '../context/ThemeContext';
 import { ExternalLink, ChevronRight } from 'lucide-react';
-import { motion } from 'motion/react';
-import { spring, distance, stagger } from '../motion/motion-tokens';
-import { useReducedMotionGlobal } from '../motion/useReducedMotionGlobal';
 
 interface ProjectCardProps {
   project: Project;
@@ -14,101 +11,42 @@ interface ProjectCardProps {
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onOpenDetails, index }) => {
   const triggerButtonRef = useRef<HTMLButtonElement>(null);
-  const cardRef = useRef<HTMLElement>(null);
-  const reducedMotion = useReducedMotionGlobal();
-  const [isTouch, setIsTouch] = useState(false);
-
-  useEffect(() => {
-    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  }, []);
+  const { theme } = useTheme();
+  const isStdout = theme === 'stdout';
 
   const handleOpen = () => {
     onOpenDetails(project, triggerButtonRef);
   };
 
-  const { theme } = useTheme();
-  const isStdout = theme === 'stdout';
-
-  // Section 7.1: Spotlight via CSS variables updated in requestAnimationFrame
-  const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
-    if (isTouch || reducedMotion) return;
-    const card = cardRef.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    window.requestAnimationFrame(() => {
-      card.style.setProperty('--mx', `${x}px`);
-      card.style.setProperty('--my', `${y}px`);
-    });
-  };
-
-  const staggerDelay = Math.min(index * stagger.card, stagger.cap);
-
   return (
-    <motion.article
-      ref={cardRef}
-      onPointerMove={handlePointerMove}
-      data-reveal
-      initial={reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2, margin: '0px 0px -10% 0px' }}
-      transition={{ ...spring.settle, delay: staggerDelay }}
-      whileHover={
-        reducedMotion || isTouch
-          ? undefined
-          : {
-              y: -2,
-              transition: spring.snap,
-            }
-      }
-      whileTap={reducedMotion ? undefined : { scale: 0.99 }}
-      className={`group relative flex flex-col justify-between p-6 text-left transition-colors duration-200 cursor-default select-none ${
+    <article
+      className={`group relative flex flex-col justify-between p-6 text-left transition-all duration-200 select-none hover:-translate-y-[2px] ${
         isStdout
           ? 'rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] font-mono'
           : 'rounded-md border border-[var(--border-subtle)] bg-[var(--bg-surface)] shadow-xs hover:border-[var(--accent-primary)] hover:shadow-md font-serif'
       }`}
-      style={
-        {
-          '--mx': '50%',
-          '--my': '50%',
-        } as React.CSSProperties
-      }
     >
-      {/* Subtle radial spotlight */}
-      {!reducedMotion && !isTouch && (
-        <div
-          className="absolute inset-0 pointer-events-none rounded-[inherit] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          style={{
-            background: isStdout
-              ? 'radial-gradient(circle 220px at var(--mx) var(--my), rgba(59, 130, 246, 0.08), transparent 80%)'
-              : 'radial-gradient(circle 220px at var(--mx) var(--my), rgba(29, 78, 216, 0.05), transparent 80%)',
-          }}
-          aria-hidden="true"
-        />
-      )}
-
       <div>
-        {/* Header: Terminal Register vs Notebook Entry */}
+        {/* Header: Clean Editorial Index & Status */}
         {isStdout ? (
           <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-[var(--border-subtle)] text-xs font-mono text-[var(--text-secondary)]">
             <div className="flex items-center gap-2">
-              <span className="text-[var(--accent-copper)] font-bold">SYS-0{index + 1}</span>
-              <span className="text-[var(--text-muted)]" aria-hidden="true">/</span>
-              <span className="text-[var(--text-primary)] font-semibold truncate">{project.id}</span>
+              <span className="text-[var(--accent-copper)] font-semibold">0{index + 1}</span>
+              <span className="text-[var(--text-muted)]" aria-hidden="true">·</span>
+              <span className="text-[var(--text-primary)] font-medium truncate">{project.id}</span>
             </div>
-            <span className="text-[var(--accent-primary)] text-[11px] font-mono font-semibold">
-              [{project.status.toUpperCase()}]
+            <span className="text-[var(--accent-primary)] text-xs font-mono capitalize">
+              {project.status}
             </span>
           </div>
         ) : (
           <div className="flex items-center justify-between gap-2 pb-2 mb-3 border-b border-[var(--border-subtle)] text-xs text-[var(--text-secondary)]">
             <div className="flex items-center gap-1.5 font-handwriting text-base text-[var(--accent-primary)]">
-              <span>Notebook Entry #{index + 1}</span>
-              <span className="text-[var(--border-strong)]">·</span>
+              <span>Project 0{index + 1}</span>
+              <span className="text-[var(--border-strong)]" aria-hidden="true">·</span>
               <span className="font-serif italic text-xs text-[var(--text-muted)]">{project.id}</span>
             </div>
-            <span className="font-serif italic text-xs text-[var(--accent-copper)] font-bold">
+            <span className="font-serif italic text-xs text-[var(--accent-copper)] font-medium capitalize">
               {project.status}
             </span>
           </div>
@@ -185,48 +123,44 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onOpenDetails
           </div>
         </div>
 
-        {/* Action Triggers with Section 7.2 micro-motion */}
+        {/* Action Triggers: Verb + Object, Step on hover, press on click */}
         <div className="flex items-center justify-between gap-3 text-xs pt-1">
-          <motion.button
+          <button
             ref={triggerButtonRef}
             type="button"
             onClick={handleOpen}
-            whileTap={reducedMotion ? undefined : { scale: 0.98 }}
-            transition={spring.snap}
-            className={`group/btn inline-flex items-center gap-1.5 py-1 cursor-pointer font-semibold focus-visible:outline-2 ${
+            className={`group/btn inline-flex items-center gap-1.5 py-1 cursor-pointer font-semibold focus-visible:outline-2 transition-all hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
               isStdout
                 ? 'text-[var(--accent-primary)] hover:underline font-mono'
                 : 'text-[#1d4ed8] hover:text-[#1e40af] underline underline-offset-4 decoration-[#93c5fd] font-serif'
             }`}
           >
-            <span>{isStdout ? 'Examine Dossier' : 'Read Study Notes'}</span>
+            <span>{isStdout ? 'Examine Dossier' : 'Inspect Notes'}</span>
             <ChevronRight
               className="w-3.5 h-3.5 transition-transform duration-150 ease-out group-hover/btn:translate-x-1"
               aria-hidden="true"
             />
-          </motion.button>
+          </button>
 
-          <motion.a
+          <a
             href={project.repoUrl}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`View ${project.title} repository source`}
-            whileTap={reducedMotion ? undefined : { scale: 0.98 }}
-            transition={spring.snap}
-            className={`group/link inline-flex items-center gap-1 py-1 transition-colors cursor-pointer ${
+            className={`group/link inline-flex items-center gap-1 py-1 transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
               isStdout
                 ? 'text-[#64748b] hover:text-[#f1f5f9] font-mono'
                 : 'text-[#78716c] hover:text-[#1d4ed8] font-serif'
             }`}
           >
-            <span>source</span>
+            <span>View Source</span>
             <ExternalLink
               className="w-3 h-3 transition-transform duration-150 ease-out group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
               aria-hidden="true"
             />
-          </motion.a>
+          </a>
         </div>
       </div>
-    </motion.article>
+    </article>
   );
 };

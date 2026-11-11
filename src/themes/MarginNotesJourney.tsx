@@ -1,8 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Milestone } from '../types';
 import { BookOpen, Calendar, ChevronDown } from 'lucide-react';
-import { motion, useScroll, useSpring } from 'motion/react';
-import { spring, distance } from '../motion/motion-tokens';
+import { motion } from 'motion/react';
+import { spring } from '../motion/motion-tokens';
 import { useReducedMotionGlobal } from '../motion/useReducedMotionGlobal';
 
 interface MarginNotesJourneyProps {
@@ -10,7 +10,6 @@ interface MarginNotesJourneyProps {
 }
 
 export const MarginNotesJourney: React.FC<MarginNotesJourneyProps> = ({ milestones }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotionGlobal();
 
   const [expandedIds, setExpandedIds] = useState<Record<string, boolean>>({
@@ -25,16 +24,8 @@ export const MarginNotesJourney: React.FC<MarginNotesJourneyProps> = ({ mileston
     }));
   };
 
-  // Section 6: Vertical line draws with scroll scrubbed to position, smoothed with settle spring
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start 70%', 'end 70%'],
-  });
-
-  const smoothScaleY = useSpring(scrollYProgress, spring.settle);
-
   return (
-    <div ref={containerRef} className="space-y-6 text-left">
+    <div className="space-y-6 text-left">
       {/* Archival Chapter Heading */}
       <div className="p-4 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] flex flex-wrap items-baseline justify-between gap-3 text-xs shadow-xs font-serif">
         <div className="flex items-center gap-2">
@@ -56,54 +47,23 @@ export const MarginNotesJourney: React.FC<MarginNotesJourneyProps> = ({ mileston
           aria-hidden="true"
         />
 
-        {/* Dynamic scrubbed spine line (Section 6) */}
-        <motion.div
-          style={{
-            scaleY: reducedMotion ? 1 : smoothScaleY,
-          }}
-          className="absolute left-3 sm:left-5 top-4 bottom-4 w-[1.5px] bg-[var(--accent-primary)] origin-top pointer-events-none"
-          aria-hidden="true"
-        />
-
         {milestones.map((m) => {
           const isExpanded = !!expandedIds[m.id];
 
           return (
             <div key={m.id} className="relative group">
-              {/* Node Ring on Spine (Section 6: scales 0.6 to 1 with settle, emits one soft ping ring) */}
-              <motion.div
-                initial={reducedMotion ? false : { scale: 0.6 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={spring.settle}
+              {/* Node Ring on Spine */}
+              <div
                 className="absolute -left-6 sm:-left-10 top-1.5 w-4 h-4 rounded-full bg-[var(--bg-page)] border-2 border-[var(--accent-primary)] flex items-center justify-center z-10"
                 aria-hidden="true"
               >
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)]" />
-
-                {/* Soft ping ring: scale 1 to 1.8, opacity 0.4 to 0, ~500ms, once */}
-                {!reducedMotion && (
-                  <motion.span
-                    initial={{ scale: 1, opacity: 0.4 }}
-                    whileInView={{ scale: 1.8, opacity: 0 }}
-                    viewport={{ once: true, amount: 0.5 }}
-                    transition={{ duration: 0.5, ease: 'easeOut' }}
-                    className="absolute inset-0 rounded-full border border-[var(--accent-primary)] pointer-events-none"
-                  />
-                )}
-              </motion.div>
+              </div>
 
               {/* Entry Card & Marginalia Grid */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-                {/* Main Card (Section 6: rise 12px + fade) */}
-                <motion.div
-                  data-reveal
-                  initial={reducedMotion ? false : { opacity: 0, y: distance.reveal }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2, margin: '0px 0px -10% 0px' }}
-                  transition={spring.settle}
-                  className="lg:col-span-8 p-5 sm:p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] shadow-xs hover:border-[var(--accent-primary)]/40 transition-colors"
-                >
+                {/* Main Card */}
+                <div className="lg:col-span-8 p-5 sm:p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] shadow-xs hover:border-[var(--accent-primary)]/40 transition-colors">
                   {/* Top Bar with Log # and Date */}
                   <div className="flex items-center justify-between gap-3 pb-2.5 mb-2.5 border-b border-[var(--border-subtle)] text-xs">
                     <span className="font-mono text-[var(--accent-copper)] font-semibold tracking-wider">
@@ -120,13 +80,12 @@ export const MarginNotesJourney: React.FC<MarginNotesJourneyProps> = ({ mileston
                     <h3 className="text-base sm:text-lg font-display font-bold text-[var(--text-primary)] leading-snug">
                       {m.title}
                     </h3>
-                    <motion.button
+                    <button
                       type="button"
                       onClick={() => toggleExpand(m.id)}
                       aria-expanded={isExpanded}
                       aria-label={`${isExpanded ? 'Collapse' : 'Expand'} details for ${m.logNumber}`}
-                      whileTap={reducedMotion ? undefined : { scale: 0.96 }}
-                      className="p-1 rounded text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)] transition-colors cursor-pointer shrink-0 focus-visible:outline-2"
+                      className="p-1 rounded text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)] transition-all cursor-pointer shrink-0 focus-visible:outline-2 hover:-translate-y-[1px] active:translate-y-[1px]"
                     >
                       <motion.div
                         animate={{ rotate: isExpanded ? 180 : 0 }}
@@ -134,7 +93,7 @@ export const MarginNotesJourney: React.FC<MarginNotesJourneyProps> = ({ mileston
                       >
                         <ChevronDown className="w-4 h-4" aria-hidden="true" />
                       </motion.div>
-                    </motion.button>
+                    </button>
                   </div>
 
                   {/* Summary */}
@@ -142,7 +101,7 @@ export const MarginNotesJourney: React.FC<MarginNotesJourneyProps> = ({ mileston
                     {m.summary}
                   </p>
 
-                  {/* Expandable Deep Details using CSS Grid Template Rows (Section 6) */}
+                  {/* Expandable Deep Details */}
                   <div
                     className={`grid transition-[grid-template-rows] duration-250 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:duration-0 ${
                       isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
@@ -184,28 +143,17 @@ export const MarginNotesJourney: React.FC<MarginNotesJourneyProps> = ({ mileston
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
 
-                {/* Notebook margin notes (Section 6: fade in 100ms after their card, sliding x from -8px to 0) */}
-                <motion.div
-                  data-reveal
-                  initial={reducedMotion ? false : { opacity: 0, x: -8 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, amount: 0.2, margin: '0px 0px -10% 0px' }}
-                  transition={
-                    reducedMotion
-                      ? { duration: 0 }
-                      : { ...spring.settle, delay: 0.1 }
-                  }
-                  className="lg:col-span-4 p-4 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)] text-xs font-mono text-[var(--text-secondary)] leading-relaxed"
-                >
+                {/* Notebook margin notes */}
+                <div className="lg:col-span-4 p-4 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)] text-xs font-mono text-[var(--text-secondary)] leading-relaxed">
                   <div className="font-mono font-semibold text-[10px] uppercase tracking-wider text-[var(--accent-copper)] mb-1">
                     Margin Note
                   </div>
                   <p>
                     {m.marginAnnotation || 'Documented engineering milestone and curriculum progression.'}
                   </p>
-                </motion.div>
+                </div>
               </div>
             </div>
           );

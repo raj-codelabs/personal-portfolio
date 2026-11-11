@@ -87,8 +87,8 @@ Execute a comprehensive visual hierarchy audit and craft polish across Raj Golde
 ```
 
 - **Execution Steps**:
-  1. Polish `src/components/ProjectCard.tsx`: remove `SYS-01` mechanical prefix, refine card padding and typography, and ensure metadata uses clean unboxed text.
-  2. Polish `src/sections/Hero.tsx`: ensure balanced headline text wrapping, refine subheadings and button dimensions.
-  3. Polish `src/sections/Skills.tsx`: streamline grouping layout, eliminate visual clutter, and improve evidence text readability.
-  4. Polish `src/sections/About.tsx` and `src/sections/Contact.tsx`: verify typographic hierarchy, input touch targets, and contrast ratios.
-  5. Verify with `compile_applet` and `lint_applet` together, restart dev server, and test endpoints.
+  1. [x] Polish `src/components/ProjectCard.tsx`: remove `SYS-01` mechanical prefix, refine card padding and typography, and ensure metadata uses clean unboxed text.
+  2. [x] Polish `src/sections/Hero.tsx`: ensure balanced headline text wrapping, refine subheadings and button dimensions.
+  3. [x] Polish `src/sections/Skills.tsx`: streamline grouping layout, eliminate visual clutter, and improve evidence text readability.
+  4. [x] Polish `src/sections/About.tsx` and `src/sections/Contact.tsx`: verify typographic hierarchy, input touch targets, and contrast ratios.
+  5. [x] Verify with `compile_applet` and `lint_applet` together, restart dev server, and test endpoints.

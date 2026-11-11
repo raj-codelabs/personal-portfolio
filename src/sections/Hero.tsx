@@ -6,7 +6,7 @@ import { DeveloperIdCard } from '../components/DeveloperIdCard';
 import { SketchReveal } from '../components/SketchReveal';
 import { ArrowDown, ExternalLink, Terminal } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { spring, distance } from '../motion/motion-tokens';
+import { spring } from '../motion/motion-tokens';
 import { useReducedMotionGlobal } from '../motion/useReducedMotionGlobal';
 
 interface CollapsibleTerminalProps {
@@ -53,27 +53,12 @@ export const Hero: React.FC = () => {
     return () => clearTimeout(timer);
   }, [reducedMotion]);
 
-  // ponytail: Direct entrance animations with staggered delay; reduced motion disables all movement
-  const getRevealProps = (delay: number) => {
-    if (reducedMotion) {
-      return {
-        initial: false,
-        animate: { opacity: 1, y: 0 },
-        transition: { duration: 0 },
-      };
-    }
-    return {
-      initial: { opacity: 0, y: distance.reveal },
-      animate: { opacity: 1, y: 0 },
-      transition: { ...spring.settle, delay },
-    };
-  };
-
   return (
     <section
       id="hero"
-      aria-label="Engineering Introduction"
-      className="relative py-10 sm:py-16 space-y-10 text-left scroll-mt-16"
+      data-enter
+      aria-label="Engineering Overview"
+      className="relative min-h-[calc(100vh-4rem)] lg:min-h-[820px] flex flex-col justify-center py-8 lg:py-12 space-y-8 text-left scroll-mt-16"
     >
       {/* Anchor for #home navigation compatibility */}
       <div id="home" className="absolute -top-16 pointer-events-none" aria-hidden="true" />
@@ -82,17 +67,14 @@ export const Hero: React.FC = () => {
       {/* THEME 1: DARK MODE (stdout) — Developer Terminal                          */}
       {/* ========================================================================= */}
       {isStdout ? (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           {/* Left Column: Terminal Introduction */}
           <div className="lg:col-span-7 space-y-5">
-            {/* 1. Static whoami subtitle (Section 1.8: Terminal header subtitle whoami is static) */}
-            <motion.div
-              {...getRevealProps(0.0)}
-              className="space-y-1"
-            >
+            {/* 1. Header category & hard credentials */}
+            <div className="space-y-1">
               <div className="text-xs font-mono text-[#6b7586] flex items-center gap-1.5 pb-0.5">
                 <span className="text-[var(--accent-primary)] font-bold">$</span>
-                <span className="text-[#9aa2b1]">whoami</span>
+                <span className="text-[#9aa2b1]">whoami --degree</span>
                 <span
                   className={`text-[var(--accent-primary)] ${
                     cursorBlinking && !reducedMotion ? 'animate-pulse motion-reduce:animate-none' : 'opacity-100'
@@ -103,29 +85,17 @@ export const Hero: React.FC = () => {
                 </span>
               </div>
               <div className="text-xs font-mono font-semibold uppercase tracking-wider text-[var(--accent-copper)]">
-                B.TECH CSE (AI/ML) · CLASS OF 2030
+                B.TECH CSE (AI/ML) · MATS UNIVERSITY · CLASS OF 2030
               </div>
-            </motion.div>
+            </div>
 
-            {/* 2. H1 lines rise 12px + fade, 60ms stagger */}
-            <h1 className="text-[clamp(2.1rem,5vw,3.75rem)] font-mono font-bold tracking-tight text-[#f6f5f1] leading-[1.12]">
-              <motion.span
-                className="block text-[#f6f5f1]"
-                {...getRevealProps(0.15)}
-              >
-                I build small,
-              </motion.span>
-              <motion.span
-                className="block text-[#cbd5e1]"
-                {...getRevealProps(0.21)}
-              >
-                useful tools in
-              </motion.span>
-              <motion.span
-                className="block text-[var(--accent-primary)]"
-                {...getRevealProps(0.27)}
-              >
-                Python
+            {/* 2. Headline: Clear statement of what is sold / engineered */}
+            <h1 className="text-[clamp(2.1rem,4.8vw,3.6rem)] font-mono font-bold tracking-tight text-[#f6f5f1] leading-[1.12]">
+              <span className="block text-[#f6f5f1]">
+                Software Tools &amp;
+              </span>
+              <span className="block text-[var(--accent-primary)]">
+                Applied AI Systems
                 <span
                   className={`text-[var(--accent-primary)] ${
                     cursorBlinking && !reducedMotion ? 'animate-pulse motion-reduce:animate-none' : 'opacity-100'
@@ -134,56 +104,49 @@ export const Hero: React.FC = () => {
                 >
                   _
                 </span>
-              </motion.span>
+              </span>
             </h1>
 
-            {/* 3. Subhead, NOW status, CTAs fade/rise (settle) */}
-            <motion.div
-              {...getRevealProps(0.45)}
-              className="space-y-4"
-            >
+            {/* 3. Subhead with Hard Facts */}
+            <div className="space-y-4">
               <p className="text-base sm:text-lg text-[#9aa2b1] font-body leading-relaxed max-w-2xl">
-                First-year CSE (AI/ML) student studying at MATS University. CS50x and CS50P completed. Currently building AI tools for studying.
+                First-year CSE (AI/ML) undergraduate student. CS50x and CS50P certified. Author of open-source CLI utilities, token-budgeted AI study summarizers, and systems software in C.
               </p>
 
-              {/* NOW status line */}
-              <div className="text-xs font-mono text-[#6b7586] flex items-center gap-2 pt-1">
-                <span className="text-[var(--accent-primary)] font-bold">NOW:</span>
-                <span className="text-[#9aa2b1]">AI Study Notes Summarizer · C · DSA basics</span>
+              {/* Verified baseline fact */}
+              <div className="text-xs font-mono text-[#6b7586] flex items-center gap-2 pt-0.5">
+                <span className="text-[var(--accent-copper)] font-semibold">Active Work:</span>
+                <span className="text-[#cbd5e1]">AI Study Notes Summarizer · C Algorithms · Systems Memory</span>
               </div>
 
-              {/* Action Triggers with hover nudges and active press */}
+              {/* Maximum two primary hero actions (Verb + Object) with hover step & click press */}
               <div className="flex flex-wrap items-center gap-3 pt-2">
-                <motion.a
+                <a
                   href="#projects"
-                  whileTap={reducedMotion ? undefined : { scale: 0.98 }}
-                  transition={spring.snap}
-                  className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold font-mono rounded bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)] transition-colors shadow-xs cursor-pointer"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold font-mono rounded bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)] transition-all shadow-xs cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
                 >
-                  <span>See my work</span>
+                  <span>Explore Projects</span>
                   <ArrowDown
                     className="w-3.5 h-3.5 transition-transform duration-150 ease-out group-hover:translate-y-0.5"
                     aria-hidden="true"
                   />
-                </motion.a>
+                </a>
 
-                <motion.a
+                <a
                   href={github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileTap={reducedMotion ? undefined : { scale: 0.98 }}
-                  transition={spring.snap}
-                  className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs font-medium font-mono rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] transition-colors cursor-pointer"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs font-medium font-mono rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
                 >
-                  <span>GitHub</span>
+                  <span>View Repositories</span>
                   <ExternalLink
                     className="w-3 h-3 transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                     aria-hidden="true"
                   />
-                </motion.a>
+                </a>
               </div>
 
-              {/* Demoted prober */}
+              {/* Terminal prober */}
               <div className="pt-2">
                 <button
                   type="button"
@@ -192,104 +155,71 @@ export const Hero: React.FC = () => {
                 >
                   <Terminal className="w-3.5 h-3.5" aria-hidden="true" />
                   <span>
-                    {showCli ? 'Hide terminal ‹' : 'Try the terminal › (Quick keyboard-driven portfolio navigation)'}
+                    {showCli ? 'Close command interface ‹' : 'Open keyboard terminal ›'}
                   </span>
                 </button>
               </div>
 
-              {/* Collapsible Interactive Terminal Prober with Smooth Height Bridge */}
               <CollapsibleTerminal isOpen={showCli} reducedMotion={reducedMotion} />
-            </motion.div>
+            </div>
           </div>
 
-          {/* Badge: Scale-in */}
-          <motion.div
-            initial={reducedMotion ? false : { opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={reducedMotion ? { duration: 0 } : { ...spring.soft, delay: 0.2 }}
-            className="lg:col-span-5 flex flex-col items-center justify-start w-full"
-          >
+          {/* Right Column: ID Card Visual */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center w-full">
             <DeveloperIdCard />
-          </motion.div>
+          </div>
         </div>
       ) : (
         /* ========================================================================= */
-        /* THEME 2: WHITE MODE (margin-notes) — Physical Engineering Notebook        */
+        /* THEME 2: LIGHT MODE (margin-notes) — Engineering Notebook                 */
         /* ========================================================================= */
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start font-serif">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center font-serif">
           {/* Left Column: Notebook Journal Introduction */}
           <div className="lg:col-span-7 space-y-6">
-            {/* 1. Script eyebrow fades in */}
-            <motion.div
-              {...getRevealProps(0.0)}
-              className="text-xs font-serif uppercase tracking-wider text-[#c25e38] font-bold"
-            >
-              B.TECH CSE (AI/ML) · CLASS OF 2030
-            </motion.div>
+            <div className="text-xs font-serif uppercase tracking-wider text-[#c25e38] font-bold">
+              B.TECH CSE (AI/ML) · MATS UNIVERSITY · CLASS OF 2030
+            </div>
 
-            {/* 2. H1 lines rise 12px + fade, 60ms stagger (Fluid Clamp Typography) */}
-            <h1 className="text-[clamp(2.4rem,5.5vw,4.25rem)] font-serif font-normal tracking-tight text-[#1c1917] leading-[1.12]">
-              <motion.span
-                className="block"
-                {...getRevealProps(0.1)}
-              >
-                I build small,
-              </motion.span>
-              <motion.span
-                className="block"
-                {...getRevealProps(0.16)}
-              >
-                useful tools in
-              </motion.span>
-              <motion.span
-                className="block"
-                {...getRevealProps(0.22)}
-              >
-                Python.
-              </motion.span>
+            <h1 className="text-[clamp(2.4rem,5.2vw,4.1rem)] font-serif font-normal tracking-tight text-[#1c1917] leading-[1.12]">
+              <span className="block">
+                Software Tools &amp;
+              </span>
+              <span className="block text-[#1d4ed8]">
+                Applied AI Systems.
+              </span>
             </h1>
 
-            {/* 3. Subhead, CTAs fade/rise */}
-            <motion.div
-              {...getRevealProps(0.5)}
-              className="space-y-4"
-            >
+            <div className="space-y-4">
               <p className="text-base sm:text-lg text-[#44403c] font-serif leading-relaxed max-w-2xl">
-                First-year CSE (AI/ML) student studying at MATS University. CS50x and CS50P completed. Currently building AI tools for studying.
+                First-year CSE (AI/ML) undergraduate student. CS50x and CS50P certified. Author of open-source CLI utilities, token-budgeted AI study summarizers, and systems software in C.
               </p>
 
-              {/* NOW status line */}
               <div className="text-sm font-handwriting text-[#78716c]">
-                <span className="text-[#1d4ed8] font-bold">Now: </span>
-                AI Study Notes Summarizer · C · DSA basics
+                <span className="text-[#1d4ed8] font-bold">Active Work: </span>
+                AI Study Notes Summarizer · C Algorithms · Systems Memory
               </div>
 
-              {/* Action Triggers with hover nudges and active press (Section 7.2) */}
-              <div className="flex flex-wrap items-center gap-6 pt-2 text-sm font-serif">
-                <motion.a
+              {/* Two hero actions (Verb + Object) */}
+              <div className="flex flex-wrap items-center gap-4 pt-2 text-sm font-serif">
+                <a
                   href="#projects"
-                  whileTap={reducedMotion ? undefined : { scale: 0.98 }}
-                  transition={spring.snap}
-                  className="group text-[#1d4ed8] hover:text-[#1e40af] font-medium underline underline-offset-4 decoration-[#93c5fd] hover:decoration-[#1d4ed8] transition-colors inline-flex items-center gap-1 cursor-pointer"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 rounded bg-[#1d4ed8] text-white hover:bg-[#1e40af] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
                 >
-                  <span>See my work</span>
+                  <span>Explore Projects</span>
                   <span className="transition-transform duration-150 ease-out group-hover:translate-y-0.5">↓</span>
-                </motion.a>
+                </a>
 
-                <motion.a
+                <a
                   href={github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileTap={reducedMotion ? undefined : { scale: 0.98 }}
-                  transition={spring.snap}
-                  className="group text-[#44403c] hover:text-[#1c1917] underline underline-offset-4 decoration-[#c2b8a3] hover:decoration-[#44403c] transition-colors inline-flex items-center gap-1 cursor-pointer"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 rounded border border-[#e0d9cd] bg-[#ffffff] text-[#1c1917] hover:border-[#1d4ed8] hover:text-[#1d4ed8] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
                 >
-                  <span>GitHub</span>
+                  <span>View Repositories</span>
                   <span className="transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
-                </motion.a>
+                </a>
               </div>
 
-              {/* Demoted prober */}
               <div className="pt-2">
                 <button
                   type="button"
@@ -297,25 +227,18 @@ export const Hero: React.FC = () => {
                   className="text-xs font-serif text-[#1d4ed8] hover:underline inline-flex items-center gap-1 cursor-pointer"
                 >
                   <span>
-                    {showCli ? 'Hide terminal ‹' : 'Try the terminal › (Quick keyboard-driven portfolio navigation)'}
+                    {showCli ? 'Close command interface ‹' : 'Open keyboard terminal ›'}
                   </span>
                 </button>
               </div>
 
-              {/* Collapsible Interactive Terminal Prober with Smooth Height Bridge */}
               <CollapsibleTerminal isOpen={showCli} reducedMotion={reducedMotion} />
-            </motion.div>
+            </div>
           </div>
 
-          {/* Portrait draw-in */}
-          <motion.div
-            initial={reducedMotion ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={reducedMotion ? { duration: 0 } : { duration: 0.6, delay: 0.15, ease: 'easeOut' }}
-            className="lg:col-span-5 flex flex-col items-center justify-start w-full"
-          >
+          <div className="lg:col-span-5 flex flex-col items-center justify-center w-full">
             <SketchReveal />
-          </motion.div>
+          </div>
         </div>
       )}
     </section>

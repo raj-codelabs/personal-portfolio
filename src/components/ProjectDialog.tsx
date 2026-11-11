@@ -357,18 +357,18 @@ export const ProjectDialog: React.FC<ProjectDialogProps> = ({ project, onClose, 
                 href={project.repoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded border border-[var(--border-subtle)] text-[var(--accent-primary)] hover:border-[var(--accent-primary)] transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded border border-[var(--border-subtle)] text-[var(--accent-primary)] hover:border-[var(--accent-primary)] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
               >
                 <GitFork className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>GitHub ↗</span>
+                <span>GitHub Repositories</span>
                 <ExternalLink className="w-3 h-3" aria-hidden="true" />
               </a>
               <button
                 onClick={onClose}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded border border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-[var(--border-subtle)] transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded border border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-[var(--border-subtle)] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
               >
                 <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>Close</span>
+                <span>Close Dossier</span>
               </button>
             </div>
           </div>
