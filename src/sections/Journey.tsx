@@ -10,6 +10,7 @@ import { MarginNotesJourney } from '../themes/MarginNotesJourney';
 export const Journey: React.FC = () => {
   const { theme } = useTheme();
   const { milestones: cmsMilestones } = useCms();
+  const isStdout = theme === 'stdout';
 
   const activeMilestones: Milestone[] =
     cmsMilestones && cmsMilestones.length > 0
