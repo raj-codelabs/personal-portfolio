@@ -123,7 +123,7 @@ export const Hero: React.FC = () => {
               <div className="flex flex-wrap items-center gap-3 pt-2">
                 <a
                   href="#projects"
-                  className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold font-mono rounded bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)] transition-all shadow-xs cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold font-mono rounded bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)] transition-transform transition-color transition-opacity shadow-xs cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
                 >
                   <span>Explore Projects</span>
                   <ArrowDown
@@ -136,7 +136,7 @@ export const Hero: React.FC = () => {
                   href={github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs font-medium font-mono rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs font-medium font-mono rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
                 >
                   <span>View Repositories</span>
                   <ExternalLink
@@ -203,7 +203,7 @@ export const Hero: React.FC = () => {
               <div className="flex flex-wrap items-center gap-4 pt-2 text-sm font-serif">
                 <a
                   href="#projects"
-                  className="group inline-flex items-center gap-2 px-5 py-2.5 rounded bg-[#1d4ed8] text-white hover:bg-[#1e40af] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 rounded bg-[#1d4ed8] text-white hover:bg-[#1e40af] transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
                 >
                   <span>Explore Projects</span>
                   <span className="transition-transform duration-150 ease-out group-hover:translate-y-0.5">↓</span>
@@ -213,7 +213,7 @@ export const Hero: React.FC = () => {
                   href={github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 px-5 py-2.5 rounded border border-[#e0d9cd] bg-[#ffffff] text-[#1c1917] hover:border-[#1d4ed8] hover:text-[#1d4ed8] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 rounded border border-[#e0d9cd] bg-[#ffffff] text-[#1c1917] hover:border-[#1d4ed8] hover:text-[#1d4ed8] transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
                 >
                   <span>View Repositories</span>
                   <span className="transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>

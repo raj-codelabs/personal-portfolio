@@ -214,7 +214,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
             rel="noopener noreferrer"
             whileTap={reducedMotion ? undefined : { scale: 0.98 }}
             transition={spring.snap}
-            className={`group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded border transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
+            className={`group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded border cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] transition-transform transition-color transition-opacity ${
               isStdout
                 ? 'border-[var(--border-subtle)] text-[#f1f5f9] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] bg-[var(--bg-surface)] font-mono'
                 : 'border-[var(--border-subtle)] text-[#1c1917] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] bg-[#ffffff] font-serif'
@@ -234,7 +234,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation"
             aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            className={`md:hidden p-1.5 rounded border transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] ${
+            className={`md:hidden p-1.5 rounded border cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] ${
               isStdout
                 ? 'border-[#30363d] text-[#e6edf3] hover:bg-[#161b22]'
                 : 'border-[#e3ded2] text-[#302d29] hover:bg-[#ffffff]'

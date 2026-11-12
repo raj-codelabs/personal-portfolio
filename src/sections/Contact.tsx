@@ -140,7 +140,7 @@ export const Contact: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 xl:gap-8">
         {/* Email Card */}
         <div
-          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-all duration-150 ease-out select-none hover:-translate-y-[2px] ${
+          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-transform transition-color transition-opacity duration-150 ease-out select-none hover:-translate-y-[2px] ${
             isStdout
               ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] font-mono'
               : 'border-[#e0d9cd] bg-[#ffffff] hover:border-[#1d4ed8] hover:shadow-md font-serif'
@@ -170,7 +170,7 @@ export const Contact: React.FC = () => {
           >
             <a
               href={`mailto:${contactEmail}`}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-all hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-transform transition-color transition-opacity hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
                 isStdout
                   ? 'bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)] font-mono'
                   : 'bg-[#1d4ed8] text-white hover:bg-[#1e40af] font-serif'
@@ -184,7 +184,7 @@ export const Contact: React.FC = () => {
               type="button"
               onClick={copyEmail}
               aria-label={copied ? 'Email address copied' : 'Copy email address'}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded border transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded border transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
                 isStdout
                   ? 'border-[var(--border-subtle)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] bg-[var(--bg-page)] font-mono'
                   : 'border-[#e0d9cd] text-[#1c1917] hover:border-[#1d4ed8] hover:text-[#1d4ed8] bg-[#fbf9f6] font-serif'
@@ -207,7 +207,7 @@ export const Contact: React.FC = () => {
 
         {/* GitHub Card */}
         <div
-          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-all duration-150 ease-out select-none hover:-translate-y-[2px] ${
+          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-transform transition-color transition-opacity duration-150 ease-out select-none hover:-translate-y-[2px] ${
             isStdout
               ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] font-mono'
               : 'border-[#e0d9cd] bg-[#ffffff] hover:border-[#1d4ed8] hover:shadow-md font-serif'
@@ -239,7 +239,7 @@ export const Contact: React.FC = () => {
               href="https://github.com/raj-codelabs"
               target="_blank"
               rel="noopener noreferrer"
-              className={`group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-all hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
+              className={`group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-transform transition-color transition-opacity hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
                 isStdout
                   ? 'border border-[var(--border-subtle)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] bg-[var(--bg-page)] font-mono'
                   : 'border border-[#e0d9cd] text-[#1d4ed8] hover:border-[#1d4ed8] bg-[#fbf9f6] font-serif'
@@ -253,7 +253,7 @@ export const Contact: React.FC = () => {
 
         {/* Location & Professional Network */}
         <div
-          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-all duration-150 ease-out select-none hover:-translate-y-[2px] ${
+          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-transform transition-color transition-opacity duration-150 ease-out select-none hover:-translate-y-[2px] ${
             isStdout
               ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] font-mono'
               : 'border-[#e0d9cd] bg-[#ffffff] hover:border-[#1d4ed8] hover:shadow-md font-serif'
@@ -288,7 +288,7 @@ export const Contact: React.FC = () => {
               href="https://linkedin.com/in/rajgolder"
               target="_blank"
               rel="noopener noreferrer"
-              className={`group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-all hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
+              className={`group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-transform transition-color transition-opacity hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
                 isStdout
                   ? 'border border-[var(--border-subtle)] text-[var(--accent-primary)] hover:border-[var(--accent-primary)] bg-[var(--bg-page)] font-mono'
                   : 'border border-[#e0d9cd] text-[#1d4ed8] hover:border-[#1d4ed8] bg-[#fbf9f6] font-serif'
@@ -375,7 +375,7 @@ export const Contact: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSubmitSuccess(false)}
-                className="px-4 py-2 text-xs font-semibold rounded cursor-pointer transition-all border border-[var(--border-subtle)] text-[var(--accent-primary)] hover:border-[var(--accent-primary)] bg-[var(--bg-page)] hover:-translate-y-[1px] active:translate-y-[1px]"
+                className="px-4 py-2 text-xs font-semibold rounded cursor-pointer transition-transform transition-color transition-opacity border border-[var(--border-subtle)] text-[var(--accent-primary)] hover:border-[var(--accent-primary)] bg-[var(--bg-page)] hover:-translate-y-[1px] active:translate-y-[1px]"
               >
                 Send Another Inquiry
               </button>
@@ -452,7 +452,7 @@ export const Contact: React.FC = () => {
               <button
                 type="submit"
                 disabled={submitting}
-                className="relative inline-flex items-center justify-center px-5 py-2.5 rounded font-bold transition-all cursor-pointer shadow-xs disabled:opacity-50 min-w-[140px] focus-visible:outline-2 bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)] hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
+                className="relative inline-flex items-center justify-center px-5 py-2.5 rounded font-bold transition-transform transition-color transition-opacity cursor-pointer shadow-xs disabled:opacity-50 min-w-[140px] focus-visible:outline-2 bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)] hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
               >
                 {submitting ? (
                   <div className="flex items-center gap-2">

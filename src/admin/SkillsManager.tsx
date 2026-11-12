@@ -193,7 +193,7 @@ export const SkillsManager: React.FC = () => {
 
         <button
           onClick={openNewCategory}
-          className="inline-flex items-center gap-1.5 px-3 py-2 rounded text-xs font-mono font-semibold bg-[var(--accent-primary)] text-[#0b0e14] hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer shadow-xs shrink-0"
+          className="inline-flex items-center gap-1.5 px-3 py-2 rounded text-xs font-mono font-semibold bg-[var(--accent-primary)] text-[#0b0e14] hover:opacity-90 active:scale-[0.98] transition-transform transition-color transition-opacity cursor-pointer shadow-xs shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span>New Category</span>

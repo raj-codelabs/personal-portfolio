@@ -20,7 +20,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onOpenDetails
 
   return (
     <article
-      className={`group relative flex flex-col justify-between p-6 text-left transition-all duration-200 select-none hover:-translate-y-[2px] ${
+      className={`group relative flex flex-col justify-between p-6 text-left transition-transform transition-color transition-opacity duration-200 select-none hover:-translate-y-[2px] ${
         isStdout
           ? 'rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] font-mono'
           : 'rounded-md border border-[var(--border-subtle)] bg-[var(--bg-surface)] shadow-xs hover:border-[var(--accent-primary)] hover:shadow-md font-serif'
@@ -129,7 +129,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onOpenDetails
             ref={triggerButtonRef}
             type="button"
             onClick={handleOpen}
-            className={`group/btn inline-flex items-center gap-1.5 py-1 cursor-pointer font-semibold focus-visible:outline-2 transition-all hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
+            className={`group/btn inline-flex items-center gap-1.5 py-1 cursor-pointer font-semibold focus-visible:outline-2 transition-transform transition-color transition-opacity hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
               isStdout
                 ? 'text-[var(--accent-primary)] hover:underline font-mono'
                 : 'text-[#1d4ed8] hover:text-[#1e40af] underline underline-offset-4 decoration-[#93c5fd] font-serif'
@@ -147,7 +147,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onOpenDetails
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`View ${project.title} repository source`}
-            className={`group/link inline-flex items-center gap-1 py-1 transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
+            className={`group/link inline-flex items-center gap-1 py-1 transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
               isStdout
                 ? 'text-[#64748b] hover:text-[#f1f5f9] font-mono'
                 : 'text-[#78716c] hover:text-[#1d4ed8] font-serif'

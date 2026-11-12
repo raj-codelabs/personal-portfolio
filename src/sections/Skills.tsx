@@ -120,7 +120,7 @@ export const Skills: React.FC = () => {
         {skillGroups.map((group) => (
           <div
             key={group.group}
-            className={`p-6 rounded-xl border flex flex-col justify-between transition-all duration-200 ${
+            className={`p-6 rounded-xl border flex flex-col justify-between transition-transform transition-color transition-opacity duration-200 ${
               isStdout
                 ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] font-mono text-[var(--text-secondary)]'
                 : 'border-[#e0d9cd] bg-[#ffffff] font-serif text-[#44403c] shadow-xs'
@@ -143,7 +143,7 @@ export const Skills: React.FC = () => {
                   return (
                     <div
                       key={item.name}
-                      className="group/tool flex items-start gap-3 p-2.5 rounded-lg border border-transparent hover:border-[var(--border-subtle)] hover:bg-[var(--bg-page)] hover:-translate-y-[2px] transition-all duration-150 ease-out"
+                      className="group/tool flex items-start gap-3 p-2.5 rounded-lg border border-transparent hover:border-[var(--border-subtle)] hover:bg-[var(--bg-page)] hover:-translate-y-[2px] transition-transform transition-color transition-opacity duration-150 ease-out"
                     >
                       <div className="shrink-0 p-1 rounded bg-[var(--bg-page)] border border-[var(--border-subtle)] group-hover/tool:border-[var(--accent-primary)]/40 transition-colors">
                         <ItemIcon size={22} className="w-5 h-5" />

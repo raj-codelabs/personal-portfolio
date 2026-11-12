@@ -421,7 +421,7 @@ export const PhotoChangeModal: React.FC<PhotoChangeModalProps> = ({
                           setAvatarUrl(preset.url);
                           setAvatarPreview(preset.url);
                         }}
-                        className={`p-2 rounded-lg border text-left transition-all cursor-pointer ${
+                        className={`p-2 rounded-lg border text-left transition-transform transition-color transition-opacity cursor-pointer ${
                           isSelected
                             ? 'border-[var(--accent-primary)] ring-1 ring-[var(--accent-primary)] bg-[var(--accent-primary)]/10'
                             : 'border-[var(--border-subtle)] hover:border-[var(--text-secondary)] bg-[var(--bg-surface)]'

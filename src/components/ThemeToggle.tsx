@@ -31,7 +31,7 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className = '' }
       title={actionLabel}
       whileTap={reducedMotion ? undefined : { scale: 0.98 }}
       transition={spring.snap}
-      className={`inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono font-medium rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] transition-all cursor-pointer whitespace-nowrap shrink-0 shadow-xs focus-visible:outline-2 hover:-translate-y-[1px] active:translate-y-[1px] ${className}`}
+      className={`inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono font-medium rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] cursor-pointer whitespace-nowrap shrink-0 shadow-xs focus-visible:outline-2 hover:-translate-y-[1px] active:translate-y-[1px] transition-transform transition-color transition-opacity ${className}`}
     >
       <div className="relative w-3.5 h-3.5 flex items-center justify-center shrink-0">
         <AnimatePresence mode="wait" initial={false}>

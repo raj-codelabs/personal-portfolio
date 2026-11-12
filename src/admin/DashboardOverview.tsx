@@ -129,7 +129,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ onSelectTa
           </button>
           <button
             onClick={onViewPublicSite}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded text-xs font-mono font-semibold bg-[var(--accent-primary)] text-[#0b0e14] hover:opacity-90 transition-all cursor-pointer shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded text-xs font-mono font-semibold bg-[var(--accent-primary)] text-[#0b0e14] hover:opacity-90 transition-transform transition-color transition-opacity cursor-pointer shadow-xs"
           >
             <span>Live Portfolio</span>
             <ExternalLink className="w-3.5 h-3.5" />
@@ -149,7 +149,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ onSelectTa
         {/* Metric 1: Projects */}
         <div
           onClick={() => onSelectTab('projects')}
-          className="p-3.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] transition-all cursor-pointer group"
+          className="p-3.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] transition-transform transition-color transition-opacity cursor-pointer group"
         >
           <div className="flex items-center justify-between text-xs text-[var(--text-muted)] mb-1">
             <span>PROJECTS</span>
@@ -172,7 +172,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ onSelectTa
         {/* Metric 2: Skills */}
         <div
           onClick={() => onSelectTab('skills')}
-          className="p-3.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-copper)] transition-all cursor-pointer group"
+          className="p-3.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-copper)] transition-transform transition-color transition-opacity cursor-pointer group"
         >
           <div className="flex items-center justify-between text-xs text-[var(--text-muted)] mb-1">
             <span>SKILLS &amp; TOOLS</span>
@@ -195,7 +195,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ onSelectTa
         {/* Metric 3: Journey Milestones */}
         <div
           onClick={() => onSelectTab('journey')}
-          className="p-3.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] transition-all cursor-pointer group"
+          className="p-3.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] transition-transform transition-color transition-opacity cursor-pointer group"
         >
           <div className="flex items-center justify-between text-xs text-[var(--text-muted)] mb-1">
             <span>MILESTONES</span>
@@ -218,7 +218,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ onSelectTa
         {/* Metric 4: Contact Inquiries */}
         <div
           onClick={() => onSelectTab('contact')}
-          className="p-3.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-amber-400 transition-all cursor-pointer group"
+          className="p-3.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-amber-400 transition-transform transition-color transition-opacity cursor-pointer group"
         >
           <div className="flex items-center justify-between text-xs text-[var(--text-muted)] mb-1">
             <span>INQUIRIES</span>
@@ -327,28 +327,28 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ onSelectTa
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               <button
                 onClick={() => onSelectTab('projects')}
-                className="p-2.5 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] hover:border-[var(--accent-primary)] transition-all cursor-pointer flex items-center gap-2"
+                className="p-2.5 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] hover:border-[var(--accent-primary)] transition-transform transition-color transition-opacity cursor-pointer flex items-center gap-2"
               >
                 <PlusCircle className="w-3.5 h-3.5 text-[var(--accent-primary)] shrink-0" />
                 <span className="truncate">Add Project</span>
               </button>
               <button
                 onClick={() => onSelectTab('journey')}
-                className="p-2.5 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] hover:border-[var(--accent-primary)] transition-all cursor-pointer flex items-center gap-2"
+                className="p-2.5 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] hover:border-[var(--accent-primary)] transition-transform transition-color transition-opacity cursor-pointer flex items-center gap-2"
               >
                 <GitBranch className="w-3.5 h-3.5 text-[var(--accent-primary)] shrink-0" />
                 <span className="truncate">Add Milestone</span>
               </button>
               <button
                 onClick={() => onSelectTab('profile')}
-                className="p-2.5 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] hover:border-[var(--accent-primary)] transition-all cursor-pointer flex items-center gap-2"
+                className="p-2.5 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] hover:border-[var(--accent-primary)] transition-transform transition-color transition-opacity cursor-pointer flex items-center gap-2"
               >
                 <Clock className="w-3.5 h-3.5 text-[var(--accent-copper)] shrink-0" />
                 <span className="truncate">Edit Profile</span>
               </button>
               <button
                 onClick={() => onSelectTab('settings')}
-                className="p-2.5 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] hover:border-[var(--accent-primary)] transition-all cursor-pointer flex items-center gap-2"
+                className="p-2.5 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] hover:border-[var(--accent-primary)] transition-transform transition-color transition-opacity cursor-pointer flex items-center gap-2"
               >
                 <Sliders className="w-3.5 h-3.5 text-[var(--text-secondary)] shrink-0" />
                 <span className="truncate">Site Config</span>

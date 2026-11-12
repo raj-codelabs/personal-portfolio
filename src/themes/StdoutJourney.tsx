@@ -171,7 +171,7 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
                       onClick={() => setSelectedMilestoneId(m.id)}
                       whileTap={reducedMotion ? undefined : { scale: 0.99 }}
                       transition={spring.snap}
-                      className={`w-full text-left p-3 rounded border transition-all text-xs font-mono cursor-pointer flex items-center justify-between gap-3 hover:-translate-y-[1px] active:translate-y-[1px] ${
+                      className={`w-full text-left p-3 rounded border cursor-pointer flex items-center justify-between gap-3 hover:-translate-y-[1px] active:translate-y-[1px] transition-transform transition-color transition-opacity ${
                         isSelected
                           ? 'border-[#3b82f6] bg-[#1a2332] text-[#f1f5f9]'
                           : 'border-[#242e40] bg-[#0d121c] text-[#8b949e] hover:border-[#384660] hover:text-[#f1f5f9]'

@@ -141,7 +141,7 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
                     setTopic(t);
                     setAutoCycle(false);
                   }}
-                  className={`px-2.5 py-1 rounded text-[11px] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
+                  className={`px-2.5 py-1 rounded text-[11px] transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
                     topic === t
                       ? isStdout
                         ? 'bg-[#273142] text-[#f6f5f1] font-bold shadow-xs'
@@ -201,7 +201,7 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
                 ref={triggerRef}
                 type="button"
                 onClick={onOpenCaseStudy}
-                className={`group/btn inline-flex items-center gap-2 px-5 py-2.5 rounded text-xs font-bold transition-all cursor-pointer shadow-xs focus-visible:outline-2 hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
+                className={`group/btn inline-flex items-center gap-2 px-5 py-2.5 rounded text-xs font-bold transition-transform transition-color transition-opacity cursor-pointer shadow-xs focus-visible:outline-2 hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
                   isStdout
                     ? 'bg-[#3b82f6] text-[#ffffff] hover:bg-[#60a5fa] font-mono'
                     : 'bg-[#1d4ed8] text-white hover:bg-[#1e40af] font-serif'
@@ -215,7 +215,7 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
                 href={project.repoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`group/link inline-flex items-center gap-2 px-4 py-2.5 rounded text-xs font-medium border transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
+                className={`group/link inline-flex items-center gap-2 px-4 py-2.5 rounded text-xs font-medium border transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
                   isStdout
                     ? 'border-[#273142] bg-[#11151c] text-[#f6f5f1] hover:border-[#3b82f6] hover:text-[#3b82f6] font-mono'
                     : 'border-[#e0d9cd] bg-[#ffffff] text-[#1c1917] hover:border-[#1d4ed8] hover:text-[#1d4ed8] font-serif'
@@ -229,7 +229,7 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
                 type="button"
                 onClick={handleRunExecution}
                 disabled={isRunning}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded text-xs font-semibold border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--accent-copper)] hover:border-[var(--accent-copper)] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] disabled:opacity-50 font-mono"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded text-xs font-semibold border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--accent-copper)] hover:border-[var(--accent-copper)] transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] disabled:opacity-50 font-mono"
               >
                 {isRunning ? (
                   <>
@@ -261,7 +261,7 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
                     key={s}
                     type="button"
                     onClick={() => setStage(s)}
-                    className={`px-2.5 py-1 rounded text-[11px] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
+                    className={`px-2.5 py-1 rounded text-[11px] transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
                       stage === s
                         ? isStdout
                           ? 'bg-[#3b82f6] text-[#ffffff] font-bold'
