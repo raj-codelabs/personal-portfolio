@@ -5,6 +5,8 @@
  * and "Principles of Great Design" (2026) for the web platform.
  */
 
+// ponytail: Analytic harmonic oscillator conversions and sliding-window velocity tracker are lightweight (<1KB, 0 allocations per frame). Upgrade to full physics engine only if multi-body collision simulation is required.
+
 export interface AppleSpringConfig {
   stiffness: number;
   damping: number;

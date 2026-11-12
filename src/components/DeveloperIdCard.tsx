@@ -45,7 +45,7 @@ export const DeveloperIdCard: React.FC = () => {
 
   return (
     <div
-      className="relative w-full max-w-[360px] mx-auto select-none font-mono"
+      className="relative w-full max-w-[360px] sm:max-w-[400px] mx-auto select-none font-mono"
       style={{ perspective: '1000px' }}
       aria-label={`Student identification credential for ${name}. Press Enter or Space to toggle view.`}
     >

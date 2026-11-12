@@ -9,7 +9,6 @@ import {
   CS50Icon,
   LinuxBashIcon,
 } from '../components/TechIcons';
-import { PipelineDiagram } from '../components/PipelineDiagram';
 
 interface ToolItem {
   name: string;
@@ -117,7 +116,7 @@ export const Skills: React.FC = () => {
       </div>
 
       {/* 1. Real Full-Color Tools Grid with 2px hover lift */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 xl:gap-8">
         {skillGroups.map((group) => (
           <div
             key={group.group}
@@ -170,11 +169,6 @@ export const Skills: React.FC = () => {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* 2. Interactive Pipeline Visual Diagram (One input, main processor, three parallel lanes, pulses running along lines) */}
-      <div className="pt-2">
-        <PipelineDiagram />
       </div>
     </section>
   );

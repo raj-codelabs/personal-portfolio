@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
 import { Theme } from '../types';
+import { ThemeTransitionOverlay } from '../components/ThemeTransitionOverlay';
 
 export interface TransitionOrigin {
   x: number;
@@ -24,11 +25,9 @@ function getInitialTheme(): { theme: Theme; isManual: boolean } {
       return { theme: saved, isManual: true };
     }
   } catch (err) {
-    // Graceful fallback for restricted/sandboxed storage
     console.warn('localStorage not available:', err);
   }
 
-  // OS preference fallback: dark -> stdout, light -> margin-notes
   if (typeof window !== 'undefined' && window.matchMedia) {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     return { theme: prefersDark ? 'stdout' : 'margin-notes', isManual: false };
@@ -39,14 +38,20 @@ function getInitialTheme(): { theme: Theme; isManual: boolean } {
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [themeState, setThemeState] = useState<{ theme: Theme; isManual: boolean }>(() => getInitialTheme());
+  const [transitionState, setTransitionState] = useState<{
+    animating: boolean;
+    targetTheme: Theme | null;
+    origin?: TransitionOrigin;
+  }>({ animating: false, targetTheme: null });
+
+  const isTransitioningRef = useRef(false);
+  const swapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const currentTheme = themeState.theme;
 
-  // Apply theme to document element
   useEffect(() => {
     const root = document.documentElement;
     root.setAttribute('data-theme', currentTheme);
-    // Also toggle class for compatibility
     if (currentTheme === 'stdout') {
       root.classList.add('theme-stdout');
       root.classList.remove('theme-margin-notes');
@@ -56,14 +61,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, [currentTheme]);
 
-  // Listen to OS preference changes if user hasn't manually overridden yet
   useEffect(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return;
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e: MediaQueryListEvent) => {
       setThemeState((prev) => {
-        if (prev.isManual) return prev; // Preserve user's manual choice
+        if (prev.isManual) return prev;
         return {
           theme: e.matches ? 'stdout' : 'margin-notes',
           isManual: false,
@@ -75,8 +79,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  // ponytail: View transitions circular reveal runs at 400ms cubic-bezier; falls back to instant switch on reduced-motion or unsupported browsers
   const setTheme = (newTheme: Theme, origin?: TransitionOrigin) => {
+    // Debounce & collision prevention: ignore rapid clicks while animating
+    if (isTransitioningRef.current || transitionState.animating) return;
+    if (newTheme === currentTheme) return;
+
     try {
       localStorage.setItem(STORAGE_KEY, newTheme);
     } catch (err) {
@@ -88,44 +95,48 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       window.matchMedia &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (!prefersReduced && typeof document !== 'undefined' && 'startViewTransition' in document) {
-      try {
-        const transition = (document as any).startViewTransition(() => {
-          setThemeState({ theme: newTheme, isManual: true });
-        });
+    if (prefersReduced) {
+      setThemeState({ theme: newTheme, isManual: true });
+      return;
+    }
 
-        const x = origin ? origin.x : window.innerWidth / 2;
-        const y = origin ? origin.y : window.innerHeight / 2;
-        const endRadius = Math.hypot(
-          Math.max(x, window.innerWidth - x),
-          Math.max(y, window.innerHeight - y)
-        );
+    isTransitioningRef.current = true;
 
-        if (transition && typeof transition.ready?.then === 'function') {
-          transition.ready.then(() => {
-            document.documentElement.animate(
-              {
-                clipPath: [
-                  `circle(0px at ${x}px ${y}px)`,
-                  `circle(${endRadius}px at ${x}px ${y}px)`,
-                ],
-              },
-              {
-                duration: 400,
-                easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
-                pseudoElement: '::view-transition-new(root)',
-              }
-            );
-          });
-        }
-        return;
-      } catch {
-        // Fallback if view transition fails
+    let resolvedOrigin = origin;
+    if (!resolvedOrigin && typeof document !== 'undefined') {
+      const btn = document.querySelector(
+        'button[aria-label*="Switch to"], button[aria-label*="theme"], button[title*="theme"]'
+      );
+      if (btn) {
+        const rect = btn.getBoundingClientRect();
+        resolvedOrigin = {
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2,
+        };
       }
     }
 
-    setThemeState({ theme: newTheme, isManual: true });
+    setTransitionState({
+      animating: true,
+      targetTheme: newTheme,
+      origin: resolvedOrigin,
+    });
+
+    if (swapTimerRef.current) clearTimeout(swapTimerRef.current);
+    // Swap underlying DOM theme at 360ms when canvas has fully blanketed the viewport
+    swapTimerRef.current = setTimeout(() => {
+      setThemeState({ theme: newTheme, isManual: true });
+    }, 360);
   };
+
+  const handleAnimationComplete = useCallback(() => {
+    isTransitioningRef.current = false;
+    if (swapTimerRef.current) {
+      clearTimeout(swapTimerRef.current);
+      swapTimerRef.current = null;
+    }
+    setTransitionState({ animating: false, targetTheme: null, origin: undefined });
+  }, []);
 
   const toggleTheme = (origin?: TransitionOrigin) => {
     const nextTheme: Theme = currentTheme === 'stdout' ? 'margin-notes' : 'stdout';
@@ -142,6 +153,12 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }}
     >
       {children}
+      <ThemeTransitionOverlay
+        animating={transitionState.animating}
+        targetTheme={transitionState.targetTheme}
+        origin={transitionState.origin}
+        onComplete={handleAnimationComplete}
+      />
     </ThemeContext.Provider>
   );
 };

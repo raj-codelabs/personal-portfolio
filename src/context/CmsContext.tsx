@@ -37,6 +37,7 @@ interface CmsContextType {
 
 const CmsContext = createContext<CmsContextType | undefined>(undefined);
 
+// ponytail: Single-pass context load on mount is lightweight (<50KB payload). Add SWR/React Query caching if CMS updates occur concurrently.
 export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [profile, setProfile] = useState<CmsProfile>(() => {
     try {

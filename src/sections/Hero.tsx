@@ -67,9 +67,9 @@ export const Hero: React.FC = () => {
       {/* THEME 1: DARK MODE (stdout) — Developer Terminal                          */}
       {/* ========================================================================= */}
       {isStdout ? (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-14 items-center">
           {/* Left Column: Terminal Introduction */}
-          <div className="lg:col-span-7 space-y-5">
+          <div className="lg:col-span-7 xl:col-span-8 space-y-5">
             {/* 1. Header category & hard credentials */}
             <div className="space-y-1">
               <div className="text-xs font-mono text-[#6b7586] flex items-center gap-1.5 pb-0.5">
@@ -109,7 +109,7 @@ export const Hero: React.FC = () => {
 
             {/* 3. Subhead with Hard Facts */}
             <div className="space-y-4">
-              <p className="text-base sm:text-lg text-[#9aa2b1] font-body leading-relaxed max-w-2xl">
+              <p className="text-base sm:text-lg text-[#9aa2b1] font-body leading-relaxed max-w-3xl">
                 First-year CSE (AI/ML) undergraduate student. CS50x and CS50P certified. Author of open-source CLI utilities, token-budgeted AI study summarizers, and systems software in C.
               </p>
 
@@ -165,7 +165,7 @@ export const Hero: React.FC = () => {
           </div>
 
           {/* Right Column: ID Card Visual */}
-          <div className="lg:col-span-5 flex flex-col items-center justify-center w-full">
+          <div className="lg:col-span-5 xl:col-span-4 flex flex-col items-center justify-center w-full">
             <DeveloperIdCard />
           </div>
         </div>
@@ -173,9 +173,9 @@ export const Hero: React.FC = () => {
         /* ========================================================================= */
         /* THEME 2: LIGHT MODE (margin-notes) — Engineering Notebook                 */
         /* ========================================================================= */
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center font-serif">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-14 items-center font-serif">
           {/* Left Column: Notebook Journal Introduction */}
-          <div className="lg:col-span-7 space-y-6">
+          <div className="lg:col-span-7 xl:col-span-8 space-y-6">
             <div className="text-xs font-serif uppercase tracking-wider text-[#c25e38] font-bold">
               B.TECH CSE (AI/ML) · MATS UNIVERSITY · CLASS OF 2030
             </div>
@@ -190,7 +190,7 @@ export const Hero: React.FC = () => {
             </h1>
 
             <div className="space-y-4">
-              <p className="text-base sm:text-lg text-[#44403c] font-serif leading-relaxed max-w-2xl">
+              <p className="text-base sm:text-lg text-[#44403c] font-serif leading-relaxed max-w-3xl">
                 First-year CSE (AI/ML) undergraduate student. CS50x and CS50P certified. Author of open-source CLI utilities, token-budgeted AI study summarizers, and systems software in C.
               </p>
 
@@ -236,7 +236,7 @@ export const Hero: React.FC = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-5 flex flex-col items-center justify-center w-full">
+          <div className="lg:col-span-5 xl:col-span-4 flex flex-col items-center justify-center w-full">
             <SketchReveal />
           </div>
         </div>

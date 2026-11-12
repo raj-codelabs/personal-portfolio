@@ -59,9 +59,9 @@ export const About: React.FC = () => {
       </div>
 
       {/* Grid: 2 columns */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Narrative (7 cols) */}
-        <div className="lg:col-span-7 space-y-4 text-sm sm:text-base leading-relaxed text-[var(--text-secondary)] font-body">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-12 items-start">
+        {/* Left Column: Narrative (8 cols on xl) */}
+        <div className="lg:col-span-7 xl:col-span-8 space-y-4 text-sm sm:text-base leading-relaxed text-[var(--text-secondary)] font-body">
           <p className="text-[var(--text-primary)] font-medium text-base sm:text-lg leading-relaxed">
             I'm Raj Golder, a first-year student pursuing a B.Tech in Computer Science and Engineering with a specialization in Artificial Intelligence and Machine Learning at MATS University (Class of 2030).
           </p>
@@ -105,9 +105,9 @@ export const About: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Column: Compact Education Card (5 cols) */}
+        {/* Right Column: Compact Education Card (4 cols on xl) */}
         <div
-          className={`lg:col-span-5 p-6 rounded-lg border shadow-xs space-y-5 text-xs sm:text-sm ${
+          className={`lg:col-span-5 xl:col-span-4 p-6 rounded-lg border shadow-xs space-y-5 text-xs sm:text-sm ${
             isStdout
               ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] font-mono text-[var(--text-secondary)]'
               : 'border-[#e0d9cd] bg-[#ffffff] font-serif text-[#44403c]'

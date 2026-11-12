@@ -79,6 +79,7 @@ cmsRouter.get('/public/portfolio', (req, res) => {
       description: cat.description,
       displayOrder: cat.display_order,
       isPublished: Boolean(cat.is_published),
+      // ponytail: In-memory O(N) filter for category skills is optimal for <500 skills. Join via SQL if skill catalogue grows beyond 1,000 items.
       skills: skillRows
         .filter((s) => s.category_id === cat.id)
         .map((s) => ({

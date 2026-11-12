@@ -138,10 +138,10 @@ export const Navbar: React.FC<NavbarProps> = () => {
           paddingBottom: isScrolled ? 10 : 14,
         }}
         transition={reducedMotion ? { duration: 0 } : spring.snap}
-        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 md:gap-8"
+        className="w-full max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 flex items-center justify-between gap-4 md:gap-8"
       >
         {/* Zone 1: Brand ($ raj-golder▌) */}
-        <div className="shrink-0 flex items-center">
+        <div className="shrink-0 flex items-center min-w-[130px]">
           <a
             href="#home"
             onClick={() => handleNavClick('home')}
@@ -170,10 +170,10 @@ export const Navbar: React.FC<NavbarProps> = () => {
           </a>
         </div>
 
-        {/* Zone 2: Navigation Links with Scroll-Spy Underline (Scoped to active theme to avoid mode-switch glitch) */}
+        {/* Zone 2: Navigation Links with Scroll-Spy Underline (Stable across mode switches) */}
         <nav
           aria-label="Main Navigation"
-          className="hidden md:flex items-center gap-6 lg:gap-8 text-xs font-medium uppercase tracking-wider relative"
+          className="hidden md:flex items-center gap-6 lg:gap-8 text-xs font-mono font-medium uppercase tracking-wider relative"
         >
           {navLinks.map((link) => {
             const isActive = activeId === link.id;
@@ -182,24 +182,20 @@ export const Navbar: React.FC<NavbarProps> = () => {
                 key={link.href}
                 href={link.href}
                 onClick={() => handleNavClick(link.id)}
-                className={`relative py-1 transition-colors whitespace-nowrap shrink-0 group ${
-                  isStdout
-                    ? isActive
-                      ? 'text-[var(--accent-primary)] font-mono'
-                      : 'text-[#94a3b8] hover:text-[#f1f5f9] font-mono'
-                    : isActive
-                    ? 'text-[var(--accent-primary)] font-sans font-semibold'
-                    : 'text-[#686158] hover:text-[var(--accent-primary)] font-sans'
+                className={`relative py-1.5 transition-colors whitespace-nowrap shrink-0 group ${
+                  isActive
+                    ? 'text-[var(--accent-primary)] font-semibold'
+                    : isStdout
+                    ? 'text-[#94a3b8] hover:text-[#f1f5f9]'
+                    : 'text-[#686158] hover:text-[var(--accent-primary)]'
                 }`}
               >
                 <span>{link.label}</span>
 
-                {/* Underline element sliding between nav items */}
+                {/* Underline element strictly anchored to active link without jumping across mode switch */}
                 {isActive && (
-                  <motion.div
-                    layoutId={`nav-underline-${theme}`}
-                    transition={reducedMotion ? { duration: 0 } : spring.settle}
-                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--accent-primary)]"
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--accent-primary)] rounded-full"
                     aria-hidden="true"
                   />
                 )}

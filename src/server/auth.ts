@@ -62,7 +62,7 @@ export function deleteSession(token: string): void {
   db.prepare('DELETE FROM sessions WHERE token_hash = ?').run(tokenHash);
 }
 
-// Clean up expired sessions periodically
+// ponytail: In-memory session purge is called on boot and during auth checks. Upgrade to scheduled cron or Redis TTL if session volume exceeds 10,000 active sessions.
 export function purgeExpiredSessions(): void {
   const now = new Date().toISOString();
   db.prepare('DELETE FROM sessions WHERE expires_at < ?').run(now);

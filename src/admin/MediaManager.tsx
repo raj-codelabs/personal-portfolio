@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { api } from '../services/api';
 import type { CmsMediaItem } from '../types/cms';
 import {
@@ -11,6 +11,8 @@ import {
   FileText,
   AlertCircle,
   ExternalLink,
+  Search,
+  X,
 } from 'lucide-react';
 
 export const MediaManager: React.FC = () => {
@@ -20,6 +22,7 @@ export const MediaManager: React.FC = () => {
   const [altText, setAltText] = useState('');
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const fetchMedia = async () => {
     try {
@@ -74,26 +77,46 @@ export const MediaManager: React.FC = () => {
     }
   };
 
+  const filteredMedia = useMemo(() => {
+    if (!searchQuery.trim()) return mediaList;
+    const q = searchQuery.toLowerCase();
+    return mediaList.filter(
+      (m) =>
+        m.originalName?.toLowerCase().includes(q) ||
+        m.filename?.toLowerCase().includes(q) ||
+        m.altText?.toLowerCase().includes(q) ||
+        m.mimeType?.toLowerCase().includes(q)
+    );
+  }, [mediaList, searchQuery]);
+
+  const formatFileSize = (bytes: number) => {
+    if (!bytes || bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
+  };
+
   return (
-    <div className="space-y-8 font-body text-left">
-      {/* Header */}
+    <div className="space-y-6 font-body text-left">
+      {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--border-subtle)]">
         <div>
           <div className="flex items-center gap-2 text-xs font-mono text-[var(--accent-primary)] mb-1">
             <Image className="w-3.5 h-3.5" />
-            <span>STATIC ASSETS & ARCHITECTURAL MEDIA</span>
+            <span>STATIC ASSETS &amp; MEDIA STORAGE</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold font-display tracking-tight text-[var(--text-primary)]">
-            Media Asset Manager
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--text-primary)] font-mono">
+            Media Manager ({mediaList.length})
           </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1">
-            Upload hardware schematics, memory layouts, neural DAG visualizations, and document attachments.
+          <p className="text-xs text-[var(--text-secondary)] mt-0.5 font-mono">
+            Upload schematics, sketches, and static assets with persistent URLs
           </p>
         </div>
 
         <button
           onClick={fetchMedia}
-          className="inline-flex items-center gap-2 px-3.5 py-2 rounded font-mono text-xs border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)] transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-mono border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface)] transition-colors cursor-pointer shrink-0"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
           <span>Refresh</span>
@@ -101,145 +124,167 @@ export const MediaManager: React.FC = () => {
       </div>
 
       {error && (
-        <div className="p-3.5 rounded border border-rose-500/40 bg-rose-500/10 text-rose-400 text-xs font-mono flex items-center gap-2">
+        <div className="p-3 rounded border border-rose-500/30 bg-rose-500/10 text-rose-400 text-xs font-mono flex items-center gap-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
-      {/* Upload Box */}
-      <div className="p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] space-y-4 font-mono text-xs">
-        <h2 className="text-sm font-bold text-[var(--text-primary)] uppercase tracking-wider">
-          Upload New File
-        </h2>
+      {/* Utilitarian Compact Upload Strip */}
+      <div className="p-3.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] font-mono text-xs">
+        <div className="flex flex-col sm:flex-row items-center gap-3">
+          <input
+            type="text"
+            value={altText}
+            onChange={(e) => setAltText(e.target.value)}
+            placeholder="Alt text description (optional)..."
+            className="flex-1 w-full px-3 py-1.5 rounded bg-[var(--bg-page)] border border-[var(--border-subtle)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-primary)] text-xs"
+          />
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div className="sm:col-span-2 space-y-1.5">
-            <label className="text-[var(--text-secondary)]">Description / Alt Text</label>
+          <label className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded bg-[var(--accent-primary)] text-[#0b0e14] font-semibold cursor-pointer hover:opacity-90 active:scale-[0.98] transition-all text-xs shrink-0 w-full sm:w-auto">
+            <Upload className="w-3.5 h-3.5" />
+            <span>{uploading ? 'Uploading...' : 'Choose File to Upload'}</span>
             <input
-              type="text"
-              value={altText}
-              onChange={(e) => setAltText(e.target.value)}
-              placeholder="e.g. Free-list buddy allocator block split diagram"
-              className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)]"
+              type="file"
+              onChange={handleFileUpload}
+              disabled={uploading}
+              className="hidden"
+              accept="image/*,application/pdf"
             />
-          </div>
-
-          <div className="flex flex-col justify-end">
-            <label className="flex items-center justify-center gap-2 px-4 py-2.5 rounded font-bold bg-[var(--accent-primary)] text-[#0b0e14] hover:bg-[var(--accent-primary-hover)] active:scale-[0.98] transition-all cursor-pointer shadow-xs">
-              <Upload className="w-4 h-4" />
-              <span>{uploading ? 'Uploading...' : 'Choose File'}</span>
-              <input
-                type="file"
-                disabled={uploading}
-                onChange={handleFileUpload}
-                accept="image/*,.pdf,.svg"
-                className="hidden"
-              />
-            </label>
-          </div>
+          </label>
         </div>
       </div>
 
-      {/* Media Grid */}
-      <div className="space-y-4">
-        <h2 className="text-sm font-mono font-bold text-[var(--text-primary)] uppercase tracking-wider">
-          Stored Assets ({mediaList.length})
-        </h2>
+      {/* Search Filter Strip */}
+      <div className="flex items-center justify-between gap-3 p-2 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-xs font-mono">
+        <div className="relative w-full sm:w-80">
+          <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search assets by filename, alt text..."
+            className="w-full pl-8 pr-7 py-1.5 rounded bg-[var(--bg-page)] border border-[var(--border-subtle)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-primary)] text-xs"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
+            >
+              <X className="w-3 h-3" />
+            </button>
+          )}
+        </div>
+      </div>
 
-        {loading ? (
-          <div className="py-12 text-center text-xs font-mono text-[var(--text-muted)] flex items-center justify-center gap-2">
-            <RefreshCw className="w-4 h-4 animate-spin text-[var(--accent-primary)]" />
-            <span>Scanning /uploads directory...</span>
-          </div>
-        ) : mediaList.length === 0 ? (
-          <div className="py-12 text-center text-xs font-mono text-[var(--text-muted)] border border-dashed border-[var(--border-subtle)] rounded">
-            No media files uploaded yet. Select a file above to upload to persistent storage.
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 font-mono text-xs">
-            {mediaList.map((item) => {
-              const isImage = item.mimeType?.startsWith('image/');
-              return (
-                <div
-                  key={item.id}
-                  className="p-4 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] transition-all flex flex-col justify-between space-y-3"
-                >
-                  <div className="space-y-2">
-                    {/* Preview */}
-                    <div className="h-36 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] flex items-center justify-center overflow-hidden">
-                      {isImage ? (
+      {/* High-Density Media Table */}
+      <div className="rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] overflow-hidden shadow-xs">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs border-collapse font-mono">
+            <thead>
+              <tr className="border-b border-[var(--border-subtle)] bg-[var(--bg-page)]/60 text-[var(--text-muted)] uppercase tracking-wider text-[10px]">
+                <th className="py-2.5 px-3 w-16 text-center font-semibold">Preview</th>
+                <th className="py-2.5 px-3 min-w-[200px] font-semibold">Filename &amp; Alt</th>
+                <th className="py-2.5 px-3 w-28 font-semibold">Type</th>
+                <th className="py-2.5 px-3 w-24 font-semibold">Size</th>
+                <th className="py-2.5 px-3 w-32 font-semibold">Uploaded</th>
+                <th className="py-2.5 px-3 w-32 text-right pr-4 font-semibold">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[var(--border-subtle)]/60">
+              {filteredMedia.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="py-12 text-center text-[var(--text-muted)]">
+                    No media assets uploaded yet.
+                  </td>
+                </tr>
+              ) : (
+                filteredMedia.map((item) => (
+                  <tr
+                    key={item.id}
+                    className="hover:bg-[var(--bg-page)]/70 transition-colors group"
+                  >
+                    <td className="py-2 px-3 text-center">
+                      {item.mimeType?.startsWith('image/') ? (
                         <img
                           src={item.url}
-                          alt={item.altText || item.filename}
-                          className="w-full h-full object-contain p-2"
+                          alt={item.altText || item.originalName}
+                          className="w-8 h-8 rounded object-cover border border-[var(--border-subtle)] inline-block"
                         />
                       ) : (
-                        <div className="flex flex-col items-center gap-2 text-[var(--text-muted)]">
-                          <FileText className="w-8 h-8 text-[var(--accent-copper)]" />
-                          <span className="text-[10px] uppercase font-bold">{item.mimeType}</span>
+                        <div className="w-8 h-8 rounded bg-[var(--bg-page)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--text-muted)] inline-flex">
+                          <FileText className="w-4 h-4" />
                         </div>
                       )}
-                    </div>
-
-                    <div className="space-y-0.5">
-                      <div className="font-bold text-[var(--text-primary)] truncate" title={item.originalName || item.filename}>
+                    </td>
+                    <td className="py-2 px-3">
+                      <div className="font-bold text-[var(--text-primary)] truncate max-w-xs">
                         {item.originalName || item.filename}
                       </div>
-                      <div className="text-[10px] text-[var(--text-muted)]">
-                        {(item.sizeBytes / 1024).toFixed(1)} KB • {new Date(item.uploadedAt).toLocaleDateString()}
+                      <div className="text-[11px] text-[var(--text-muted)] truncate max-w-xs font-body">
+                        {item.altText || item.url}
                       </div>
-                      {item.altText && (
-                        <div className="text-[11px] text-[var(--text-secondary)] truncate">
-                          "{item.altText}"
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                    </td>
+                    <td className="py-2 px-3">
+                      <span className="px-1.5 py-0.5 rounded bg-[var(--bg-page)] border border-[var(--border-subtle)] text-[10px] text-[var(--text-secondary)]">
+                        {item.mimeType?.split('/')[1] || item.mimeType}
+                      </span>
+                    </td>
+                    <td className="py-2 px-3 text-[11px] text-[var(--text-muted)]">
+                      {formatFileSize(item.sizeBytes)}
+                    </td>
+                    <td className="py-2 px-3 text-[11px] text-[var(--text-muted)]">
+                      {new Date(item.uploadedAt).toLocaleDateString()}
+                    </td>
+                    <td className="py-2 px-3 text-right pr-4">
+                      <div className="inline-flex items-center gap-1.5 justify-end">
+                        <button
+                          onClick={() => handleCopyUrl(item.url, item.id)}
+                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded border text-[10px] transition-colors cursor-pointer ${
+                            copiedId === item.id
+                              ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                              : 'border-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+                          }`}
+                          title="Copy file URL"
+                        >
+                          {copiedId === item.id ? (
+                            <>
+                              <Check className="w-3 h-3" />
+                              <span>Copied</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3 h-3" />
+                              <span>Copy URL</span>
+                            </>
+                          )}
+                        </button>
 
-                  {/* Actions */}
-                  <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subtle)]">
-                    <button
-                      onClick={() => handleCopyUrl(item.url, item.id)}
-                      className="inline-flex items-center gap-1 text-xs text-[var(--accent-primary)] hover:underline cursor-pointer"
-                    >
-                      {copiedId === item.id ? (
-                        <>
-                          <Check className="w-3.5 h-3.5 text-[var(--accent-success)]" />
-                          <span className="text-[var(--accent-success)]">Copied URL</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3.5 h-3.5" />
-                          <span>Copy URL</span>
-                        </>
-                      )}
-                    </button>
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1 rounded text-[var(--text-muted)] hover:text-[var(--accent-primary)] cursor-pointer"
+                          title="Open Asset in New Tab"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
 
-                    <div className="flex items-center gap-1.5">
-                      <a
-                        href={item.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="p-1 text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                        title="Open file in new tab"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </a>
-                      <button
-                        onClick={() => handleDelete(item.id)}
-                        className="p-1 text-[var(--text-muted)] hover:text-rose-400 cursor-pointer"
-                        title="Delete asset"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+                        <button
+                          onClick={() => handleDelete(item.id)}
+                          className="p-1 rounded text-[var(--text-muted)] hover:text-rose-400 cursor-pointer"
+                          title="Delete Asset"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

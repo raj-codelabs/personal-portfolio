@@ -51,13 +51,13 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   const navItems: Array<{ id: AdminTab; label: string; icon: React.FC<{ className?: string }> }> = [
     { id: 'overview', label: 'Dashboard Overview', icon: LayoutDashboard },
     { id: 'profile', label: 'Profile & Hero', icon: User },
-    { id: 'projects', label: 'Projects & Repositories', icon: FolderGit2 },
-    { id: 'skills', label: 'Skills & Apparatus', icon: Cpu },
-    { id: 'journey', label: 'Milestone DAG & Journey', icon: GitBranch },
-    { id: 'about', label: 'About & Monograph', icon: BookOpen },
-    { id: 'contact', label: 'Contact & Channels', icon: Mail },
-    { id: 'visibility', label: 'Sections & Layout', icon: Sliders },
-    { id: 'media', label: 'Media Manager', icon: Image },
+    { id: 'projects', label: 'Projects Dossier', icon: FolderGit2 },
+    { id: 'skills', label: 'Skills & Toolchain', icon: Cpu },
+    { id: 'journey', label: 'Milestones & Journey', icon: GitBranch },
+    { id: 'about', label: 'About & Background', icon: BookOpen },
+    { id: 'contact', label: 'Messages & Inquiries', icon: Mail },
+    { id: 'visibility', label: 'Section Visibility', icon: Sliders },
+    { id: 'media', label: 'Media Assets', icon: Image },
     { id: 'settings', label: 'Site Settings', icon: Settings },
   ];
 

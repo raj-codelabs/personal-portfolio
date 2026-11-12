@@ -80,7 +80,7 @@ export const Projects: React.FC = () => {
       </div>
 
       {/* 3. Clean Responsive Project Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-8 pt-2">
         {projectsData.map((project, idx) => (
           <ProjectCard
             key={project.id}

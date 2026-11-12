@@ -1,3 +1,7 @@
+import type { Project, Milestone, SkillItem, SkillCategory, Profile } from '../types.js';
+
+// ponytail: CMS models extend the unified domain types with database audit and ordering fields.
+
 export interface AdminUser {
   id: string;
   email: string;
@@ -5,105 +9,35 @@ export interface AdminUser {
   lastLoginAt?: string;
 }
 
-export interface CmsProject {
-  id: string;
-  title: string;
+export type CmsProject = Project & {
   slug: string;
-  subtitle: string;
-  problem: string;
-  built: string;
-  architecture: string;
-  lessonsLearned: string[];
-  stack: string[];
-  status: string;
-  repoUrl: string;
-  demoUrl?: string;
-  coverImage?: string;
-  screenshots?: string[];
-  imageAlt?: string;
+  createdAt: string;
+  updatedAt: string;
   isFeatured: boolean;
   isPublished: boolean;
   displayOrder: number;
-  startDate?: string;
-  completionDate?: string;
-  createdAt: string;
-  updatedAt: string;
-}
+};
 
-export interface CmsSkillItem {
+export type CmsSkillItem = SkillItem & {
   id: string;
   categoryId: string;
-  name: string;
-  focusArea: string;
-  level: string; // e.g. 'Core Fluency', 'Active Exploration'
   displayOrder: number;
   isPublished: boolean;
-}
+};
 
-export interface CmsSkillCategory {
+export type CmsSkillCategory = Omit<SkillCategory, 'skills'> & {
   id: string;
-  category: string;
-  kicker: string;
-  description: string;
   displayOrder: number;
   isPublished: boolean;
   skills: CmsSkillItem[];
-}
+};
 
-export interface CmsMilestone {
-  id: string;
-  logNumber: string;
-  commitHash: string;
-  branch: string;
-  branchLabel?: string;
-  date: string;
-  title: string;
-  summary: string;
-  details: string;
-  learnings: string[];
-  marginAnnotation?: string;
-  tags: string[];
-  projectLink?: string;
+export type CmsMilestone = Milestone & {
   isPublished: boolean;
   displayOrder: number;
-}
+};
 
-export interface CmsProfile {
-  name: string;
-  title: string;
-  subtitle: string;
-  department: string;
-  semester: string;
-  institutionNote: string;
-  currentInterests: string[];
-  shortBio: string;
-  philosophy: string;
-  primaryCtaText?: string;
-  primaryCtaLink?: string;
-  secondaryCtaText?: string;
-  secondaryCtaLink?: string;
-  avatarUrl?: string;
-  resumeUrl?: string;
-  idBadgeQrUrl?: string;
-  idBadgeNumber?: string;
-  sketchGrayscaleUrl?: string;
-  sketchColorUrl?: string;
-  sketchCaption?: string;
-  contact: {
-    email: string;
-    github: string;
-    linkedin: string;
-    location: string;
-    statusLabel: string;
-    customLinks?: Array<{
-      id: string;
-      label: string;
-      url: string;
-      iconName?: string;
-      isEnabled: boolean;
-    }>;
-  };
-}
+export type CmsProfile = Profile;
 
 export interface CmsMessage {
   id: string;
@@ -116,7 +50,6 @@ export interface CmsMessage {
   adminNotes?: string;
   createdAt: string;
 }
-
 
 export interface CmsSiteSettings {
   siteTitle: string;

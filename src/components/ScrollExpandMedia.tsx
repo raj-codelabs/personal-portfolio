@@ -157,7 +157,7 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
         </div>
 
         {/* Content & Interactive Pipeline Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-12 items-start pt-6">
           {/* Left Column: Project Overview & Core Architecture */}
           <div className="lg:col-span-5 space-y-5">
             <div>

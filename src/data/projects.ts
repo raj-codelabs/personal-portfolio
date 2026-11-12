@@ -1,5 +1,6 @@
 import { Project } from '../types';
 
+// ponytail: Static array of projects is sufficient for current curriculum (<20 projects). Upgrade to dynamic pagination when project catalog exceeds 20 items.
 export const projectsData: Project[] = [
   {
     id: 'ai-study-notes-summarizer',

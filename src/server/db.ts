@@ -13,6 +13,8 @@ if (!fs.existsSync(DB_DIR)) {
 }
 
 const DB_PATH = path.join(DB_DIR, 'portfolio.db');
+
+// ponytail: Synchronous DatabaseSync (node:sqlite) queries are optimal for single-user CMS (<10,000 writes/day). Upgrade to Cloud SQL/PostgreSQL connection pool if write concurrency exceeds single thread.
 export const db = new DatabaseSync(DB_PATH);
 
 // Initialize Tables

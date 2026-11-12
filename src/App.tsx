@@ -104,7 +104,7 @@ function PortfolioMain() {
       <main
         id="main-content"
         tabIndex={-1}
-        className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 focus:outline-none"
+        className="flex-1 w-full max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 focus:outline-none"
       >
         {visibility.hero !== false && <Hero />}
         {visibility.projects !== false && <Projects />}

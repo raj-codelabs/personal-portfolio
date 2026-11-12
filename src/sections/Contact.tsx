@@ -137,7 +137,7 @@ export const Contact: React.FC = () => {
       </div>
 
       {/* Interactive Contact Cards (Lift 2px on hover) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 xl:gap-8">
         {/* Email Card */}
         <div
           className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-all duration-150 ease-out select-none hover:-translate-y-[2px] ${

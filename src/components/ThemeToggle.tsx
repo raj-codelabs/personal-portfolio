@@ -15,16 +15,11 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className = '' }
     : 'Switch to Terminal theme (Dark Mode)';
 
   const handleToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
-    let origin: { x: number; y: number } | undefined;
-    if (e.clientX || e.clientY) {
-      origin = { x: e.clientX, y: e.clientY };
-    } else {
-      const rect = e.currentTarget.getBoundingClientRect();
-      origin = {
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2,
-      };
-    }
+    const rect = e.currentTarget.getBoundingClientRect();
+    const origin = {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+    };
     toggleTheme(origin);
   };
 

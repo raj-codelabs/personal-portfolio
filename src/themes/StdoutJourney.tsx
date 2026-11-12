@@ -62,7 +62,7 @@ export const StdoutJourney: React.FC<StdoutJourneyProps> = ({ milestones }) => {
       </div>
 
       {/* Main Container: SVG DAG + Details Panel */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 xl:gap-8 items-start">
         {/* Left Column: Interactive Milestone Graph & Node List */}
         <div className="lg:col-span-7 rounded-md border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-4 sm:p-5">
           <div className="flex items-center justify-between pb-3 mb-4 border-b border-[var(--border-subtle)] text-xs font-mono text-[var(--text-muted)]">
