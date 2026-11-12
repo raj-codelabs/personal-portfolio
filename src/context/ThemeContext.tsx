@@ -38,8 +38,6 @@ function getInitialTheme(): { theme: Theme; isManual: boolean } {
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [themeState, setThemeState] = useState<{ theme: Theme; isManual: boolean }>(() => getInitialTheme());
 
-  const [theme, setTheme] = useState<Theme>(() => getInitialTheme().theme);
-
   const isManualOverride = themeState.isManual;
 
   const isTransitioningRef = useRef(false);
@@ -96,7 +94,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     if (prefersReduced) {
       setThemeState({ theme: newTheme, isManual: true });
-      setTheme(newTheme);
       return;
     }
 
@@ -105,7 +102,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     // Swap underlying DOM theme immediately — CSS (index.css:125‑128)
     // provides an 180ms background-color / color cross-fade.
     setThemeState({ theme: newTheme, isManual: true });
-    setTheme(newTheme);
 
     // Allow the next theme click after the CSS transition finishes.
     setTimeout(() => {
@@ -121,7 +117,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   return (
     <ThemeContext.Provider
       value={{
-        theme,
+        theme: currentTheme,
         toggleTheme,
         setTheme,
         isManualOverride,

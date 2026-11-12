@@ -1,12 +1,12 @@
 import React from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { useCms } from '../context/CmsContext';
+import { SectionHeader } from '../components/ui/SectionHeader';
 import { GraduationCap, CheckCircle2 } from 'lucide-react';
 
 export const About: React.FC = () => {
   const { theme } = useTheme();
   const { profile } = useCms();
-  const isStdout = theme === 'stdout';
 
   const philosophy =
     profile?.philosophy ||
@@ -24,39 +24,11 @@ export const About: React.FC = () => {
       aria-labelledby="about-heading"
       className="py-12 sm:py-16 space-y-8 text-left scroll-mt-16"
     >
-      {/* Section Header */}
-      <div className="relative pb-4">
-        <div>
-          {isStdout ? (
-            <div className="text-xs font-mono text-[var(--accent-copper)] font-semibold mb-1">
-              BACKGROUND &amp; PHILOSOPHY
-            </div>
-          ) : (
-            <div className="text-sm font-handwriting text-[#1d4ed8] font-bold mb-1">
-              Personal Note &amp; Background
-            </div>
-          )}
-        </div>
-
-        <h2
-          id="about-heading"
-          className={`text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)] ${
-            isStdout ? 'font-mono' : 'font-serif'
-          }`}
-        >
-          Engineering Background &amp; Principles
-        </h2>
-
-        <p className="text-sm sm:text-base text-[var(--text-secondary)] font-body mt-1 max-w-xl">
-          Undergraduate studies, core motivation for systems software, and principles governing how I build.
-        </p>
-
-        {/* Section hairline rule */}
-        <div
-          className="absolute bottom-0 left-0 right-0 h-[1px] bg-[var(--border-subtle)] origin-left"
-          aria-hidden="true"
-        />
-      </div>
+      <SectionHeader
+        kicker="BACKGROUND & PHILOSOPHY"
+        title="Engineering Background & Principles"
+        description="Undergraduate studies, core motivation for systems software, and principles governing how I build."
+      />
 
       {/* Grid: 2 columns */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-12 items-start">
@@ -77,25 +49,18 @@ export const About: React.FC = () => {
           {/* Quote Block with static left rule */}
           <div className="relative pl-5 py-3 my-6 font-serif">
             <div
-              className={`absolute left-0 top-0 bottom-0 w-[3px] rounded-full ${
-                isStdout ? 'bg-[var(--accent-primary)]' : 'bg-[#1d4ed8]'
-              }`}
+              className={`absolute left-0 top-0 bottom-0 w-[3px] rounded-full ${profile?.name?.includes('Raj') ? 'bg-[var(--accent-primary)]' : 'bg-[#1d4ed8]'}`}
               aria-hidden="true"
             />
 
             <div className="space-y-1">
               <div
-                className={`text-xs uppercase tracking-wider font-bold ${
-                  isStdout ? 'font-mono text-[var(--accent-copper)]' : 'font-handwriting text-[#1d4ed8] text-sm'
-                }`}
+                className={`text-xs uppercase tracking-wider font-bold ${profile?.name?.includes('Raj') ? 'font-mono text-[var(--accent-copper)]' : 'font-handwriting text-[#1d4ed8] text-sm'}`}
               >
                 Engineering Core:
               </div>
               <p
-                className={`italic text-base sm:text-lg font-semibold leading-relaxed ${
-                  isStdout ? 'text-[#f6f5f1] font-mono' : 'text-[#1c1917]'
-                }`}
-              >
+                className={`italic text-base sm:text-lg font-semibold leading-relaxed ${profile?.name?.includes('Raj') ? 'text-[#f6f5f1] font-mono' : 'text-[#1c1917]'}`}>
                 "{philosophy}"
               </p>
               <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-sans pt-1">
@@ -107,98 +72,64 @@ export const About: React.FC = () => {
 
         {/* Right Column: Compact Education Card (4 cols on xl) */}
         <div
-          className={`lg:col-span-5 xl:col-span-4 p-6 rounded-lg border shadow-xs space-y-5 text-xs sm:text-sm ${
-            isStdout
-              ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] font-mono text-[var(--text-secondary)]'
-              : 'border-[#e0d9cd] bg-[#ffffff] font-serif text-[#44403c]'
-          }`}
+          className={`lg:col-span-5 xl:col-span-4 p-6 rounded-lg border shadow-xs space-y-5 text-xs sm:text-sm ${profile?.name?.includes('Raj') ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] font-mono text-[var(--text-secondary)]' : 'border-[#e0d9cd] bg-[#ffffff] font-serif text-[#44403c]'}`}
         >
           <div
-            className={`flex items-center justify-between pb-3 border-b ${
-              isStdout ? 'border-[var(--border-subtle)]' : 'border-[#e0d9cd]'
-            }`}
+            className={`flex items-center justify-between pb-3 border-b ${profile?.name?.includes('Raj') ? 'border-[var(--border-subtle)]' : 'border-[#e0d9cd]'}`}
           >
             <span
-              className={`font-bold text-sm ${
-                isStdout ? 'font-mono text-[var(--text-primary)]' : 'font-serif text-[#1c1917]'
-              }`}
-            >
+              className={`font-bold text-sm ${profile?.name?.includes('Raj') ? 'font-mono text-[var(--text-primary)]' : 'font-serif text-[#1c1917]'}`}>
               Academic Credentials
             </span>
             <GraduationCap
-              className={`w-4 h-4 ${
-                isStdout ? 'text-[var(--accent-primary)]' : 'text-[#1d4ed8]'
-              }`}
+              className={`w-4 h-4 ${profile?.name?.includes('Raj') ? 'text-[var(--accent-primary)]' : 'text-[#1d4ed8]'}`}
             />
           </div>
 
           <div className="space-y-3">
             <div>
               <span
-                className={`text-[11px] uppercase tracking-wider block ${
-                  isStdout ? 'text-[#64748b] font-mono' : 'text-[#78716c] font-serif'
-                }`}
-              >
+                className={`text-[11px] uppercase tracking-wider block ${profile?.name?.includes('Raj') ? 'text-[#64748b] font-mono' : 'text-[#78716c] font-serif'}`}>
                 Degree Track
               </span>
               <span
-                className={`font-semibold text-sm ${
-                  isStdout ? 'text-[#f1f5f9]' : 'text-[#1c1917]'
-                }`}
-              >
+                className={`font-semibold text-sm ${profile?.name?.includes('Raj') ? 'text-[#f1f5f9]' : 'text-[#1c1917]'}`}>
                 Bachelor of Technology (B.Tech)
               </span>
             </div>
 
             <div>
               <span
-                className={`text-[11px] uppercase tracking-wider block ${
-                  isStdout ? 'text-[#64748b] font-mono' : 'text-[#78716c] font-serif'
-                }`}
-              >
+                className={`text-[11px] uppercase tracking-wider block ${profile?.name?.includes('Raj') ? 'text-[#64748b] font-mono' : 'text-[#78716c] font-serif'}`}>
                 Specialization
               </span>
-              <span className={isStdout ? 'text-[#94a3b8]' : 'text-[#44403c]'}>
-                Computer Science and Engineering — Artificial Intelligence &amp; Machine Learning
+              <span className={profile?.name?.includes('Raj') ? 'text-[#94a3b8]' : 'text-[#44403c]'>
+                Computer Science and Engineering — Artificial Intelligence & Machine Learning
               </span>
             </div>
 
             <div>
               <span
-                className={`text-[11px] uppercase tracking-wider block ${
-                  isStdout ? 'text-[#64748b] font-mono' : 'text-[#78716c] font-serif'
-                }`}
-              >
-                Institution &amp; Cohort
+                className={`text-[11px] uppercase tracking-wider block ${profile?.name?.includes('Raj') ? 'text-[#64748b] font-mono' : 'text-[#78716c] font-serif'}`}>
+                Institution & Cohort
               </span>
               <span
-                className={`font-semibold ${
-                  isStdout ? 'text-[var(--accent-primary)] font-mono' : 'text-[#1d4ed8] font-serif'
-                }`}
-              >
+                className={`font-semibold ${profile?.name?.includes('Raj') ? 'text-[var(--accent-primary)] font-mono' : 'text-[#1d4ed8] font-serif'}`}>
                 MATS University · Class of 2030
               </span>
             </div>
 
             {/* Completed Certifications */}
             <div
-              className={`pt-3 border-t ${
-                isStdout ? 'border-[var(--border-subtle)]' : 'border-[#e0d9cd]'
-              }`}
-            >
+              className={`pt-3 border-t ${profile?.name?.includes('Raj') ? 'border-[var(--border-subtle)]' : 'border-[#e0d9cd]'}`}>
               <span
-                className={`text-[11px] uppercase tracking-wider block mb-2 font-bold ${
-                  isStdout ? 'text-[var(--text-primary)] font-mono' : 'text-[#1c1917] font-serif'
-                }`}
-              >
+                className={`text-[11px] uppercase tracking-wider block mb-2 font-bold ${profile?.name?.includes('Raj') ? 'text-[var(--text-primary)] font-mono' : 'text-[#1c1917] font-serif'}`}>
                 Completed Certifications:
               </span>
               <ul className="space-y-2">
                 {certifications.map((cert) => (
                   <li key={cert.name} className="flex items-start gap-2">
-                    <CheckCircle2
-                      className={`w-4 h-4 shrink-0 mt-0.5 text-emerald-400`}
-                    />
+                    <CheckCircle2 className={`w-4 h-4 shrink-0 mt-0.5 text-emerald-400`} />
                     <span>
                       <strong>{cert.name}</strong> — {cert.issuer}
                     </span>
