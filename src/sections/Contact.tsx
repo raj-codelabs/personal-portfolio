@@ -26,6 +26,19 @@ export const Contact: React.FC = () => {
   const { profile } = useCms();
   const reducedMotion = useReducedMotionGlobal();
 
+  const [copied, setCopied] = useState(false);
+
+  // Form state
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [formFeedback, setFormFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const formContainerRef = useRef<HTMLDivElement>(null);
+
   const contactEmail = 'contact@rajgolder.example';
   const districtLocation = 'Raipur District, India';
 
@@ -257,7 +270,7 @@ export const Contact: React.FC = () => {
               {formFeedback.type === 'success' ? (
                 <CheckCircle2 className="w-4 h-4 shrink-0" />
               ) : (
-                <AlertCircle className="w-4 h-4 shrink-0"
+                <AlertCircle className="w-4 h-4 shrink-0" />
               )}
               <span>{formFeedback.text}</span>
             </motion.div>

@@ -103,7 +103,7 @@ export const About: React.FC = () => {
                 className={`text-[11px] uppercase tracking-wider block ${profile?.name?.includes('Raj') ? 'text-[#64748b] font-mono' : 'text-[#78716c] font-serif'}`}>
                 Specialization
               </span>
-              <span className={profile?.name?.includes('Raj') ? 'text-[#94a3b8]' : 'text-[#44403c]'>
+              <span className={profile?.name?.includes('Raj') ? 'text-[#94a3b8]' : 'text-[#44403c]'}>
                 Computer Science and Engineering — Artificial Intelligence & Machine Learning
               </span>
             </div>

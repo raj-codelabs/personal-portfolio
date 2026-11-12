@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { useCms } from '../context/CmsContext';
+import { SectionHeader } from '../components/ui/SectionHeader';
 import { CommandPrompt } from '../components/CommandPrompt';
 import { DeveloperIdCard } from '../components/DeveloperIdCard';
 import { SketchReveal } from '../components/SketchReveal';
@@ -26,8 +27,7 @@ const CollapsibleTerminal: React.FC<CollapsibleTerminalProps> = ({ isOpen, reduc
       >
         <CommandPrompt />
       </motion.div>
-    )}
-  </AnimatePresence>
+    )}    </AnimatePresence>
 );
 
 export const Hero: React.FC = () => {
@@ -41,7 +41,7 @@ export const Hero: React.FC = () => {
   const name = profile?.name || 'Raj Golder';
   const github = profile?.contact?.github || 'https://github.com/raj-codelabs';
 
-  // Blinking cursor stops blinking after ~3s, stays solid
+  // Blinking cursor stops blinking after 3s
   useEffect(() => {
     if (reducedMotion) {
       setCursorBlinking(false);
@@ -64,8 +64,8 @@ export const Hero: React.FC = () => {
       <div id="home" className="absolute -top-16 pointer-events-none" aria-hidden="true" />
 
       {/* ========================================================================= */}
-      {/* THEME 1: DARK MODE (stdout) — Developer Terminal                          */}
-      {/* ========================================================================= */}
+      /* THEME 1: DARK MODE (stdout) — Developer Terminal                          */
+      /* ========================================================================= */
       {isStdout ? (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-14 items-center">
           {/* Left Column: Terminal Introduction */}
@@ -76,9 +76,7 @@ export const Hero: React.FC = () => {
                 <span className="text-[var(--accent-primary)] font-bold">$</span>
                 <span className="text-[#9aa2b1]">whoami --degree</span>
                 <span
-                  className={`text-[var(--accent-primary)] ${
-                    cursorBlinking && !reducedMotion ? 'animate-pulse motion-reduce:animate-none' : 'opacity-100'
-                  }`}
+                  className={`text-[var(--accent-primary)] ${cursorBlinking && !reducedMotion ? 'animate-pulse motion-reduce:animate-none' : 'opacity-100'}`}
                   aria-hidden="true"
                 >
                   ▌
@@ -91,15 +89,11 @@ export const Hero: React.FC = () => {
 
             {/* 2. Headline: Clear statement of what is sold / engineered */}
             <h1 className="text-[clamp(2.1rem,4.8vw,3.6rem)] font-mono font-bold tracking-tight text-[#f6f5f1] leading-[1.12]">
-              <span className="block text-[#f6f5f1]">
-                Software Tools &amp;
-              </span>
+              <span className="block text-[#f6f5f1]">Software Tools &</span>
               <span className="block text-[var(--accent-primary)]">
                 Applied AI Systems
                 <span
-                  className={`text-[var(--accent-primary)] ${
-                    cursorBlinking && !reducedMotion ? 'animate-pulse motion-reduce:animate-none' : 'opacity-100'
-                  }`}
+                  className={`text-[var(--accent-primary)] ${cursorBlinking && !reducedMotion ? 'animate-pulse motion-reduce:animate-none' : 'opacity-100'}`}
                   aria-hidden="true"
                 >
                   _
@@ -123,7 +117,7 @@ export const Hero: React.FC = () => {
               <div className="flex flex-wrap items-center gap-3 pt-2">
                 <a
                   href="#projects"
-                  className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold font-mono rounded bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)] transition-transform transition-color transition-opacity shadow-xs cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold font-mono rounded bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)] transition-all shadow-xs cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
                 >
                   <span>Explore Projects</span>
                   <ArrowDown
@@ -136,7 +130,7 @@ export const Hero: React.FC = () => {
                   href={github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs font-medium font-mono rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 text-xs font-medium font-mono rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
                 >
                   <span>View Repositories</span>
                   <ExternalLink
@@ -162,11 +156,11 @@ export const Hero: React.FC = () => {
 
               <CollapsibleTerminal isOpen={showCli} reducedMotion={reducedMotion} />
             </div>
-          </div>
 
-          {/* Right Column: ID Card Visual */}
-          <div className="lg:col-span-5 xl:col-span-4 flex flex-col items-center justify-center w-full">
-            <DeveloperIdCard />
+            {/* Right Column: ID Card Visual */}
+            <div className="lg:col-span-5 xl:col-span-4 flex flex-col items-center justify-center w-full">
+              <DeveloperIdCard />
+            </div>
           </div>
         </div>
       ) : (
@@ -176,17 +170,21 @@ export const Hero: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-14 items-center font-serif">
           {/* Left Column: Notebook Journal Introduction */}
           <div className="lg:col-span-7 xl:col-span-8 space-y-6">
+            <SectionHeader
+              kicker={isStdout ? 'BACKGROUND & PHILOSOPHY' : 'Personal Note & Background'}
+              title="Engineering Background & Principles"
+              description={profile
+                ? 'Undergraduate studies, core motivation for systems software, and principles governing how I build.'
+                : 'Undergraduate studies, core motivation for systems software, and principles governing how I build.'}
+            />
+
             <div className="text-xs font-serif uppercase tracking-wider text-[#c25e38] font-bold">
               B.TECH CSE (AI/ML) · MATS UNIVERSITY · CLASS OF 2030
             </div>
 
             <h1 className="text-[clamp(2.4rem,5.2vw,4.1rem)] font-serif font-normal tracking-tight text-[#1c1917] leading-[1.12]">
-              <span className="block">
-                Software Tools &amp;
-              </span>
-              <span className="block text-[#1d4ed8]">
-                Applied AI Systems.
-              </span>
+              <span className="block">Software Tools &</span>
+              <span className="block text-[#1d4ed8]">Applied AI Systems.</span>
             </h1>
 
             <div className="space-y-4">
@@ -203,7 +201,7 @@ export const Hero: React.FC = () => {
               <div className="flex flex-wrap items-center gap-4 pt-2 text-sm font-serif">
                 <a
                   href="#projects"
-                  className="group inline-flex items-center gap-2 px-5 py-2.5 rounded bg-[#1d4ed8] text-white hover:bg-[#1e40af] transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 rounded bg-[#1d4ed8] text-white hover:bg-[#1e40af] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
                 >
                   <span>Explore Projects</span>
                   <span className="transition-transform duration-150 ease-out group-hover:translate-y-0.5">↓</span>
@@ -213,7 +211,7 @@ export const Hero: React.FC = () => {
                   href={github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 px-5 py-2.5 rounded border border-[#e0d9cd] bg-[#ffffff] text-[#1c1917] hover:border-[#1d4ed8] hover:text-[#1d4ed8] transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 rounded border border-[#e0d9cd] bg-[#ffffff] text-[#1c1917] hover:border-[#1d4ed8] hover:text-[#1d4ed8] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
                 >
                   <span>View Repositories</span>
                   <span className="transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
@@ -226,18 +224,16 @@ export const Hero: React.FC = () => {
                   onClick={() => setShowCli(!showCli)}
                   className="text-xs font-serif text-[#1d4ed8] hover:underline inline-flex items-center gap-1 cursor-pointer"
                 >
-                  <span>
-                    {showCli ? 'Close command interface ‹' : 'Open keyboard terminal ›'}
-                  </span>
+                  {showCli ? 'Close command interface ‹' : 'Open keyboard terminal ›'}
                 </button>
               </div>
 
               <CollapsibleTerminal isOpen={showCli} reducedMotion={reducedMotion} />
             </div>
-          </div>
 
-          <div className="lg:col-span-5 xl:col-span-4 flex flex-col items-center justify-center w-full">
-            <SketchReveal />
+            <div className="lg:col-span-5 xl:col-span-4 flex flex-col items-center justify-center w-full">
+              <SketchReveal />
+            </div>
           </div>
         </div>
       )}
