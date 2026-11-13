@@ -2,17 +2,13 @@ import React, { useState, useRef } from 'react';
 import { Project } from '../types';
 import { projectsData } from '../data/projects';
 import { ProjectDialog } from '../components/ProjectDialog';
-import { useTheme } from '../context/ThemeContext';
-import { SectionHeader } from '../components/ui/SectionHeader';
 import { AnimatePresence } from 'motion/react';
 import { ScrollExpandMedia } from '../components/ScrollExpandMedia';
 import { ProjectCard } from '../components/ProjectCard';
 
 export const Projects: React.FC = () => {
-  const { theme } = useTheme();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const isStdout = theme === 'stdout';
 
   // Primary featured project is the AI Study Notes Summarizer
   const summarizer = projectsData[0];
@@ -27,17 +23,29 @@ export const Projects: React.FC = () => {
       aria-labelledby="projects-heading"
       className="py-12 sm:py-16 space-y-10 text-left scroll-mt-16"
     >
-      <SectionHeader
-        kicker={isStdout ? 'FEATURED APPLICATION & BUILDS' : 'Featured Application & Builds'}
-        title="Engineered Systems & Projects"
-        description="Practical software applications built with Python and C, engineered with clean interfaces and strict token pipelines."
-      />
+      {/* Section Header */}
+      <div className="pb-4 relative">
+        <div className="text-xs font-mono text-[var(--accent-copper)] font-semibold mb-1 uppercase tracking-wider">
+          FEATURED APPLICATION &amp; BUILDS
+        </div>
 
-      {/* Section hairline rule */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-[1px] bg-[var(--border-subtle)] origin-left"
-        aria-hidden="true"
-      />
+        <h2
+          id="projects-heading"
+          className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)] font-display"
+        >
+          Engineered Systems &amp; Projects
+        </h2>
+
+        <p className="text-sm sm:text-base text-[var(--text-secondary)] font-body mt-1 max-w-xl">
+          Practical software applications built with Python and C, engineered with clean interfaces and strict token pipelines.
+        </p>
+
+        {/* Section hairline rule */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[1px] bg-[var(--border-subtle)] origin-left"
+          aria-hidden="true"
+        />
+      </div>
 
       {/* 1. Live Software Application Frame */}
       <ScrollExpandMedia
@@ -49,20 +57,12 @@ export const Projects: React.FC = () => {
       {/* 2. All Builds Header */}
       <div className="pt-4 flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border-subtle)] pb-3">
         <div>
-          <h3
-            className={`text-lg font-bold text-[var(--text-primary)] ${isStdout ? 'font-mono' : 'font-serif'}`}
-          >
-            {isStdout ? 'All Systems & Utility Repositories' : 'All Systems & Prototypes'}
+          <h3 className="text-lg font-bold text-[var(--text-primary)] font-display">
+            All Systems &amp; Utility Repositories
           </h3>
           <p className="text-xs text-[var(--text-secondary)] font-body mt-0.5">
             Architecture reviews, memory constraints, and open source code repositories.
           </p>
-        </div>
-
-        <div>
-          <h3 className={`text-lg font-bold text-[var(--text-primary)] ${isStdout ? 'font-mono' : 'font-serif'}`}>
-            {isStdout ? 'Featured' : 'Featured'}
-          </h3>
         </div>
       </div>
 

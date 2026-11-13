@@ -60,11 +60,10 @@ export const DeveloperIdCard: React.FC = () => {
           toggleFlip();
         }}
         onKeyDown={handleKeyDown}
-        className="relative w-full h-[520px] rounded-2xl cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#3b82f6] focus-visible:ring-offset-2 transition-transform"
+        className="relative w-full h-[520px] rounded-2xl cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#3b82f6] focus-visible:ring-offset-2 transition-transform duration-500"
         style={{
           transformStyle: 'preserve-3d',
           transform: isFlipped ? 'rotateY(180deg)' : 'none',
-          transitionDuration: reducedMotion ? '0ms' : '500ms',
         }}
       >
         {/* FRONT FACE: Credential Card */}
@@ -150,7 +149,7 @@ export const DeveloperIdCard: React.FC = () => {
                     e.stopPropagation();
                     setIsPhotoModalOpen(true);
                   }}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#0b0f19]/85 hover:bg-[#3b82f6] text-[#3b82f6] hover:text-[#0a0e14] border border-[#3b82f6]/60 text-[10px] font-mono font-semibold backdrop-blur-md transition-transform transition-color transition-opacity shadow-md cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px]"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#0b0f19]/85 hover:bg-[#3b82f6] text-[#3b82f6] hover:text-[#0a0e14] border border-[#3b82f6]/60 text-[10px] font-mono font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px]"
                   title="Update photo"
                 >
                   <Camera className="w-3 h-3" />
@@ -220,7 +219,7 @@ export const DeveloperIdCard: React.FC = () => {
                 e.stopPropagation();
                 toggleFlip();
               }}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#162233] border border-[#3b82f6]/40 text-[11px] font-semibold text-[#3b82f6] hover:bg-[#3b82f6] hover:text-[#0b0e14] transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px]"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#162233] border border-[#3b82f6]/40 text-[11px] font-semibold text-[#3b82f6] hover:bg-[#3b82f6] hover:text-[#0b0e14] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px]"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Inspect Profile</span>
@@ -279,7 +278,7 @@ export const DeveloperIdCard: React.FC = () => {
                 <a
                   href={`mailto:${email}`}
                   tabIndex={isFlipped ? 0 : -1}
-                  className="flex items-center justify-between p-2 rounded bg-[#121926] border border-[#212f45] text-[#cbd5e1] hover:text-[#3b82f6] hover:border-[#3b82f6] hover:-translate-y-[2px] transition-transform transition-color transition-opacity"
+                  className="flex items-center justify-between p-2 rounded bg-[#121926] border border-[#212f45] text-[#cbd5e1] hover:text-[#3b82f6] hover:border-[#3b82f6] hover:-translate-y-[2px] transition-all"
                 >
                   <span className="flex items-center gap-2 truncate">
                     <Mail className="w-3.5 h-3.5 text-[#3b82f6] shrink-0" />
@@ -294,7 +293,7 @@ export const DeveloperIdCard: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     tabIndex={isFlipped ? 0 : -1}
-                    className="flex items-center justify-between p-2 rounded bg-[#121926] border border-[#212f45] text-[#cbd5e1] hover:text-[#3b82f6] hover:border-[#3b82f6] hover:-translate-y-[2px] transition-transform transition-color transition-opacity"
+                    className="flex items-center justify-between p-2 rounded bg-[#121926] border border-[#212f45] text-[#cbd5e1] hover:text-[#3b82f6] hover:border-[#3b82f6] hover:-translate-y-[2px] transition-all"
                   >
                     <span className="flex items-center gap-2 truncate">
                       <GitFork className="w-3.5 h-3.5 text-[#3b82f6] shrink-0" />
@@ -310,7 +309,7 @@ export const DeveloperIdCard: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     tabIndex={isFlipped ? 0 : -1}
-                    className="flex items-center justify-between p-2 rounded bg-[#121926] border border-[#212f45] text-[#cbd5e1] hover:text-[#3b82f6] hover:border-[#3b82f6] hover:-translate-y-[2px] transition-transform transition-color transition-opacity"
+                    className="flex items-center justify-between p-2 rounded bg-[#121926] border border-[#212f45] text-[#cbd5e1] hover:text-[#3b82f6] hover:border-[#3b82f6] hover:-translate-y-[2px] transition-all"
                   >
                     <span className="flex items-center gap-2 truncate">
                       <Linkedin className="w-3.5 h-3.5 text-[#3b82f6] shrink-0" />
@@ -341,7 +340,7 @@ export const DeveloperIdCard: React.FC = () => {
                 e.stopPropagation();
                 toggleFlip();
               }}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#162233] border border-[#3b82f6]/40 text-[11px] font-semibold text-[#3b82f6] hover:bg-[#3b82f6] hover:text-[#0b0e14] transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px]"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#162233] border border-[#3b82f6]/40 text-[11px] font-semibold text-[#3b82f6] hover:bg-[#3b82f6] hover:text-[#0b0e14] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px]"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Return Front</span>

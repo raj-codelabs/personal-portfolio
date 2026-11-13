@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
 import { Theme } from '../types';
+import { ThemeTransitionOverlay } from '../components/ThemeTransitionOverlay';
 
 export interface TransitionOrigin {
   x: number;
@@ -37,10 +38,14 @@ function getInitialTheme(): { theme: Theme; isManual: boolean } {
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [themeState, setThemeState] = useState<{ theme: Theme; isManual: boolean }>(() => getInitialTheme());
-
-  const isManualOverride = themeState.isManual;
+  const [transitionState, setTransitionState] = useState<{
+    animating: boolean;
+    targetTheme: Theme | null;
+    origin?: TransitionOrigin;
+  }>({ animating: false, targetTheme: null });
 
   const isTransitioningRef = useRef(false);
+  const swapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const currentTheme = themeState.theme;
 
@@ -61,8 +66,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e: MediaQueryListEvent) => {
-      // Only auto-switch if the user hasn't manually set a theme
-      if (isManualOverride) return;
       setThemeState((prev) => {
         if (prev.isManual) return prev;
         return {
@@ -74,11 +77,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [isManualOverride]);
+  }, []);
 
   const setTheme = (newTheme: Theme, origin?: TransitionOrigin) => {
-    // Debounce & collision prevention: ignore rapid clicks while transitioning
-    if (isTransitioningRef.current) return;
+    // Debounce & collision prevention: ignore rapid clicks while animating
+    if (isTransitioningRef.current || transitionState.animating) return;
     if (newTheme === currentTheme) return;
 
     try {
@@ -99,15 +102,41 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     isTransitioningRef.current = true;
 
-    // Swap underlying DOM theme immediately — CSS (index.css:125‑128)
-    // provides an 180ms background-color / color cross-fade.
-    setThemeState({ theme: newTheme, isManual: true });
+    let resolvedOrigin = origin;
+    if (!resolvedOrigin && typeof document !== 'undefined') {
+      const btn = document.querySelector(
+        'button[aria-label*="Switch to"], button[aria-label*="theme"], button[title*="theme"]'
+      );
+      if (btn) {
+        const rect = btn.getBoundingClientRect();
+        resolvedOrigin = {
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2,
+        };
+      }
+    }
 
-    // Allow the next theme click after the CSS transition finishes.
-    setTimeout(() => {
-      isTransitioningRef.current = false;
-    }, 200);
+    setTransitionState({
+      animating: true,
+      targetTheme: newTheme,
+      origin: resolvedOrigin,
+    });
+
+    if (swapTimerRef.current) clearTimeout(swapTimerRef.current);
+    // Swap underlying DOM theme midway (160ms) through the 340ms radial wipe
+    swapTimerRef.current = setTimeout(() => {
+      setThemeState({ theme: newTheme, isManual: true });
+    }, 160);
   };
+
+  const handleAnimationComplete = useCallback(() => {
+    isTransitioningRef.current = false;
+    if (swapTimerRef.current) {
+      clearTimeout(swapTimerRef.current);
+      swapTimerRef.current = null;
+    }
+    setTransitionState({ animating: false, targetTheme: null, origin: undefined });
+  }, []);
 
   const toggleTheme = (origin?: TransitionOrigin) => {
     const nextTheme: Theme = currentTheme === 'stdout' ? 'margin-notes' : 'stdout';
@@ -120,10 +149,16 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         theme: currentTheme,
         toggleTheme,
         setTheme,
-        isManualOverride,
+        isManualOverride: themeState.isManual,
       }}
     >
       {children}
+      <ThemeTransitionOverlay
+        animating={transitionState.animating}
+        targetTheme={transitionState.targetTheme}
+        origin={transitionState.origin}
+        onComplete={handleAnimationComplete}
+      />
     </ThemeContext.Provider>
   );
 };

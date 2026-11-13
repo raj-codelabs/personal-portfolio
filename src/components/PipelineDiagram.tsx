@@ -38,13 +38,7 @@ export const PipelineDiagram: React.FC = () => {
   const [activeLane, setActiveLane] = useState<string>('lane-1');
 
   return (
-    <div
-      className={`rounded-xl border p-5 sm:p-6 select-none transition-colors ${
-        isStdout
-          ? 'border-[#273142] bg-[#141b26] text-[#9aa2b1] font-mono'
-          : 'border-[#e0d9cd] bg-[#ffffff] text-[#44403c] font-serif shadow-xs'
-      }`}
-    >
+    <div className="rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-secondary)] font-mono p-5 sm:p-6 select-none transition-colors shadow-xs">
       {/* Header bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--border-subtle)]">
         <div className="flex items-center gap-2">
@@ -401,12 +395,8 @@ export const PipelineDiagram: React.FC = () => {
               onClick={() => setActiveLane(lane.id)}
               className={`p-3 rounded-lg border text-left transition-colors cursor-pointer ${
                 isSelected
-                  ? isStdout
-                    ? 'border-[#3b82f6] bg-[#1a2536] text-[#f6f5f1]'
-                    : 'border-[#1d4ed8] bg-[#f0f6ff] text-[#1c1917]'
-                  : isStdout
-                  ? 'border-[#273142] bg-[#111620] hover:border-[#3b82f6]/50'
-                  : 'border-[#e0d9cd] bg-[#fdfcfa] hover:border-[#1d4ed8]/50'
+                  ? 'border-[var(--accent-primary)] bg-[var(--accent-subtle)] text-[var(--text-primary)]'
+                  : 'border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-secondary)] hover:border-[var(--accent-primary)]/50'
               }`}
             >
               <div className="flex items-center justify-between font-bold text-xs mb-1">

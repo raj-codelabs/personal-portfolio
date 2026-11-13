@@ -85,7 +85,7 @@ export const MarginNotesJourney: React.FC<MarginNotesJourneyProps> = ({ mileston
                       onClick={() => toggleExpand(m.id)}
                       aria-expanded={isExpanded}
                       aria-label={`${isExpanded ? 'Collapse' : 'Expand'} details for ${m.logNumber}`}
-                      className="p-1 rounded text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)] cursor-pointer shrink-0 focus-visible:outline-2 hover:-translate-y-[1px] active:translate-y-[1px] transition-transform transition-color transition-opacity"
+                      className="p-1 rounded text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)] transition-all cursor-pointer shrink-0 focus-visible:outline-2 hover:-translate-y-[1px] active:translate-y-[1px]"
                     >
                       <motion.div
                         animate={{ rotate: isExpanded ? 180 : 0 }}

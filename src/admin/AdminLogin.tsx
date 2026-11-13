@@ -184,7 +184,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onBackToSite }) => {
           <button
             type="submit"
             disabled={submitting || loading}
-            className="w-full py-2.5 px-4 rounded font-bold bg-[var(--accent-primary)] text-[#0b0e14] hover:bg-[var(--accent-primary-hover)] active:scale-[0.98] transition-transform transition-color transition-opacity cursor-pointer flex items-center justify-center gap-2 shadow-xs disabled:opacity-50"
+            className="w-full py-2.5 px-4 rounded font-bold bg-[var(--accent-primary)] text-[#0b0e14] hover:bg-[var(--accent-primary-hover)] active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2 shadow-xs disabled:opacity-50"
           >
             <span>{submitting ? 'Authenticating...' : needsSetup ? 'Initialize Administrator' : 'Enter Dashboard'}</span>
             <ArrowRight className="w-4 h-4" />

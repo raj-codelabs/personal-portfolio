@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Project } from '../types';
-import { useTheme } from '../context/ThemeContext';
 import { X, ExternalLink, GitFork, ArrowLeft, Terminal, CheckCircle2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { appleSprings } from '../motion/fluid-physics';
@@ -14,11 +13,9 @@ interface ProjectDialogProps {
 }
 
 export const ProjectDialog: React.FC<ProjectDialogProps> = ({ project, onClose, triggerRef }) => {
-  const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState<'pipeline' | 'cli' | 'engineering' | 'code'>('pipeline');
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const isStdout = theme === 'stdout';
 
   // Keyboard Escape listener and focus management
   useEffect(() => {
@@ -99,11 +96,7 @@ export const ProjectDialog: React.FC<ProjectDialogProps> = ({ project, onClose, 
         exit={reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: 8 }}
         transition={reducedMotion ? { duration: 0.14 } : appleSprings.reposition}
         style={{ transformOrigin: 'center center' }}
-        className={`w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl border p-6 sm:p-8 shadow-2xl ${
-          isStdout
-            ? 'border-[#242e40] bg-[#121722]/95 border-t-white/15 text-[#f1f5f9] font-mono'
-            : 'border-[#e2dbce] bg-[#ffffff]/95 border-t-white/60 text-[#1c1917] font-serif shadow-xl'
-        }`}
+        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-primary)] font-mono p-6 sm:p-8 shadow-2xl"
       >
         {/* Header Bar */}
         <div className="flex items-start justify-between gap-4 pb-4 border-b border-[var(--border-subtle)]">
@@ -321,13 +314,7 @@ export const ProjectDialog: React.FC<ProjectDialogProps> = ({ project, onClose, 
                 <h3 className="text-xs uppercase tracking-wider font-mono font-bold text-[var(--accent-primary)] mb-1.5">
                   Source: <span className="text-[var(--text-secondary)] font-normal">summarizer.py</span>
                 </h3>
-                <pre
-                  className={`p-4 rounded-lg border overflow-x-auto text-xs font-mono leading-relaxed ${
-                    isStdout
-                      ? 'border-[#242e40] bg-[#0b0e14] text-[#f1f5f9]'
-                      : 'border-[#e2dbce] bg-[#fbf9f6] text-[#1c1917]'
-                  }`}
-                >
+                <pre className="p-4 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] overflow-x-auto text-xs font-mono leading-relaxed">
 {`def extract_study_takeaways(notes_text: str, max_points: int = 5) -> list[str]:
     """Splits raw lecture notes into concise review points."""
     if not notes_text.strip():
@@ -357,7 +344,7 @@ export const ProjectDialog: React.FC<ProjectDialogProps> = ({ project, onClose, 
                 href={project.repoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded border border-[var(--border-subtle)] text-[var(--accent-primary)] hover:border-[var(--accent-primary)] transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded border border-[var(--border-subtle)] text-[var(--accent-primary)] hover:border-[var(--accent-primary)] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
               >
                 <GitFork className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>GitHub Repositories</span>
@@ -365,7 +352,7 @@ export const ProjectDialog: React.FC<ProjectDialogProps> = ({ project, onClose, 
               </a>
               <button
                 onClick={onClose}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded border border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-[var(--border-subtle)] transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded border border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-[var(--border-subtle)] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
               >
                 <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>Close Dossier</span>

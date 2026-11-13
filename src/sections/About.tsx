@@ -1,11 +1,8 @@
 import React from 'react';
-import { useTheme } from '../context/ThemeContext';
 import { useCms } from '../context/CmsContext';
-import { SectionHeader } from '../components/ui/SectionHeader';
 import { GraduationCap, CheckCircle2 } from 'lucide-react';
 
 export const About: React.FC = () => {
-  const { theme } = useTheme();
   const { profile } = useCms();
 
   const philosophy =
@@ -24,11 +21,29 @@ export const About: React.FC = () => {
       aria-labelledby="about-heading"
       className="py-12 sm:py-16 space-y-8 text-left scroll-mt-16"
     >
-      <SectionHeader
-        kicker="BACKGROUND & PHILOSOPHY"
-        title="Engineering Background & Principles"
-        description="Undergraduate studies, core motivation for systems software, and principles governing how I build."
-      />
+      {/* Section Header */}
+      <div className="relative pb-4">
+        <div className="text-xs font-mono text-[var(--accent-copper)] font-semibold mb-1 uppercase tracking-wider">
+          BACKGROUND &amp; PHILOSOPHY
+        </div>
+
+        <h2
+          id="about-heading"
+          className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)] font-display"
+        >
+          Engineering Background &amp; Principles
+        </h2>
+
+        <p className="text-sm sm:text-base text-[var(--text-secondary)] font-body mt-1 max-w-xl">
+          Undergraduate studies, core motivation for systems software, and principles governing how I build.
+        </p>
+
+        {/* Section hairline rule */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[1px] bg-[var(--border-subtle)] origin-left"
+          aria-hidden="true"
+        />
+      </div>
 
       {/* Grid: 2 columns */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-12 items-start">
@@ -47,20 +62,17 @@ export const About: React.FC = () => {
           </p>
 
           {/* Quote Block with static left rule */}
-          <div className="relative pl-5 py-3 my-6 font-serif">
+          <div className="relative pl-5 py-3 my-6 font-mono">
             <div
-              className={`absolute left-0 top-0 bottom-0 w-[3px] rounded-full ${profile?.name?.includes('Raj') ? 'bg-[var(--accent-primary)]' : 'bg-[#1d4ed8]'}`}
+              className="absolute left-0 top-0 bottom-0 w-[3px] rounded-full bg-[var(--accent-primary)]"
               aria-hidden="true"
             />
 
             <div className="space-y-1">
-              <div
-                className={`text-xs uppercase tracking-wider font-bold ${profile?.name?.includes('Raj') ? 'font-mono text-[var(--accent-copper)]' : 'font-handwriting text-[#1d4ed8] text-sm'}`}
-              >
+              <div className="text-xs uppercase tracking-wider font-bold text-[var(--accent-copper)]">
                 Engineering Core:
               </div>
-              <p
-                className={`italic text-base sm:text-lg font-semibold leading-relaxed ${profile?.name?.includes('Raj') ? 'text-[#f6f5f1] font-mono' : 'text-[#1c1917]'}`}>
+              <p className="italic text-base sm:text-lg font-semibold leading-relaxed text-[var(--text-primary)]">
                 "{philosophy}"
               </p>
               <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-sans pt-1">
@@ -71,65 +83,51 @@ export const About: React.FC = () => {
         </div>
 
         {/* Right Column: Compact Education Card (4 cols on xl) */}
-        <div
-          className={`lg:col-span-5 xl:col-span-4 p-6 rounded-lg border shadow-xs space-y-5 text-xs sm:text-sm ${profile?.name?.includes('Raj') ? 'border-[var(--border-subtle)] bg-[var(--bg-surface)] font-mono text-[var(--text-secondary)]' : 'border-[#e0d9cd] bg-[#ffffff] font-serif text-[#44403c]'}`}
-        >
-          <div
-            className={`flex items-center justify-between pb-3 border-b ${profile?.name?.includes('Raj') ? 'border-[var(--border-subtle)]' : 'border-[#e0d9cd]'}`}
-          >
-            <span
-              className={`font-bold text-sm ${profile?.name?.includes('Raj') ? 'font-mono text-[var(--text-primary)]' : 'font-serif text-[#1c1917]'}`}>
+        <div className="lg:col-span-5 xl:col-span-4 p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] font-mono text-[var(--text-secondary)] shadow-xs space-y-5 text-xs sm:text-sm">
+          <div className="flex items-center justify-between pb-3 border-b border-[var(--border-subtle)]">
+            <span className="font-bold text-sm text-[var(--text-primary)]">
               Academic Credentials
             </span>
-            <GraduationCap
-              className={`w-4 h-4 ${profile?.name?.includes('Raj') ? 'text-[var(--accent-primary)]' : 'text-[#1d4ed8]'}`}
-            />
+            <GraduationCap className="w-4 h-4 text-[var(--accent-primary)]" />
           </div>
 
           <div className="space-y-3">
             <div>
-              <span
-                className={`text-[11px] uppercase tracking-wider block ${profile?.name?.includes('Raj') ? 'text-[#64748b] font-mono' : 'text-[#78716c] font-serif'}`}>
+              <span className="text-[11px] uppercase tracking-wider block text-[var(--text-muted)] font-mono">
                 Degree Track
               </span>
-              <span
-                className={`font-semibold text-sm ${profile?.name?.includes('Raj') ? 'text-[#f1f5f9]' : 'text-[#1c1917]'}`}>
+              <span className="font-semibold text-sm text-[var(--text-primary)]">
                 Bachelor of Technology (B.Tech)
               </span>
             </div>
 
             <div>
-              <span
-                className={`text-[11px] uppercase tracking-wider block ${profile?.name?.includes('Raj') ? 'text-[#64748b] font-mono' : 'text-[#78716c] font-serif'}`}>
+              <span className="text-[11px] uppercase tracking-wider block text-[var(--text-muted)] font-mono">
                 Specialization
               </span>
-              <span className={profile?.name?.includes('Raj') ? 'text-[#94a3b8]' : 'text-[#44403c]'}>
-                Computer Science and Engineering — Artificial Intelligence & Machine Learning
+              <span className="text-[var(--text-secondary)]">
+                Computer Science and Engineering — Artificial Intelligence &amp; Machine Learning
               </span>
             </div>
 
             <div>
-              <span
-                className={`text-[11px] uppercase tracking-wider block ${profile?.name?.includes('Raj') ? 'text-[#64748b] font-mono' : 'text-[#78716c] font-serif'}`}>
-                Institution & Cohort
+              <span className="text-[11px] uppercase tracking-wider block text-[var(--text-muted)] font-mono">
+                Institution &amp; Cohort
               </span>
-              <span
-                className={`font-semibold ${profile?.name?.includes('Raj') ? 'text-[var(--accent-primary)] font-mono' : 'text-[#1d4ed8] font-serif'}`}>
+              <span className="font-semibold text-[var(--accent-primary)]">
                 MATS University · Class of 2030
               </span>
             </div>
 
             {/* Completed Certifications */}
-            <div
-              className={`pt-3 border-t ${profile?.name?.includes('Raj') ? 'border-[var(--border-subtle)]' : 'border-[#e0d9cd]'}`}>
-              <span
-                className={`text-[11px] uppercase tracking-wider block mb-2 font-bold ${profile?.name?.includes('Raj') ? 'text-[var(--text-primary)] font-mono' : 'text-[#1c1917] font-serif'}`}>
+            <div className="pt-3 border-t border-[var(--border-subtle)]">
+              <span className="text-[11px] uppercase tracking-wider block mb-2 font-bold text-[var(--text-primary)] font-mono">
                 Completed Certifications:
               </span>
               <ul className="space-y-2">
                 {certifications.map((cert) => (
                   <li key={cert.name} className="flex items-start gap-2">
-                    <CheckCircle2 className={`w-4 h-4 shrink-0 mt-0.5 text-emerald-400`} />
+                    <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-400" />
                     <span>
                       <strong>{cert.name}</strong> — {cert.issuer}
                     </span>

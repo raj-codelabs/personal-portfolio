@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTheme } from '../context/ThemeContext';
 import { useCms } from '../context/CmsContext';
 import { GitFork, Linkedin, Lock } from 'lucide-react';
 
@@ -8,9 +7,7 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
-  const { theme } = useTheme();
   const { profile } = useCms();
-  const isStdout = theme === 'stdout';
 
   const name = profile?.name || 'Raj Golder';
   const github = 'https://github.com/raj-codelabs';
@@ -27,9 +24,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
 
   return (
     <footer
-      className={`w-full border-t border-[var(--border-subtle)] bg-[var(--bg-page)] py-8 transition-colors text-xs text-[var(--text-secondary)] ${
-        isStdout ? 'font-mono' : 'font-serif'
-      }`}
+      className="w-full border-t border-[var(--border-subtle)] bg-[var(--bg-page)] py-8 transition-colors text-xs text-[var(--text-secondary)] font-mono"
     >
       <div className="w-full max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20">
         {/* Main Footer Row */}
@@ -48,7 +43,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub Profile"
-              className="hover:text-[var(--accent-primary)] transition-transform transition-color transition-opacity flex items-center gap-1.5 hover:-translate-y-[1px]"
+              className="hover:text-[var(--accent-primary)] transition-all flex items-center gap-1.5 hover:-translate-y-[1px]"
             >
               <GitFork className="w-3.5 h-3.5" />
               <span>GitHub</span>
@@ -61,7 +56,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn Profile"
-              className="hover:text-[var(--accent-primary)] transition-transform transition-color transition-opacity flex items-center gap-1.5 hover:-translate-y-[1px]"
+              className="hover:text-[var(--accent-primary)] transition-all flex items-center gap-1.5 hover:-translate-y-[1px]"
             >
               <Linkedin className="w-3.5 h-3.5" />
               <span>LinkedIn</span>
@@ -74,7 +69,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
               onClick={handleAdminClick}
               title="Admin Login & CMS Dashboard"
               aria-label="Admin Portal"
-              className="hover:text-[var(--accent-primary)] transition-transform transition-color transition-opacity inline-flex items-center gap-1.5 cursor-pointer font-medium hover:-translate-y-[1px]"
+              className="hover:text-[var(--accent-primary)] transition-all inline-flex items-center gap-1.5 cursor-pointer font-medium hover:-translate-y-[1px]"
             >
               <Lock className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
               <span>Admin Login</span>

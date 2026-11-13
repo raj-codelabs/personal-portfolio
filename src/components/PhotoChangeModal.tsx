@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { useCms } from '../context/CmsContext';
-import { useTheme } from '../context/ThemeContext';
 import {
   X,
   Upload,
@@ -26,8 +25,6 @@ export const PhotoChangeModal: React.FC<PhotoChangeModalProps> = ({
   initialMode = 'id-card',
 }) => {
   const { profile, updateProfileDirectly } = useCms();
-  const { theme } = useTheme();
-  const isStdout = theme === 'stdout';
 
   const [activeTab, setActiveTab] = useState<'id-card' | 'white-mode'>(initialMode);
 
@@ -237,18 +234,10 @@ export const PhotoChangeModal: React.FC<PhotoChangeModalProps> = ({
       }}
     >
       <div
-        className={`w-full max-w-xl rounded-xl border shadow-2xl overflow-hidden transition-colors ${
-          isStdout
-            ? 'bg-[#0f141d] border-[#24334a] text-[#f1f5f9] font-mono'
-            : 'bg-[#faf8f5] border-[#e2dbce] text-[#1c1917] font-serif'
-        }`}
+        className="w-full max-w-xl rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-primary)] font-mono shadow-2xl overflow-hidden transition-colors"
       >
         {/* Modal Header */}
-        <div
-          className={`flex items-center justify-between px-5 py-4 border-b ${
-            isStdout ? 'border-[#1e2a3c] bg-[#121824]' : 'border-[#e2dbce] bg-[#f5f1e8]'
-          }`}
-        >
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)]">
           <div className="flex items-center gap-2.5">
             <Camera className="w-4 h-4 text-[var(--accent-primary)]" />
             <h2 id="photo-modal-title" className="text-sm font-bold tracking-tight">
@@ -265,24 +254,18 @@ export const PhotoChangeModal: React.FC<PhotoChangeModalProps> = ({
         </div>
 
         {/* Tab Navigation */}
-        <div
-          className={`flex border-b text-xs ${
-            isStdout ? 'border-[#1e2a3c] bg-[#0c1017]' : 'border-[#e2dbce] bg-[#efe9dc]'
-          }`}
-        >
+        <div className="flex border-b border-[var(--border-subtle)] bg-[var(--bg-page)] text-xs">
           <button
             type="button"
             onClick={() => setActiveTab('id-card')}
             className={`flex-1 py-3 px-4 text-center font-medium flex items-center justify-center gap-2 border-b-2 transition-colors cursor-pointer ${
               activeTab === 'id-card'
-                ? isStdout
-                  ? 'border-[#3b82f6] text-[#3b82f6] bg-[#141b27]'
-                  : 'border-[#1d4ed8] text-[#1d4ed8] bg-white'
+                ? 'border-[var(--accent-primary)] text-[var(--accent-primary)] bg-[var(--bg-surface)] font-bold'
                 : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
           >
             <User className="w-3.5 h-3.5" />
-            <span>Developer ID Card Photo (Dark Mode)</span>
+            <span>Developer ID Card Photo</span>
           </button>
 
           <button
@@ -290,14 +273,12 @@ export const PhotoChangeModal: React.FC<PhotoChangeModalProps> = ({
             onClick={() => setActiveTab('white-mode')}
             className={`flex-1 py-3 px-4 text-center font-medium flex items-center justify-center gap-2 border-b-2 transition-colors cursor-pointer ${
               activeTab === 'white-mode'
-                ? isStdout
-                  ? 'border-[#3b82f6] text-[#3b82f6] bg-[#141b27]'
-                  : 'border-[#1d4ed8] text-[#1d4ed8] bg-white'
+                ? 'border-[var(--accent-primary)] text-[var(--accent-primary)] bg-[var(--bg-surface)] font-bold'
                 : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
           >
             <Layers className="w-3.5 h-3.5" />
-            <span>Notebook Sketch & Portrait (White Mode)</span>
+            <span>Notebook Sketch &amp; Portrait</span>
           </button>
         </div>
 
@@ -317,11 +298,7 @@ export const PhotoChangeModal: React.FC<PhotoChangeModalProps> = ({
               </p>
 
               {/* Live Preview & Direct Upload Area */}
-              <div
-                className={`p-4 rounded-lg border flex flex-col sm:flex-row items-center gap-4 ${
-                  isStdout ? 'bg-[#141c28] border-[#223147]' : 'bg-white border-[#e2dbce]'
-                }`}
-              >
+              <div className="p-4 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-page)] flex flex-col sm:flex-row items-center gap-4">
                 {/* ID Avatar Preview Box */}
                 <div className="relative w-24 h-24 rounded-xl bg-[#0a0e14] border-2 border-[#3b82f6] p-1 shrink-0 overflow-hidden shadow-lg flex items-center justify-center">
                   {avatarUrl ? (
@@ -421,7 +398,7 @@ export const PhotoChangeModal: React.FC<PhotoChangeModalProps> = ({
                           setAvatarUrl(preset.url);
                           setAvatarPreview(preset.url);
                         }}
-                        className={`p-2 rounded-lg border text-left transition-transform transition-color transition-opacity cursor-pointer ${
+                        className={`p-2 rounded-lg border text-left transition-all cursor-pointer ${
                           isSelected
                             ? 'border-[var(--accent-primary)] ring-1 ring-[var(--accent-primary)] bg-[var(--accent-primary)]/10'
                             : 'border-[var(--border-subtle)] hover:border-[var(--text-secondary)] bg-[var(--bg-surface)]'
@@ -457,11 +434,7 @@ export const PhotoChangeModal: React.FC<PhotoChangeModalProps> = ({
               </p>
 
               {/* Easy 1-Click Single Portrait Uploader */}
-              <div
-                className={`p-4 rounded-lg border space-y-2 ${
-                  isStdout ? 'bg-[#141c28] border-[#223147]' : 'bg-white border-[#e2dbce]'
-                }`}
-              >
+              <div className="p-4 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-page)] space-y-2">
                 <div className="flex items-center justify-between">
                   <div className="font-semibold text-[var(--text-primary)] flex items-center gap-1.5">
                     <Sparkles className="w-4 h-4 text-[#c25e38]" />
@@ -615,11 +588,7 @@ export const PhotoChangeModal: React.FC<PhotoChangeModalProps> = ({
         </div>
 
         {/* Modal Footer */}
-        <div
-          className={`flex items-center justify-between px-5 py-3 border-t ${
-            isStdout ? 'border-[#1e2a3c] bg-[#121824]' : 'border-[#e2dbce] bg-[#f5f1e8]'
-          }`}
-        >
+        <div className="flex items-center justify-between px-5 py-3 border-t border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)]">
           <button
             type="button"
             onClick={onClose}

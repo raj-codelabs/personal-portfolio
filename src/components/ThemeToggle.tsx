@@ -11,8 +11,8 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className = '' }
 
   const isStdout = theme === 'stdout';
   const actionLabel = isStdout
-    ? 'Switch to Notebook theme (Light Mode)'
-    : 'Switch to Terminal theme (Dark Mode)';
+    ? 'Switch to Light Mode'
+    : 'Switch to Dark Mode';
 
   const handleToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -31,7 +31,7 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className = '' }
       title={actionLabel}
       whileTap={reducedMotion ? undefined : { scale: 0.98 }}
       transition={spring.snap}
-      className={`inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono font-medium rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] cursor-pointer whitespace-nowrap shrink-0 shadow-xs focus-visible:outline-2 hover:-translate-y-[1px] active:translate-y-[1px] transition-transform transition-color transition-opacity ${className}`}
+      className={`inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono font-medium rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] transition-all cursor-pointer whitespace-nowrap shrink-0 shadow-xs focus-visible:outline-2 hover:-translate-y-[1px] active:translate-y-[1px] ${className}`}
     >
       <div className="relative w-3.5 h-3.5 flex items-center justify-center shrink-0">
         <AnimatePresence mode="wait" initial={false}>
@@ -63,7 +63,7 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className = '' }
 
       <span className="font-semibold">{isStdout ? 'Dark' : 'Light'}</span>
       <span className="text-[var(--text-muted)]" aria-hidden="true">/</span>
-      <span className="text-[var(--text-muted)] font-normal">{isStdout ? 'Notebook' : 'Terminal'}</span>
+      <span className="text-[var(--text-muted)] font-normal">{isStdout ? 'Light' : 'Dark'}</span>
     </motion.button>
   );
 };

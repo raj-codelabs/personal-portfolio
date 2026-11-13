@@ -167,7 +167,7 @@ export const SettingsManager: React.FC<SettingsManagerProps> = ({ initialSection
         <button
           onClick={handleSaveSettings}
           disabled={savingSettings}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded font-mono text-xs font-bold bg-[var(--accent-primary)] text-[#0b0e14] hover:bg-[var(--accent-primary-hover)] active:scale-[0.98] transition-transform transition-color transition-opacity cursor-pointer shadow-xs disabled:opacity-50"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded font-mono text-xs font-bold bg-[var(--accent-primary)] text-[#0b0e14] hover:bg-[var(--accent-primary-hover)] active:scale-[0.98] transition-all cursor-pointer shadow-xs disabled:opacity-50"
         >
           {savingSettings ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           <span>{savingSettings ? 'Saving...' : 'Save Settings'}</span>

@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useTheme } from '../context/ThemeContext';
 import { useCms } from '../context/CmsContext';
-import { SectionHeader } from '../components/ui/SectionHeader';
 import { api } from '../services/api';
 import {
   Mail,
@@ -22,10 +20,8 @@ import { spring } from '../motion/motion-tokens';
 import { useReducedMotionGlobal } from '../motion/useReducedMotionGlobal';
 
 export const Contact: React.FC = () => {
-  const { theme } = useTheme();
   const { profile } = useCms();
   const reducedMotion = useReducedMotionGlobal();
-
   const [copied, setCopied] = useState(false);
 
   // Form state
@@ -103,22 +99,36 @@ export const Contact: React.FC = () => {
       aria-labelledby="contact-heading"
       className="py-12 sm:py-16 space-y-8 text-left scroll-mt-16"
     >
-      <SectionHeader
-        kicker="CORRESPONDENCE & INQUIRY"
-        title="Direct Inquiries & Channels"
-        description="Available for software engineering internships, technical collaborations, and open-source contributions."
-      />
+      {/* Section Header */}
+      <div className="relative pb-4">
+        <div className="text-xs font-mono text-[var(--accent-copper)] mb-1 uppercase tracking-wider">
+          CORRESPONDENCE &amp; INQUIRY
+        </div>
+
+        <h2
+          id="contact-heading"
+          className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)] font-display"
+        >
+          Direct Inquiries &amp; Channels
+        </h2>
+
+        <p className="text-sm sm:text-base text-[var(--text-secondary)] font-body mt-1 max-w-xl">
+          Available for software engineering internships, technical collaborations, and open-source contributions.
+        </p>
+
+        {/* Section hairline rule */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[1px] bg-[var(--border-subtle)] origin-left"
+          aria-hidden="true"
+        />
+      </div>
 
       {/* Interactive Contact Cards (Lift 2px on hover) */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 xl:gap-8">
         {/* Email Card */}
-        <div
-          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-all duration-150 ease-out select-none hover:-translate-y-[2px]`}
-        >
+        <div className="p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] hover:shadow-[var(--shadow-soft)] font-mono flex flex-col justify-between shadow-xs transition-all duration-150 ease-out select-none hover:-translate-y-[2px]">
           <div>
-            <div
-              className={`flex items-center gap-2 pb-2 mb-2 border-b text-xs`}
-            >
+            <div className="flex items-center gap-2 pb-2 mb-2 border-b border-[var(--border-subtle)] text-xs text-[var(--accent-primary)]">
               <Mail className="w-4 h-4" />
               <span className="font-bold">Direct Email</span>
             </div>
@@ -130,12 +140,10 @@ export const Contact: React.FC = () => {
             </div>
           </div>
 
-          <div
-            className={`flex items-center gap-2 pt-4 mt-4 border-t`}
-          >
+          <div className="flex items-center gap-2 pt-4 mt-4 border-t border-[var(--border-subtle)]">
             <a
               href={`mailto:${contactEmail}`}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-all hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-all hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)] font-mono"
             >
               <span>Compose Message</span>
               <Send className="w-3 h-3" />
@@ -145,7 +153,7 @@ export const Contact: React.FC = () => {
               type="button"
               onClick={copyEmail}
               aria-label={copied ? 'Email address copied' : 'Copy email address'}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded border transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded border border-[var(--border-subtle)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] bg-[var(--bg-page)] font-mono transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
             >
               {copied ? (
                 <span className="flex items-center gap-1 text-emerald-400 font-bold">
@@ -163,13 +171,9 @@ export const Contact: React.FC = () => {
         </div>
 
         {/* GitHub Card */}
-        <div
-          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-all duration-150 ease-out select-none hover:-translate-y-[2px]`}
-        >
+        <div className="p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] hover:shadow-[var(--shadow-soft)] font-mono flex flex-col justify-between shadow-xs transition-all duration-150 ease-out select-none hover:-translate-y-[2px]">
           <div>
-            <div
-              className={`flex items-center gap-2 pb-2 mb-2 border-b`}
-            >
+            <div className="flex items-center gap-2 pb-2 mb-2 border-b border-[var(--border-subtle)] text-xs text-[var(--accent-primary)]">
               <GitFork className="w-4 h-4" />
               <span className="font-bold">GitHub Repositories</span>
             </div>
@@ -181,14 +185,12 @@ export const Contact: React.FC = () => {
             </div>
           </div>
 
-          <div
-            className={`pt-4 mt-4 border-t`}
-          >
+          <div className="pt-4 mt-4 border-t border-[var(--border-subtle)]">
             <a
               href="https://github.com/raj-codelabs"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-all hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
+              className="group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded border border-[var(--border-subtle)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] bg-[var(--bg-page)] font-mono transition-all hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
             >
               <span>Explore Repositories</span>
               <ExternalLink className="w-3 h-3 transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -197,15 +199,11 @@ export const Contact: React.FC = () => {
         </div>
 
         {/* Location & Professional Network */}
-        <div
-          className={`p-6 rounded-lg border flex flex-col justify-between shadow-xs transition-all duration-150 ease-out select-none hover:-translate-y-[2px]`}
-        >
+        <div className="p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-primary)] hover:shadow-[var(--shadow-soft)] font-mono flex flex-col justify-between shadow-xs transition-all duration-150 ease-out select-none hover:-translate-y-[2px]">
           <div>
-            <div
-              className={`flex items-center gap-2 pb-2 mb-2 border-b`}
-            >
+            <div className="flex items-center gap-2 pb-2 mb-2 border-b border-[var(--border-subtle)] text-xs text-[var(--accent-primary)]">
               <MapPin className="w-4 h-4" />
-              <span className="font-bold">Location & Network</span>
+              <span className="font-bold">Location &amp; Network</span>
             </div>
             <div className="text-xs text-[var(--text-secondary)] mb-2 font-sans">
               District location as per house rules:
@@ -218,14 +216,12 @@ export const Contact: React.FC = () => {
             </div>
           </div>
 
-          <div
-            className={`pt-4 mt-4 border-t`}
-          >
+          <div className="pt-4 mt-4 border-t border-[var(--border-subtle)]">
             <a
               href="https://linkedin.com/in/rajgolder"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-all hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
+              className="group inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded border border-[var(--border-subtle)] text-[var(--accent-primary)] hover:border-[var(--accent-primary)] bg-[var(--bg-page)] font-mono transition-all hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98]"
             >
               <span>Connect On LinkedIn</span>
               <ExternalLink className="w-3 h-3 transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -237,18 +233,14 @@ export const Contact: React.FC = () => {
       {/* Direct Transmission Form */}
       <div
         ref={formContainerRef}
-        className={`p-6 sm:p-8 rounded-lg border shadow-xs space-y-6`}
+        className="p-6 sm:p-8 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] font-mono shadow-xs space-y-6"
       >
-        <div className={`border-b pb-4 space-y-1`}>
-          <div
-            className={`flex items-center gap-2 text-xs font-semibold`}
-          >
+        <div className="border-b border-[var(--border-subtle)] pb-4 space-y-1">
+          <div className="flex items-center gap-2 text-xs font-semibold text-[var(--accent-copper)]">
             <MessageSquare className="w-4 h-4" />
             <span>Direct Inquiry</span>
           </div>
-          <h3
-            className={`text-lg font-bold`}
-          >
+          <h3 className="text-lg font-bold text-[var(--text-primary)] font-display">
             Transmit Direct Inquiry
           </h3>
           <p className="text-xs text-[var(--text-secondary)] font-sans">
@@ -265,7 +257,11 @@ export const Contact: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={spring.settle}
-              className={`p-3.5 rounded text-xs flex items-center gap-2`}
+              className={`p-3.5 rounded text-xs flex items-center gap-2 ${
+                formFeedback.type === 'success'
+                  ? 'border border-emerald-500/40 bg-emerald-500/10 text-emerald-400'
+                  : 'border border-rose-500/40 bg-rose-500/10 text-rose-400'
+              }`}
             >
               {formFeedback.type === 'success' ? (
                 <CheckCircle2 className="w-4 h-4 shrink-0" />
@@ -341,7 +337,7 @@ export const Contact: React.FC = () => {
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                   placeholder="Software engineering inquiry"
-                  className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] transition-[border-color,box-shadow] duration-150 ease-out"
+                  className="w-full px-3 py-2 rounded border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] transition-[border-color,box-shadow] duration-150 ease-out focus:shadow-[0_0_0_2px_var(--focus-ring)]"
                 />
               </div>
 

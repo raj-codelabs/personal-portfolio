@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Project } from '../types';
-import { useTheme } from '../context/ThemeContext';
 import { useReducedMotionGlobal } from '../motion/useReducedMotionGlobal';
 import { Terminal, Code2, ChevronRight, ExternalLink, Cpu, Play, CheckCircle2, RotateCw } from 'lucide-react';
 
@@ -18,8 +17,6 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
   onOpenCaseStudy,
   triggerRef,
 }) => {
-  const { theme } = useTheme();
-  const isStdout = theme === 'stdout';
   const reducedMotion = useReducedMotionGlobal();
 
   // Interactive Live Pipeline Stage State
@@ -105,13 +102,7 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
       onMouseEnter={() => setAutoCycle(false)}
       onMouseLeave={() => setAutoCycle(true)}
     >
-      <article
-        className={`relative overflow-hidden rounded-xl border p-6 sm:p-8 transition-colors ${
-          isStdout
-            ? 'border-[#273142] bg-[#1a202c] shadow-[0_4px_24px_rgba(0,0,0,0.5)] font-mono text-[#9aa2b1]'
-            : 'border-[#e0d9cd] bg-[#ffffff] shadow-md font-serif text-[#44403c]'
-        }`}
-      >
+      <article className="relative overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-6 sm:p-8 shadow-[var(--shadow-soft)] font-mono text-[var(--text-secondary)] transition-colors">
         {/* App Window Chrome (Live Software Application Frame) */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[var(--border-subtle)] text-xs">
           <div className="flex items-center gap-3">
@@ -141,11 +132,9 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
                     setTopic(t);
                     setAutoCycle(false);
                   }}
-                  className={`px-2.5 py-1 rounded text-[11px] transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
+                  className={`px-2.5 py-1 rounded text-[11px] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
                     topic === t
-                      ? isStdout
-                        ? 'bg-[#273142] text-[#f6f5f1] font-bold shadow-xs'
-                        : 'bg-[#edeae2] text-[#1d4ed8] font-bold shadow-xs'
+                      ? 'bg-[var(--accent-subtle)] text-[var(--accent-primary)] font-bold shadow-xs'
                       : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
                   }`}
                 >
@@ -166,11 +155,7 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
                 <span>·</span>
                 <span>HARVARD CS50 PRACTICAL TOOL</span>
               </div>
-              <h3
-                className={`text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)] ${
-                  isStdout ? 'font-mono' : 'font-serif'
-                }`}
-              >
+              <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)] font-display">
                 {project.title}
               </h3>
             </div>
@@ -179,13 +164,7 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
               {project.problem}
             </p>
 
-            <div
-              className={`p-4 rounded border text-xs space-y-2 ${
-                isStdout
-                  ? 'border-[#273142] bg-[#11151c] text-[#f6f5f1]'
-                  : 'border-[#e0d9cd] bg-[#f6f5f1] text-[#1c1917]'
-              }`}
-            >
+            <div className="p-4 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] text-xs space-y-2">
               <div className="font-bold text-[var(--accent-copper)] flex items-center gap-1.5 font-mono">
                 <Cpu className="w-4 h-4" />
                 <span>3-Stage Computational Pipeline:</span>
@@ -201,11 +180,7 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
                 ref={triggerRef}
                 type="button"
                 onClick={onOpenCaseStudy}
-                className={`group/btn inline-flex items-center gap-2 px-5 py-2.5 rounded text-xs font-bold transition-transform transition-color transition-opacity cursor-pointer shadow-xs focus-visible:outline-2 hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
-                  isStdout
-                    ? 'bg-[#3b82f6] text-[#ffffff] hover:bg-[#60a5fa] font-mono'
-                    : 'bg-[#1d4ed8] text-white hover:bg-[#1e40af] font-serif'
-                }`}
+                className="group/btn inline-flex items-center gap-2 px-5 py-2.5 rounded text-xs font-bold transition-all cursor-pointer shadow-xs focus-visible:outline-2 hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-primary-hover)] font-mono"
               >
                 <span>Inspect Dossier</span>
                 <ChevronRight className="w-4 h-4 transition-transform duration-150 ease-out group-hover/btn:translate-x-1" />
@@ -215,11 +190,7 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
                 href={project.repoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`group/link inline-flex items-center gap-2 px-4 py-2.5 rounded text-xs font-medium border transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
-                  isStdout
-                    ? 'border-[#273142] bg-[#11151c] text-[#f6f5f1] hover:border-[#3b82f6] hover:text-[#3b82f6] font-mono'
-                    : 'border-[#e0d9cd] bg-[#ffffff] text-[#1c1917] hover:border-[#1d4ed8] hover:text-[#1d4ed8] font-serif'
-                }`}
+                className="group/link inline-flex items-center gap-2 px-4 py-2.5 rounded text-xs font-medium border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] font-mono"
               >
                 <span>View Source</span>
                 <ExternalLink className="w-3.5 h-3.5 transition-transform duration-150 ease-out group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
@@ -229,7 +200,7 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
                 type="button"
                 onClick={handleRunExecution}
                 disabled={isRunning}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded text-xs font-semibold border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--accent-copper)] hover:border-[var(--accent-copper)] transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] disabled:opacity-50 font-mono"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded text-xs font-semibold border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--accent-copper)] hover:border-[var(--accent-copper)] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] disabled:opacity-50 font-mono"
               >
                 {isRunning ? (
                   <>
@@ -261,11 +232,9 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
                     key={s}
                     type="button"
                     onClick={() => setStage(s)}
-                    className={`px-2.5 py-1 rounded text-[11px] transition-transform transition-color transition-opacity cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
+                    className={`px-2.5 py-1 rounded text-[11px] transition-all cursor-pointer hover:-translate-y-[1px] active:translate-y-[1px] active:scale-[0.98] ${
                       stage === s
-                        ? isStdout
-                          ? 'bg-[#3b82f6] text-[#ffffff] font-bold'
-                          : 'bg-[#1d4ed8] text-white font-bold'
+                        ? 'bg-[var(--accent-primary)] text-white font-bold'
                         : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] bg-[var(--bg-page)]'
                     }`}
                   >
@@ -276,13 +245,7 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
             </div>
 
             {/* Active Stage Screen */}
-            <div
-              className={`rounded-lg border p-4 sm:p-5 min-h-[280px] flex flex-col justify-between font-mono text-xs ${
-                isStdout
-                  ? 'border-[#273142] bg-[#11151c] text-[#f6f5f1]'
-                  : 'border-[#e0d9cd] bg-[#f6f5f1] text-[#1c1917]'
-              }`}
-            >
+            <div className="rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-page)] text-[var(--text-primary)] p-4 sm:p-5 min-h-[280px] flex flex-col justify-between font-mono text-xs">
               {stage === 'ingestion' && (
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-[11px] text-[var(--text-muted)] border-b border-[var(--border-subtle)] pb-2">
@@ -331,11 +294,7 @@ export const ScrollExpandMedia: React.FC<ScrollExpandMediaProps> = ({
                     {activeData.richTerminal.map((item) => (
                       <div
                         key={item.id}
-                        className={`p-2.5 rounded border flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4 transition-colors ${
-                          isStdout
-                            ? 'border-[#273142] bg-[#1a202c]'
-                            : 'border-[#e0d9cd] bg-[#ffffff]'
-                        }`}
+                        className="p-2.5 rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4 transition-colors"
                       >
                         <div className="flex items-center gap-2">
                           <span className="text-[var(--accent-copper)] font-bold">[{item.id}]</span>

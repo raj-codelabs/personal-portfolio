@@ -141,7 +141,7 @@ export const MediaManager: React.FC = () => {
             className="flex-1 w-full px-3 py-1.5 rounded bg-[var(--bg-page)] border border-[var(--border-subtle)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-primary)] text-xs"
           />
 
-          <label className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded bg-[var(--accent-primary)] text-[#0b0e14] font-semibold cursor-pointer hover:opacity-90 active:scale-[0.98] transition-transform transition-color transition-opacity text-xs shrink-0 w-full sm:w-auto">
+          <label className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded bg-[var(--accent-primary)] text-[#0b0e14] font-semibold cursor-pointer hover:opacity-90 active:scale-[0.98] transition-all text-xs shrink-0 w-full sm:w-auto">
             <Upload className="w-3.5 h-3.5" />
             <span>{uploading ? 'Uploading...' : 'Choose File to Upload'}</span>
             <input
